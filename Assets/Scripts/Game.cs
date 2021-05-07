@@ -54,7 +54,7 @@ public class Game : MonoBehaviour
         person.SetStabilization(false);
         _gestureHandler.enabled = false;
         _cameraRotation.SetTarget(person.Head.transform);
-        _cameraFailMovement.MoveToEnd(1);
+        _cameraFailMovement.MoveToEnd(2);
         _balanceSlider.gameObject.SetActive(false);
         _progressSlider.gameObject.SetActive(false);
     }

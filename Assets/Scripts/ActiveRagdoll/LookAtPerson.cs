@@ -10,6 +10,9 @@ public class LookAtPerson : MonoBehaviour
 
     public void SetTarget(Transform target)
     {
+        if (_target == null)
+            _lastLookPoint = target.transform.position;
+
         _target = target;
     }
 
