@@ -1,0 +1,5 @@
+<linker>
+  <assembly fullname="Assembly-CSharp">
+    <type fullname="ExitGames.Client.Photon.SocketWebTcp" preserve="all"/>
+  </assembly>
+</linker>

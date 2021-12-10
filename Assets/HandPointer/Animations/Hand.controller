@@ -140,42 +140,42 @@ AnimatorStateMachine:
     m_Position: {x: 300, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 6745329577674475671}
-    m_Position: {x: 520, y: 260, z: 0}
+    m_Position: {x: 570, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2241934383036275466}
-    m_Position: {x: 80, y: 260, z: 0}
+    m_Position: {x: 40, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 4588900151247366186}
     m_Position: {x: 300, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4904902886653560535}
-    m_Position: {x: 160, y: -130, z: 0}
+    m_Position: {x: 300, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5660791369483493760}
-    m_Position: {x: 400, y: -130, z: 0}
+    m_Position: {x: 580, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1755137997936324675}
-    m_Position: {x: 560, y: -70, z: 0}
+    m_Position: {x: 800, y: -80, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 2331953042504896446}
-    m_Position: {x: 780, y: 90, z: 0}
+    m_Position: {x: 800, y: 120, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6813182236950184005}
-    m_Position: {x: 780, y: 170, z: 0}
+    m_Position: {x: 800, y: 260, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4315740838398474694}
-    m_Position: {x: 640, y: 10, z: 0}
+    m_Position: {x: 290, y: -380, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6635548577436620910}
-    m_Position: {x: 126.237915, y: 56.931366, z: 0}
+    m_Position: {x: 100, y: 10, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
-  m_AnyStatePosition: {x: 20, y: -70, z: 0}
+  m_AnyStatePosition: {x: -70, y: -70, z: 0}
   m_EntryPosition: {x: -70, y: 120, z: 0}
-  m_ExitPosition: {x: 950, y: -200, z: 0}
+  m_ExitPosition: {x: 330, y: -160, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
   m_DefaultState: {fileID: -6635548577436620910}
 --- !u!1102 &-4904902886653560535

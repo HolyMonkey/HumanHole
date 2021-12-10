@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
+using Zenject;
 
 public class HandPointer : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class HandPointer : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private Camera _camera;
     [SerializeField] private HandAnimatorEventListener _animationEvents;
+    [SerializeField] private GameObject _hand;
 
     private MousePositionConverter _positionConverter;
     private float _lastX;
@@ -22,26 +24,29 @@ public class HandPointer : MonoBehaviour
     public event UnityAction<Vector2> MouseUp;
     public bool IsPressing { get; private set; } = false;
 
-
-    public void Play(string animation) => _animator.SetTrigger(animation);
-
-    public void ResetAngry() => _anger = 1;
-
-    public void AddAngry() => _anger = _anger == 3 ? 1 : _anger + 1;
-
-    private void OnEnable()
+    private GameRunner _gameRunner;
+    
+    [Inject]
+    private void Contruct(GameRunner gameRunner)
     {
-        _animationEvents.HandPressed += HandlePress;
-    }
-
-    private void OnDisable()
-    {
-        _animationEvents.HandPressed -= HandlePress;
+        _gameRunner = gameRunner;
     }
 
     private void Awake()
     {
         Cursor.visible = false;
+    }
+
+    private void OnEnable()
+    {
+        _animationEvents.HandPressed += HandlePress;
+        _gameRunner.GameStarted += GameStarted;
+    }
+
+    private void OnDisable()
+    {
+        _animationEvents.HandPressed -= HandlePress;
+        _gameRunner.GameStarted -= GameStarted;
     }
 
     private void Start()
@@ -58,6 +63,9 @@ public class HandPointer : MonoBehaviour
 
     private void Update()
     {
+        if(!_gameRunner.IsGameStarted)
+            return;
+        
         HandleMousePosition(Input.mousePosition);
 
         if (Input.GetMouseButtonDown(0))
@@ -107,6 +115,17 @@ public class HandPointer : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.UpArrow))
             AddAngry();
+    }
+
+    public void Play(string animation) => _animator.SetTrigger(animation);
+
+    public void ResetAngry() => _anger = 1;
+
+    public void AddAngry() => _anger = _anger == 3 ? 1 : _anger + 1;
+
+    private void GameStarted()
+    {
+        _hand.SetActive(true);
     }
 
     private void HandlePress()
