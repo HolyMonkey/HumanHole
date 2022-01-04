@@ -1,47 +1,43 @@
-using System;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
 
 public class LevelUI : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _pointsText;
-    [SerializeField] private LevelConfig _levelConfig;
     [SerializeField] private GameObject _balanceSlider;
     [SerializeField] private GameObject _progressSlider;
-    [SerializeField] private СollisionObserver сollisionObserver;
+    [SerializeField] private LevelHandler _levelHandler;
+
+    public void Initial()
+    {
+        string levelName = Game.Instance.AllServices.Single<IPersistentProgressService>().Progress.LevelName();
+        SetLevelName(levelName);
+        SetPoints(0);
+    }
 
     private void OnEnable()
     {
-        сollisionObserver.WallHitPerson += OnWallHitPerson;
+        _levelHandler.LevelLost += OnLevelСompleted;
+        _levelHandler.LevelWon += OnLevelСompleted;
     }
 
     private void OnDisable()
     {
-        сollisionObserver.WallHitPerson -= OnWallHitPerson;
+        _levelHandler.LevelLost -= OnLevelСompleted;
+        _levelHandler.LevelWon -= OnLevelСompleted;
     }
 
-    private void OnWallHitPerson()
+    private void OnLevelСompleted()
     {
         _progressSlider.SetActive(false);
         _balanceSlider.SetActive(false);
     }
-
-    private void Start()
-    {
-        SetLevel(_levelConfig.LevelNumber);
-        SetPoints(0);
-    }
-
-    private void SetPoints(int points)
-    {
+    
+    public void SetPoints(int points) => 
         _pointsText.SetText(points.ToString());
-    }
 
-    private void SetLevel(int levelNumber)
-    {
-        string level = $"Level {levelNumber}";
-        _levelText.SetText(level);
-    }
+    private void SetLevelName(string levelNumber) => 
+        _levelText.SetText(levelNumber);
+
 }

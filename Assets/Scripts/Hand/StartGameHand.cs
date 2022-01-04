@@ -5,7 +5,7 @@ public class StartGameHand : MonoBehaviour
 {
    [SerializeField] private float _distance = 10;
     [SerializeField] private Animator _animator;
-    [SerializeField] private Camera _camera;
+    [SerializeField] private Camera _camera; 
     [SerializeField] private HandAnimatorEventListener _animationEvents;
 
     private MousePositionConverter _positionConverter;

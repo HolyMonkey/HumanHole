@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Wall2StaticData
   m_EditorClassIdentifier: 
   Index: 1
-  Wall: {fileID: 7606215860437166307, guid: 918a2850aa93642b4ad95952c6e21ad3, type: 3}
+  Wall: {fileID: 7606215860437166307, guid: 1d23b3cc6775ebf469a4f5a095b5e5ef, type: 3}
   HoleCounterSprite: {fileID: 21300000, guid: 9719932ed28d14cc29cdf8e04a8dccba, type: 3}

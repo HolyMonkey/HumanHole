@@ -2,20 +2,29 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallSpawner : Spawner
+public class WallSpawner : MonoBehaviour
 {
     private int _index = 0;
-    private float _wallSpeed = 0;
-    private List<Wall> _walls;
-    public Wall СurrentWall { get; private set; }
-
-    public override event Action Spawned;
-    public override event Action Destroyed;
     
-    public void Initialize(List<Wall> walls, float speed)
+    [SerializeField] private float _wallSpeed = 0;
+    [SerializeField] private List<Wall> _walls;
+    [SerializeField] private LevelHandler _levelHandler;
+    
+    private Wall _currentWall;
+
+    public event Action<Wall> LeftPlayerZone;
+    public event Action<Wall> Spawned;
+    public event Action<Wall> Destroyed;
+    public event Action AllWallsDestroyed;
+
+    private void OnEnable()
     {
-        _walls = walls;
-        _wallSpeed = speed;
+        _levelHandler.LevelLost += OnLevelLost;
+    }
+
+    private void OnDisable()
+    {
+        _levelHandler.LevelLost -= OnLevelLost;
     }
 
     public void StartSpawn()
@@ -23,22 +32,37 @@ public class WallSpawner : Spawner
         Spawn();
     }
 
-    protected override bool CanSpawn() => 
-        _index < _walls.Count && СurrentWall == null;
-
-    protected override void Spawn()
+    private void Spawn()
     {
-        СurrentWall = Instantiate(_walls[_index], transform.position, Quaternion.identity);
-        СurrentWall.Initialize(_wallSpeed);
-        Spawned?.Invoke();
-        СurrentWall.Destroyed += Destroy;
+        _currentWall = Instantiate(_walls[_index], transform.position, Quaternion.identity);
+        _currentWall.Initialize(_wallSpeed);
+        _currentWall.LeftPlayerZone += OnLeftPlayerZoneZone;
+        Spawned?.Invoke(_currentWall);
+        _currentWall.Destroyed += Destroy;
         _index++;
     }
+    
 
-    protected override void Destroy()
+    private void OnLeftPlayerZoneZone()
     {
-        Destroyed?.Invoke();
-        if(CanSpawn())
-            Spawn();
+        _currentWall.LeftPlayerZone -= OnLeftPlayerZoneZone;
+        LeftPlayerZone?.Invoke(_currentWall);
     }
+    
+    private void OnLevelLost()
+    {
+        _currentWall?.StopMovement();
+    }
+
+    private void Destroy()
+    {
+        Destroyed?.Invoke(_currentWall);
+        if (CanSpawn())
+            Spawn();
+        else
+            AllWallsDestroyed?.Invoke();
+    }
+
+    private bool CanSpawn() => 
+        _index < _walls.Count;
 }
