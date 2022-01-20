@@ -10,6 +10,6 @@ public class Game
         Instance ??= this;
         
         AllServices = new AllServices();
-        StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), curtain, AllServices);
+        StateMachine = new GameStateMachine(coroutineRunner, curtain, AllServices);
     }
 }

@@ -10,17 +10,7 @@ public class CollisionObserver : MonoBehaviour
     [SerializeField] private Transform _personTransorm;
     
     public event Action WallCollidedPlayer;
-
-    public void Enable()
-    {
-        gameObject.SetActive(true);
-    }
-
-    public void Disable()
-    {
-        gameObject.SetActive(false);
-    }
-
+    
     private void OnEnable()
     {
         _wallSpawner.Spawned += WallSpawned;

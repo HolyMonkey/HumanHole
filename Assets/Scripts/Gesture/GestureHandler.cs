@@ -4,15 +4,11 @@ public class GestureHandler : MonoBehaviour
 {
     [SerializeField] private Limb[] _limbs;
     [SerializeField] private LevelHandler _levelHandler;
+    [SerializeField] private LevelPauseHandler _levelPauseHandler;
 
-    public void Enable()
+    public void Initial()
     {
-        gameObject.SetActive(true);
-    }
-
-    public void Disable()
-    {
-        gameObject.SetActive(false);
+        AllowMovement();
     }
 
     private void OnEnable()
@@ -20,6 +16,8 @@ public class GestureHandler : MonoBehaviour
         _levelHandler.LevelStarted += OnLevelStarted;
         _levelHandler.LevelWon += OnLevelWon;
         _levelHandler.LevelLost += OnLevelLost;
+        _levelPauseHandler.OnPause += LevelOnPause;
+        _levelPauseHandler.OffPause += LevelOffPause;
     }
 
     private void OnDisable()
@@ -27,6 +25,8 @@ public class GestureHandler : MonoBehaviour
         _levelHandler.LevelStarted -= OnLevelStarted;
         _levelHandler.LevelWon -= OnLevelWon;
         _levelHandler.LevelLost -= OnLevelLost;
+        _levelPauseHandler.OnPause -= LevelOnPause;
+        _levelPauseHandler.OffPause -= LevelOffPause;
     }
 
     private void OnLevelWon()
@@ -38,7 +38,7 @@ public class GestureHandler : MonoBehaviour
     {
         DeactivateLimbs();
     }
-    
+
     private void OnLevelStarted()
     {
         ActivateLimbs();
@@ -46,13 +46,35 @@ public class GestureHandler : MonoBehaviour
 
     private void ActivateLimbs()
     {
-        foreach (var item in _limbs)
-            item.Enable();
+        foreach (var limb in _limbs)
+            limb.Enable();
     }
-    
+
     private void DeactivateLimbs()
     {
-        foreach (var item in _limbs)
-            item.Disable();
+        foreach (var limb in _limbs)
+            limb.Disable();
+    }
+
+    private void LevelOnPause()
+    {
+        ForbidMovement();
+    }
+
+    private void LevelOffPause()
+    {
+        AllowMovement();
+    }
+
+    private void AllowMovement()
+    {
+        foreach (var limb in _limbs)
+            limb.AllowMovement();
+    }
+
+    private void ForbidMovement()
+    {
+        foreach (var limb in _limbs)
+            limb.ForbidMovement();
     }
 }

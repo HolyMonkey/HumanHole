@@ -6,7 +6,7 @@ using UnityEditor;
 namespace UnityStandardAssets.Water
 {
     [CustomEditor(typeof(GerstnerDisplace))]
-    public class GerstnerDisplaceEditor : Editor
+    public class GerstnerDisplaceEditor : UnityEditor.Editor
     {
         private SerializedObject serObj;
 

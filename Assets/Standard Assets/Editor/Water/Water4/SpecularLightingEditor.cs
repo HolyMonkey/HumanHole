@@ -4,7 +4,7 @@ using UnityEditor;
 namespace UnityStandardAssets.Water
 {
     [CustomEditor(typeof(SpecularLighting))]
-    public class SpecularLightingEditor : Editor
+    public class SpecularLightingEditor : UnityEditor.Editor
     {
         private SerializedObject serObj;
         private SerializedProperty specularLight;

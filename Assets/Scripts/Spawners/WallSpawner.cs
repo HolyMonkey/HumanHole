@@ -9,6 +9,7 @@ public class WallSpawner : MonoBehaviour
     [SerializeField] private float _wallSpeed = 0;
     [SerializeField] private List<Wall> _walls;
     [SerializeField] private LevelHandler _levelHandler;
+    [SerializeField] private LevelPauseHandler _levelPauseHandler;
     
     private Wall _currentWall;
 
@@ -16,15 +17,19 @@ public class WallSpawner : MonoBehaviour
     public event Action<Wall> Spawned;
     public event Action<Wall> Destroyed;
     public event Action AllWallsDestroyed;
-
+    
     private void OnEnable()
     {
         _levelHandler.LevelLost += OnLevelLost;
+        _levelPauseHandler.OnPause += LevelOnPause;
+        _levelPauseHandler.OffPause += LevelOffPause;
     }
 
     private void OnDisable()
     {
         _levelHandler.LevelLost -= OnLevelLost;
+        _levelPauseHandler.OnPause -= LevelOnPause;
+        _levelPauseHandler.OffPause -= LevelOffPause;
     }
 
     public void StartSpawn()
@@ -34,7 +39,8 @@ public class WallSpawner : MonoBehaviour
 
     private void Spawn()
     {
-        _currentWall = Instantiate(_walls[_index], transform.position, Quaternion.identity);
+        var wall = _walls[_index];
+        _currentWall = Instantiate(wall, wall.transform.position, Quaternion.identity);
         _currentWall.Initialize(_wallSpeed);
         _currentWall.LeftPlayerZone += OnLeftPlayerZoneZone;
         Spawned?.Invoke(_currentWall);
@@ -65,4 +71,14 @@ public class WallSpawner : MonoBehaviour
 
     private bool CanSpawn() => 
         _index < _walls.Count;
+
+    private void LevelOnPause()
+    {
+        _currentWall?.StopMovement();
+    }
+
+    private void LevelOffPause()
+    {
+        _currentWall?.AllowMovement();
+    }
 }

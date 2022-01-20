@@ -17,6 +17,7 @@ public class Limb : MonoBehaviour
     private bool _isHolding;
     private Vector3 _mouseOffset;
     private float _mouseZCoordinate;
+    private bool _allowed;
 
     private void Awake()
     {
@@ -36,9 +37,19 @@ public class Limb : MonoBehaviour
         BreakJoint();
     }
 
+    public void AllowMovement()
+    {
+        _allowed = true;
+    }
+
+    public void ForbidMovement()
+    {
+        _allowed = false;
+    }
+    
     private void Update()
     {
-        if (_isHolding)
+        if (_isHolding || !_allowed)
             return;
 
         var postion = _limbAnchor.position;
@@ -52,7 +63,7 @@ public class Limb : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_isHolding || !_canBreak)
+        if (!_isHolding || !_canBreak || !_allowed)
             return;
 
         TryToBreakJoint();
@@ -82,6 +93,9 @@ public class Limb : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (!_allowed)
+            return;
+        
         _mouseZCoordinate = _camera.WorldToScreenPoint(transform.position).z;
         _mouseOffset = transform.position - GetMouseWorldPos();
         Select();
@@ -89,13 +103,18 @@ public class Limb : MonoBehaviour
 
     private void OnMouseUp()
     {
+        if (!_allowed)
+            return;
+        
         Deselect();
     }
 
     private void OnMouseDrag()
     {
+        if (!_allowed)
+            return;
+        
         var position = GetMouseWorldPos() + _mouseOffset;
-       // position.x = Mathf.Clamp(position.x, _minClamp.x, _maxClamp.x);
         transform.position = position;
         Move();
     }

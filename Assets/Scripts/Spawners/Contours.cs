@@ -20,11 +20,6 @@ public class Contours : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void Disable()
-    {
-        gameObject.SetActive(false);
-    }
-    
     private void OnEnable()
     {
         _wallSpawner.Spawned += OnWallSpawned;

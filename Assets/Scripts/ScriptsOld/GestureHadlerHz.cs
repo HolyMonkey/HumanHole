@@ -5,14 +5,14 @@ using UnityEngine;
 public class GestureHadlerHz : MonoBehaviour
 {
     [SerializeField] private Control[] _controls;
-    [SerializeField] private HandPointer _pointer;
+    [SerializeField] private HandPointerHandler _pointerHandler;
 
     private Control _selectedControl;
 
     private void OnEnable()
     {
-        _pointer.MouseDown += OnCursorDown;
-        _pointer.MouseUp += OnCursorUp;
+        _pointerHandler.MouseDown += OnCursorDown;
+        _pointerHandler.MouseUp += OnCursorUp;
 
         foreach (var item in _controls)
             item.gameObject.SetActive(true);
@@ -23,8 +23,8 @@ public class GestureHadlerHz : MonoBehaviour
 
     private void OnDisable()
     {
-        _pointer.MouseDown -= OnCursorDown;
-        _pointer.MouseUp -= OnCursorUp;
+        _pointerHandler.MouseDown -= OnCursorDown;
+        _pointerHandler.MouseUp -= OnCursorUp;
 
         foreach (var item in _controls)
             item.gameObject.SetActive(false);

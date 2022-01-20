@@ -5,7 +5,7 @@ using UnityEditor;
 namespace UnityStandardAssets.Water
 {
     [CustomEditor(typeof(WaterBase))]
-    public class WaterBaseEditor : Editor
+    public class WaterBaseEditor : UnityEditor.Editor
     {
         public GameObject oceanBase;
         private WaterBase waterBase;

@@ -3,19 +3,18 @@ using UnityEngine;
 
 public class LevelBootstrapper : MonoBehaviour
 {
-    private ICursorService _cursorService;
-
     [SerializeField] private LevelHandler _levelHandler;
     [SerializeField] private GestureHandler _gestureHandler;
-    [SerializeField] private HandPointer _handPointer;
+    [SerializeField] private HandPointerHandler _handPointerHandler;
     [SerializeField] private CollisionObserver _collisionObserver;
     [SerializeField] private Contours _contours;
     [SerializeField] private LevelUI _levelUI;
     [SerializeField] private LevelPanelsStateMachine _levelPanelsStateMachine;
-    [SerializeField] private GameObject _uiContent;
-    
+    [SerializeField] private AdHandler _adHandler;
+    [SerializeField] private LevelPauseHandler _levelPauseHandler;
+    [SerializeField] private AuthorizationHandler _authorizationHandler;
 
-    public void Start()
+    public void Awake()
     {
         Initial();
     }
@@ -25,37 +24,19 @@ public class LevelBootstrapper : MonoBehaviour
         _levelPanelsStateMachine.Initial();
         _levelUI.Initial();
         _contours.Initial();
+       // _handPointerHandler.Initial();
+        _adHandler.Initial();
+        _levelPauseHandler.Initial();
+        _gestureHandler.Initial();
         _levelHandler.Initial();
-        _handPointer.Initial();
+        _authorizationHandler.Initial();
     }
 
     private void OnEnable()
     {
-        Enable();
-    }
-
-    private void OnDisable()
-    {
-      //  Disable();
-    }
-
-    private void Enable()
-    {
-        gameObject.SetActive(true);
-
-        _uiContent.SetActive(true);
-        _gestureHandler.Enable();
-        _collisionObserver.Enable();
+        _adHandler.Enable();
         _contours.Enable();
         _levelHandler.Enable();
-    }
-
-    private void Disable()
-    {
-        _uiContent.SetActive(false);
-        _collisionObserver.Disable();
-        _levelHandler.Disable();
-        _gestureHandler.Disable();
-        _contours.Disable();
+        _authorizationHandler.Enable();
     }
 }

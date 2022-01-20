@@ -10,6 +10,8 @@ public class WallCollider : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.TryGetComponent(out BodyPart bodyPart))
+        {
             TouchedPerson?.Invoke();
+        }
     }
 }

@@ -4,8 +4,9 @@ using System;
 public class Progress
 {
     [NonSerialized] public bool IsGameStarted;
+    
     public int LevelNumber;
-    public int AllPoints;
+    public int Points;
 
     public Progress()
     {
@@ -19,7 +20,7 @@ public class Progress
 
     public void UpdatePoints(int points)
     {
-        AllPoints += points;
+        Points += points;
     }
 
     public string LevelName()

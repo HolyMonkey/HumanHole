@@ -5,7 +5,7 @@ using UnityEditor;
 namespace UnityStandardAssets.Water
 {
     [CustomEditor(typeof(PlanarReflection))]
-    public class PlanarReflectionEditor : Editor
+    public class PlanarReflectionEditor : UnityEditor.Editor
     {
         private SerializedObject serObj;
 

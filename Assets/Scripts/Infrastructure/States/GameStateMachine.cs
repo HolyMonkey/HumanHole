@@ -8,11 +8,13 @@ public class GameStateMachine : IGameStateMachine
         private  readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain curtain, AllServices services)
+        public GameStateMachine(ICoroutineRunner coroutineRunner, LoadingCurtain curtain, AllServices services)
         {
+            SceneLoader sceneLoader = new SceneLoader(coroutineRunner);
+            
             _states = new Dictionary<Type, IExitableState>
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, services),
+                [typeof(BootstrapState)] = new BootstrapState(this, coroutineRunner, services),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain),
                 [typeof(LoadProgressState)] = new LoadProgressState(this, 
                     services.Single<IPersistentProgressService>(), 
