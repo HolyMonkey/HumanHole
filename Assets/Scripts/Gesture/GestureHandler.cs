@@ -2,12 +2,20 @@ using UnityEngine;
 
 public class GestureHandler : MonoBehaviour
 {
-    [SerializeField] private Limb[] _limbs;
-    [SerializeField] private LevelHandler _levelHandler;
-    [SerializeField] private LevelPauseHandler _levelPauseHandler;
+    private LevelHandler _levelHandler;
+    private LevelPauseHandler _levelPauseHandler;
 
-    public void Initial()
+    [SerializeField] private Limb[] _limbs;
+
+    public void Initial(LevelHandler levelHandler, LevelPauseHandler levelPauseHandler)
     {
+        _levelPauseHandler = levelPauseHandler;
+        _levelHandler = levelHandler;
+    }
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
         AllowMovement();
     }
 
@@ -16,8 +24,8 @@ public class GestureHandler : MonoBehaviour
         _levelHandler.LevelStarted += OnLevelStarted;
         _levelHandler.LevelWon += OnLevelWon;
         _levelHandler.LevelLost += OnLevelLost;
-        _levelPauseHandler.OnPause += LevelOnPause;
-        _levelPauseHandler.OffPause += LevelOffPause;
+        _levelPauseHandler.Pause += OnLevelPause;
+        _levelPauseHandler.UnPause += OnLevelUnPause;
     }
 
     private void OnDisable()
@@ -25,8 +33,8 @@ public class GestureHandler : MonoBehaviour
         _levelHandler.LevelStarted -= OnLevelStarted;
         _levelHandler.LevelWon -= OnLevelWon;
         _levelHandler.LevelLost -= OnLevelLost;
-        _levelPauseHandler.OnPause -= LevelOnPause;
-        _levelPauseHandler.OffPause -= LevelOffPause;
+        _levelPauseHandler.Pause -= OnLevelPause;
+        _levelPauseHandler.UnPause -= OnLevelUnPause;
     }
 
     private void OnLevelWon()
@@ -56,12 +64,12 @@ public class GestureHandler : MonoBehaviour
             limb.Disable();
     }
 
-    private void LevelOnPause()
+    private void OnLevelPause()
     {
         ForbidMovement();
     }
 
-    private void LevelOffPause()
+    private void OnLevelUnPause()
     {
         AllowMovement();
     }

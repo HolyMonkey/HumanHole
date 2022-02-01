@@ -5,6 +5,7 @@ using YandexGames;
 
 public class RewardedAd: IAd
 {
+    private const int RewardedPoints = 5;
     public override event Action Opened;
     public override event Action Closed;
     public override event Action DidError;
@@ -32,13 +33,7 @@ public class RewardedAd: IAd
 
     protected override void OnDidError(string message)
     {
-        Debug.LogError(message);
         DidError?.Invoke();
-    }
-
-    protected override void OnClosed(bool isClosed)
-    {
-        throw new NotImplementedException();
     }
 
     protected override void OnOffline()

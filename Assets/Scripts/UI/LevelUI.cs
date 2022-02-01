@@ -5,24 +5,27 @@ using UnityEngine.UI;
 
 public class LevelUI : MonoBehaviour
 {
+    private LevelHandler _levelHandler;
+
     [SerializeField] private TextMeshProUGUI _levelText;
     [SerializeField] private TextMeshProUGUI _pointsText;
     [SerializeField] private GameObject _balanceSlider;
     [SerializeField] private GameObject _progressSlider;
-    [SerializeField] private LevelHandler _levelHandler;
     [SerializeField] private Button _showRewarButton;
     [SerializeField] private Button _settingsButton;
-    [SerializeField] private SettingsPanel _settingsPanel;
     [SerializeField] private Button _playerProfileButton;
+    [SerializeField] private Button _leaderBoardButton;
+
+    [SerializeField] private SettingsPanel _settingsPanel;
     [SerializeField] private PlayerProfileDataPanel _playerProfileDataPanel;
     [SerializeField] private LeaderBoardPanel _leaderBoardPanel;
-    [SerializeField] private Button _leaderBoardButton;
 
     public event Action ShowRewardAdButtonClick;
 
-    public void Initial()
+    public void Initial(LevelHandler levelHandler, Progress progress)
     {
-        var progress = Game.Instance.AllServices.Single<IPersistentProgressService>().Progress;
+        _levelHandler = levelHandler;
+        
         SetLevelName(progress.LevelNumber);
         SetPoints(progress.Points);
         
@@ -33,8 +36,7 @@ public class LevelUI : MonoBehaviour
         _levelHandler.LevelWon += OnLevelCompleted;
         
         _settingsPanel.Initial();
-        _playerProfileDataPanel.Initial();
-        
+
         _leaderBoardPanel.Initial();
         _leaderBoardButton.onClick.AddListener(OnLeaderBoardButtonClick);
     }
@@ -47,6 +49,13 @@ public class LevelUI : MonoBehaviour
     private void OnPlayerProfilePanelButtonClick()
     {
         _playerProfileDataPanel.Enable();
+        _playerProfileDataPanel.Closed += OnPlayerProfileDataPanelClosed;
+    }
+
+    private void OnPlayerProfileDataPanelClosed()
+    {
+        _playerProfileDataPanel.Closed -= OnPlayerProfileDataPanelClosed;
+        
     }
 
     private void OnSettingsPanelButtonClick()
@@ -57,6 +66,9 @@ public class LevelUI : MonoBehaviour
 
     private void OnLevelCompleted()
     {
+        _levelHandler.LevelLost -= OnLevelCompleted;
+        _levelHandler.LevelWon -= OnLevelCompleted;
+        
         _progressSlider.SetActive(false);
         _balanceSlider.SetActive(false);
     }

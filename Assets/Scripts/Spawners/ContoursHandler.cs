@@ -2,16 +2,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class Contours : MonoBehaviour
+public class ContoursHandler : MonoBehaviour
 {
     private List<Sprite> _countours;
     private SpriteRenderer _spriteRenderer;
 
-    [SerializeField] private WallSpawner _wallSpawner;
-    [SerializeField] private LevelHandler _levelHandler;
+    private WallSpawner _wallSpawner;
+    private LevelHandler _levelHandler;
     
-    public void Initial()
+    public void Initial(WallSpawner wallSpawner, LevelHandler levelHandler)
     {
+        _wallSpawner = wallSpawner;
+        _levelHandler = levelHandler;
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 

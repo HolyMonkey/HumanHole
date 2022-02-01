@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CodeBase.Infrastructure.Services.LeaderBoard;
 using TMPro;
@@ -19,6 +20,9 @@ public class LeaderBoardPanel : MonoBehaviour
     [SerializeField] private Transform _content;
     [SerializeField] private Button _closeButton;
 
+    public event Action Opened;
+    public event Action Closed;
+    
     public void Initial()
     {
         _leaderBoardService = Game.Instance.AllServices.Single<ILeaderBoardService>();
@@ -35,6 +39,12 @@ public class LeaderBoardPanel : MonoBehaviour
         _leaderBoardService.GetLeaderBoardEntries();
     }
 
+    private void OnDisable()
+    {
+        _leaderBoardService.GetPlayerEntryError -= OnGetPlayerEntryError;
+        _leaderBoardService.GetPlayerEntrySuccess -= OnGetPlayerEntrySuccess;
+    }
+    
     private void OnGetLeaderboardEntriesError(string errorMessage)
     {
         _errorMessage.text = errorMessage;
@@ -68,12 +78,6 @@ public class LeaderBoardPanel : MonoBehaviour
         }
     }
 
-    public void AddScore(int score)
-    {
-        if (_playerEntry != null)
-            _leaderBoardService.SetLeaderBoardScore(score);
-    }
-
     private void OnGetPlayerEntrySuccess(LeaderboardEntryResponse result)
     {
         if (result == null)
@@ -96,21 +100,20 @@ public class LeaderBoardPanel : MonoBehaviour
         Debug.Log(errorMessage);
     }
 
-    private void OnDisable()
-    {
-        _leaderBoardService.GetPlayerEntryError -= OnGetPlayerEntryError;
-        _leaderBoardService.GetPlayerEntrySuccess -= OnGetPlayerEntrySuccess;
-    }
-
     public void Enable()
     {
         gameObject.SetActive(true);
         _closeButton.onClick.AddListener(Disable);
+        Opened?.Invoke();
     }
 
     public void Disable()
     {
-        _closeButton.onClick.RemoveListener(Disable);
-        gameObject.SetActive(false);
+        if (gameObject.activeSelf)
+        {
+            _closeButton.onClick.RemoveListener(Disable);
+            gameObject.SetActive(false);
+            Closed?.Invoke();
+        }
     }
 }

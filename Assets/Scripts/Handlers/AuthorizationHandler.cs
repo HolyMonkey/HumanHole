@@ -5,12 +5,11 @@ public class AuthorizationHandler : MonoBehaviour
 {
     private IAuthorizationService _authorizationService;
     
-    [SerializeField] private SettingsPanel _settingsPanel;
     [SerializeField] private Image _authorizedImage;
-    [SerializeField] private Image _personalProfileDataPermission;
-    public void Initial()
+
+    public void Initial(IAuthorizationService authorizationService)
     {
-        _authorizationService = Game.Instance.AllServices.Single<IAuthorizationService>();
+        _authorizationService = authorizationService;
     }
 
     public void Enable()
@@ -29,21 +28,6 @@ public class AuthorizationHandler : MonoBehaviour
             SetImageColor(_authorizedImage,Color.red);
             _authorizationService.Authorized += OnAuthorized;
         }
-
-        if (_authorizationService.HasPersonalProfileDataPermission)
-        {
-            SetImageColor(_personalProfileDataPermission,Color.green);
-        }
-        else
-        {
-            SetImageColor(_personalProfileDataPermission,Color.red);
-            _authorizationService.GetPersonalProfileDataPermission += OnGetPersonalProfileDataPermission;
-        }
-    }
-
-    private void OnGetPersonalProfileDataPermission()
-    {
-        SetImageColor(_personalProfileDataPermission,Color.green);
     }
 
     private void OnAuthorized()

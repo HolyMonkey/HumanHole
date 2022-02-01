@@ -12,7 +12,11 @@ namespace CodeBase.Infrastructure.Services.Ads
         
         public abstract void Show();
         protected abstract void OnOpened();
-        protected abstract void OnClosed(bool isClosed);
+
+        protected virtual void OnClosed(bool isClosed)
+        {
+            
+        }
         protected abstract void OnClosed();
         protected abstract void OnDidError(string message);
         protected abstract void OnOffline();

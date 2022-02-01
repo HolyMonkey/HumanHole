@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Limb : MonoBehaviour
 {
+    private Camera _camera;
+    private bool _canBreak;
+    private bool _isHolding;
+    private Vector3 _mouseOffset;
+    private float _mouseZCoordinate;
+    private bool _allowed;
+    
     [SerializeField] private SpriteRenderer _iconSpriteRenderer;
     [SerializeField] private ConfigurableJoint _joint;
     [SerializeField] private Transform _limbAnchor;
@@ -9,16 +16,7 @@ public class Limb : MonoBehaviour
     [SerializeField] private Person _person;
     [SerializeField] private float _maxMasScale = 0.2f;
     [SerializeField] private float _cirlceZOffset = 0;
-    [SerializeField] private Vector2 _minClamp;
-    [SerializeField] private Vector2 _maxClamp;
     
-    private Camera _camera;
-    private bool _canBreak;
-    private bool _isHolding;
-    private Vector3 _mouseOffset;
-    private float _mouseZCoordinate;
-    private bool _allowed;
-
     private void Awake()
     {
         _camera = Camera.main;
@@ -46,7 +44,7 @@ public class Limb : MonoBehaviour
     {
         _allowed = false;
     }
-    
+
     private void Update()
     {
         if (_isHolding || !_allowed)

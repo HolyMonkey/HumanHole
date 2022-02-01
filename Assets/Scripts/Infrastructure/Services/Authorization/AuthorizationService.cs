@@ -10,15 +10,11 @@ public class AuthorizationService : IAuthorizationService
     private IProfileDataService _profileDataService;
 
     public bool IsAuthorized { get;  set; }
-    public bool HasPersonalProfileDataPermission { get; set; }
     public Action Authorized { get; set; }
     public  Action NotAuthorized { get; set; }
-    public  Action GetPersonalProfileDataPermission { get; set; }
-    public  Action NotGetPersonalProfileDataPermission { get; set; }
 
-    public AuthorizationService(ICoroutineRunner coroutineRunner, IProfileDataService profileDataService)
+    public AuthorizationService(ICoroutineRunner coroutineRunner)
     {
-        _profileDataService = profileDataService;
         coroutineRunner.StartCoroutine(Initialize());
     }
     
@@ -30,9 +26,7 @@ public class AuthorizationService : IAuthorizationService
 
         // Always wait for it if invoking something immediately in the first scene.
         yield return YandexGamesSdk.WaitForInitialization();
-        
-        _profileDataService.GetProfileData();
-        
+
         while (true)
         {
             if (PlayerAccount.IsAuthorized)
@@ -41,23 +35,6 @@ public class AuthorizationService : IAuthorizationService
                 {
                     IsAuthorized = true;
                     Authorized?.Invoke();  
-                }
-                
-                if (PlayerAccount.HasPersonalProfileDataPermission)
-                {
-                    if (!HasPersonalProfileDataPermission)
-                    {
-                        HasPersonalProfileDataPermission = true;
-                        GetPersonalProfileDataPermission?.Invoke();
-                    }
-                }
-                else
-                {
-                    if (HasPersonalProfileDataPermission)
-                    {
-                        HasPersonalProfileDataPermission = false;
-                        NotGetPersonalProfileDataPermission?.Invoke();
-                    }
                 }
             }
             else

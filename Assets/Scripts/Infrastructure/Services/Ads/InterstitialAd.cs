@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-using YandexGames;
 
 namespace CodeBase.Infrastructure.Services.Ads
 {

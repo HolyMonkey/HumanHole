@@ -2,6 +2,7 @@
 using CodeBase.Infrastructure.Services.Ads;
 using CodeBase.Infrastructure.Services.LeaderBoard;
 using CodeBase.Infrastructure.Services.Profile;
+using Infrastructure.Services.Analytics;
 
 public class BootstrapState : IState
 {
@@ -34,11 +35,13 @@ public class BootstrapState : IState
         _services.RegisterSingle<IAdsService>(new AdsService());
         _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
-        _services.RegisterSingle<IProfileDataService>(new ProfileDataService());
-        _services.RegisterSingle<IAuthorizationService>(new AuthorizationService(_coroutineRunner,_services.Single<IProfileDataService>()));
+        _services.RegisterSingle<IAuthorizationService>(new AuthorizationService(_coroutineRunner));
+        _services.RegisterSingle<IProfileDataService>(new ProfileDataService(_services.Single<IAuthorizationService>()));
         _services.RegisterSingle<ILeaderBoardService>(new LeaderBoardService());
         _services.RegisterSingle<IRewardService>(new RewardService(
             _services.Single<IPersistentProgressService>(),
             _services.Single<ISaveLoadService>()));
+        _services.RegisterSingle<IRenderTextureService>(new RenderTextureService());
+        _services.RegisterSingle<IAnalyticsService>(new AnalyticsService());
     }
 }

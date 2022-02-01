@@ -25,7 +25,10 @@ public class SettingsPanel: MonoBehaviour
 
     private void Disable()
     {
-        gameObject.SetActive(false);
-        Closed?.Invoke();
+        if (gameObject.activeSelf)
+        {
+            gameObject.SetActive(false);
+            Closed?.Invoke();
+        }
     }
 }

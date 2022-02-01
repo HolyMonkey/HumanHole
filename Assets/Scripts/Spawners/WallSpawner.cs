@@ -5,31 +5,42 @@ using UnityEngine;
 public class WallSpawner : MonoBehaviour
 {
     private int _index = 0;
-    
+    private LevelPauseHandler _levelPauseHandler;
+    private LevelHandler _levelHandler;
+
     [SerializeField] private float _wallSpeed = 0;
     [SerializeField] private List<Wall> _walls;
-    [SerializeField] private LevelHandler _levelHandler;
-    [SerializeField] private LevelPauseHandler _levelPauseHandler;
-    
+
     private Wall _currentWall;
 
     public event Action<Wall> LeftPlayerZone;
     public event Action<Wall> Spawned;
     public event Action<Wall> Destroyed;
     public event Action AllWallsDestroyed;
-    
+
+    public void Initial(LevelPauseHandler levelPauseHandler, LevelHandler levelHandler)
+    {
+        _levelPauseHandler = levelPauseHandler;
+        _levelHandler = levelHandler;
+    }
+
     private void OnEnable()
     {
         _levelHandler.LevelLost += OnLevelLost;
-        _levelPauseHandler.OnPause += LevelOnPause;
-        _levelPauseHandler.OffPause += LevelOffPause;
+        _levelPauseHandler.Pause += LevelPause;
+        _levelPauseHandler.UnPause += LevelUnPause;
     }
 
     private void OnDisable()
     {
         _levelHandler.LevelLost -= OnLevelLost;
-        _levelPauseHandler.OnPause -= LevelOnPause;
-        _levelPauseHandler.OffPause -= LevelOffPause;
+        _levelPauseHandler.Pause -= LevelPause;
+        _levelPauseHandler.UnPause -= LevelUnPause;
+    }
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
     }
 
     public void StartSpawn()
@@ -72,12 +83,12 @@ public class WallSpawner : MonoBehaviour
     private bool CanSpawn() => 
         _index < _walls.Count;
 
-    private void LevelOnPause()
+    private void LevelPause()
     {
         _currentWall?.StopMovement();
     }
 
-    private void LevelOffPause()
+    private void LevelUnPause()
     {
         _currentWall?.AllowMovement();
     }

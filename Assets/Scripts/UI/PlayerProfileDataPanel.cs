@@ -1,3 +1,4 @@
+using System;
 using CodeBase.Infrastructure.Services.Profile;
 using TMPro;
 using UnityEngine;
@@ -16,24 +17,32 @@ public class PlayerProfileDataPanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _errorMessage;
     [SerializeField] private Button _closeButton; 
     
-    public void Initial()
+    public event Action Opened;
+    public event Action Closed;
+
+    public void Enable()
     {
-        _profileDataService = Game.Instance.AllServices.Single<IProfileDataService>();
+        gameObject.SetActive(true);
+        _closeButton.onClick.AddListener(Disable); 
+        Opened?.Invoke();
     }
 
-    private void OnEnable()
+    public void Disable()
     {
-        _profileDataService.GetProfileDataSuccess += OnGetProfileDataSuccess;
-        _profileDataService.GetProfileDataError += OnGetProfileDataError;
-        _profileDataService.GetProfileData();
+        if (gameObject.activeSelf)
+        {
+            _closeButton.onClick.RemoveListener(Disable);
+            gameObject.SetActive(false);
+            Closed?.Invoke();
+        }
     }
 
-    private void OnGetProfileDataError(string error)
+    public void SetErrorMessage(string message)
     {
-        _errorMessage.text = error;
+        _errorMessage.text = message;
     }
 
-    private void OnGetProfileDataSuccess(PlayerAccountProfileDataResponse result)
+    public void SetProfileData(PlayerAccountProfileDataResponse result)
     {
         string name = result.publicName;
         if (string.IsNullOrEmpty(name)) 
@@ -44,23 +53,5 @@ public class PlayerProfileDataPanel : MonoBehaviour
         _language.text = result.lang;
         _scopePermissionPublicName.text = result.scopePermissions.public_name;
         _scopePermissionAvatar.text = result.scopePermissions.avatar;
-    }
-
-    public void Enable()
-    {
-        gameObject.SetActive(true);
-        _closeButton.onClick.AddListener(Disable); 
-    }
-
-    public void Disable()
-    {
-        _closeButton.onClick.RemoveListener(Disable); 
-        gameObject.SetActive(false);
-    }
-
-    private void OnDisable()
-    {
-        _profileDataService.GetProfileDataSuccess -= OnGetProfileDataSuccess;
-        _profileDataService.GetProfileDataError -= OnGetProfileDataError;
     }
 }
