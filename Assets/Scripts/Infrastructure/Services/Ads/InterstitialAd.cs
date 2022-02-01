@@ -44,12 +44,12 @@ namespace CodeBase.Infrastructure.Services.Ads
 
         protected override void OnClosed()
         {
-            throw new NotImplementedException();
+            Closed?.Invoke();
         }
 
         protected override void OnShowed()
         {
-            throw new NotImplementedException();
+            Showed?.Invoke();
         }
     }
 }
