@@ -22,8 +22,6 @@ public class ProfileDataHandler : MonoBehaviour
 
     private void OnEnable()
     {
-      //  _playerProfileDataPanel.Opened += OnPlayerProfileDataPanelOpened;
-
         if (_profileDataService.IsPersonalProfileDataPermissionSuccess)
         {
             OnGetProfileDataSuccess(_profileDataService.PlayerAccountProfileDataResponse);
@@ -33,20 +31,21 @@ public class ProfileDataHandler : MonoBehaviour
             SetImageColor(_personalProfileDataPermission,Color.red);
             _profileDataService.GetProfileDataSuccess += OnGetProfileDataSuccess;
             _profileDataService.GetProfileDataError += OnGetProfileDataError;
+            _playerProfileDataPanel.Opened += OnPlayerProfileDataPanelOpened;
         }
     }
 
     private void OnDisable()
     {
-        //_playerProfileDataPanel.Opened -= OnPlayerProfileDataPanelOpened;
         _profileDataService.GetProfileDataSuccess -= OnGetProfileDataSuccess;
         _profileDataService.GetProfileDataError -= OnGetProfileDataError;
     }
 
-    /*private void OnPlayerProfileDataPanelOpened()
+    private void OnPlayerProfileDataPanelOpened()
     {
+        _playerProfileDataPanel.Opened -= OnPlayerProfileDataPanelOpened;
         _profileDataService.GetProfileData();
-    }*/
+    }
     
     private void OnGetProfileDataError(string message)
     {
