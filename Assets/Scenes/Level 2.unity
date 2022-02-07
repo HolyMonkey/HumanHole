@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: e11f5b66aad75483b8cd16ee18a0c917, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.598317, g: 0.82131875, b: 0.9411815, a: 1}
+  m_IndirectSpecularColor: {r: 0.38829324, g: 0.6918085, b: 0.97595924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4569,6 +4569,7 @@ MonoBehaviour:
   _wallSpeed: 1
   _walls:
   - {fileID: 7606215860437166307, guid: 1d23b3cc6775ebf469a4f5a095b5e5ef, type: 3}
+  _color: {r: 0.8, g: 0.8, b: 0.8, a: 0}
 --- !u!4 &1052022927
 Transform:
   m_ObjectHideFlags: 0
@@ -8588,6 +8589,7 @@ GameObject:
   - component: {fileID: 3469287838163301285}
   - component: {fileID: 1711813854438000495}
   - component: {fileID: 842260555}
+  - component: {fileID: 919132148516071099}
   m_Layer: 9
   m_Name: Platform
   m_TagString: Untagged
@@ -8595,6 +8597,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132148516071099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148516071098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a4d0aaab181aa43b63ed006ca29666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 0.8018868, g: 0.7981043, b: 0.7981043, a: 0}
 --- !u!224 &1002442725160115974
 RectTransform:
   m_ObjectHideFlags: 0

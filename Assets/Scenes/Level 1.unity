@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: e11f5b66aad75483b8cd16ee18a0c917, type: 2}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 2bd8959f5fbd3644aa33af1a155fc147, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.598317, g: 0.82131875, b: 0.9411815, a: 1}
+  m_IndirectSpecularColor: {r: 0.38829324, g: 0.6918085, b: 0.97595924, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2159,8 +2159,6 @@ MonoBehaviour:
   _person: {fileID: 1221789872}
   _maxMasScale: 0.9
   _cirlceZOffset: -0.5
-  _minClamp: {x: -1.67, y: 0}
-  _maxClamp: {x: 1.67, y: 1.67}
 --- !u!58 &624686360
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4144,8 +4142,6 @@ MonoBehaviour:
   _person: {fileID: 1221789872}
   _maxMasScale: 0.9
   _cirlceZOffset: -0.5
-  _minClamp: {x: -1.67, y: 0}
-  _maxClamp: {x: 1.67, y: 1.67}
 --- !u!58 &900132398
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4573,6 +4569,7 @@ MonoBehaviour:
   _wallSpeed: 1
   _walls:
   - {fileID: 7606215860437166307, guid: 918a2850aa93642b4ad95952c6e21ad3, type: 3}
+  _color: {r: 0.8, g: 0.8, b: 0.8, a: 0}
 --- !u!4 &1052022927
 Transform:
   m_ObjectHideFlags: 0
@@ -5636,6 +5633,7 @@ GameObject:
   - component: {fileID: 1451730181}
   - component: {fileID: 1451730180}
   - component: {fileID: 1451730179}
+  - component: {fileID: 1451730183}
   m_Layer: 0
   m_Name: Floor
   m_TagString: Untagged
@@ -5720,6 +5718,19 @@ Transform:
   m_Father: {fileID: 519317051}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1451730183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451730178}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a4d0aaab181aa43b63ed006ca29666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 0.73333335, g: 0.8235295, b: 0.9215687, a: 1}
 --- !u!1 &1474385880
 GameObject:
   m_ObjectHideFlags: 0
@@ -6174,8 +6185,6 @@ MonoBehaviour:
   _person: {fileID: 1221789872}
   _maxMasScale: 0.9
   _cirlceZOffset: -0.5
-  _minClamp: {x: -1.67, y: 0}
-  _maxClamp: {x: 1.67, y: 1.67}
 --- !u!58 &1607735377
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -6984,8 +6993,6 @@ MonoBehaviour:
   _person: {fileID: 1221789872}
   _maxMasScale: 0.9
   _cirlceZOffset: -0.5
-  _minClamp: {x: -1.67, y: 0}
-  _maxClamp: {x: 1.67, y: 1.67}
 --- !u!58 &1737912822
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -7537,8 +7544,6 @@ MonoBehaviour:
   _person: {fileID: 1221789872}
   _maxMasScale: 0.9
   _cirlceZOffset: -0.5
-  _minClamp: {x: -1.67, y: 0}
-  _maxClamp: {x: 1.67, y: 1.67}
 --- !u!58 &2009706126
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -8598,6 +8603,7 @@ GameObject:
   - component: {fileID: 3469287838163301285}
   - component: {fileID: 1711813854438000495}
   - component: {fileID: 842260555}
+  - component: {fileID: 919132148516071099}
   m_Layer: 9
   m_Name: Platform
   m_TagString: Untagged
@@ -8605,6 +8611,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &919132148516071099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148516071098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a4d0aaab181aa43b63ed006ca29666, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _color: {r: 0.8018868, g: 0.7981043, b: 0.7981043, a: 0}
 --- !u!224 &1002442725160115974
 RectTransform:
   m_ObjectHideFlags: 0

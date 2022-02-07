@@ -10,6 +10,7 @@ public class WallSpawner : MonoBehaviour
 
     [SerializeField] private float _wallSpeed = 0;
     [SerializeField] private List<Wall> _walls;
+    [SerializeField] private Color _color;
 
     private Wall _currentWall;
 
@@ -52,7 +53,7 @@ public class WallSpawner : MonoBehaviour
     {
         var wall = _walls[_index];
         _currentWall = Instantiate(wall, wall.transform.position, Quaternion.identity);
-        _currentWall.Initialize(_wallSpeed);
+        _currentWall.Initialize(_wallSpeed, _color);
         _currentWall.LeftPlayerZone += OnLeftPlayerZoneZone;
         Spawned?.Invoke(_currentWall);
         _currentWall.Destroyed += Destroy;

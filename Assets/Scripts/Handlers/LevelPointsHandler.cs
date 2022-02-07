@@ -9,6 +9,8 @@ public class LevelPointsHandler : MonoBehaviour
     private ISaveLoadService _saveLoadService;
     private AdHandler _adHandler;
     private int _rewardedPoints;
+    private int _progressPoints;
+    
     public int LevelPoints { get; private set; }
 
     public void Initial(WallSpawner wallSpawner, LevelUI levelUI, LevelHandler levelHandler, Progress progress, ISaveLoadService saveLoadService, AdHandler adHandler)
@@ -24,7 +26,7 @@ public class LevelPointsHandler : MonoBehaviour
     public void Enable()
     {
         gameObject.SetActive(true);
-        LevelPoints = _progress.Points;
+        _progressPoints = _progress.Points;
         SetPoints();
     }
     
@@ -48,14 +50,15 @@ public class LevelPointsHandler : MonoBehaviour
         SetPoints();
     }
 
-    private void SetPoints()
-    {
-        _levelUI.SetPoints(LevelPoints + _rewardedPoints);
-    }
+    private void SetPoints() => 
+        _levelUI.SetPoints(LevelPoints + _rewardedPoints + _progressPoints);
 
-    private void OnLevelWon()
+    private void OnLevelWon() => 
+        UpdatePoints(LevelPoints);
+
+    private void UpdatePoints(int points)
     {
-        _progress.UpdatePoints(LevelPoints);
+        _progress.UpdatePoints(points);
         _saveLoadService.SaveProgress();
     }
 
@@ -68,7 +71,7 @@ public class LevelPointsHandler : MonoBehaviour
         if (!_levelHandler.IsLevelLost)
         {
             LevelPoints++;
-            _levelUI.SetPoints(LevelPoints);
+            SetPoints();
         }
     }
 }

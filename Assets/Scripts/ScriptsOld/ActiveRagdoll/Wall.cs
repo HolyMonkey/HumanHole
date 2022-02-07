@@ -10,34 +10,26 @@ public class Wall : MonoBehaviour
     private int _index;
     private bool _touchedPerson;
     private bool _allowed;
+    private MeshRenderer _meshRenderer;
 
     [SerializeField] private Sprite _contour;
-
     public Sprite Contour => _contour;
 
     public event Action TouchedPlayer;
     public event Action LeftPlayerZone;
     public event Action Destroyed;
 
-    private void Awake()
-    {
-        _colliders = GetComponentsInChildren<WallCollider>();
-    }
-
-    public void Initialize(float speed)
+    public void Initialize(float speed, Color color)
     {
         _speed = speed;
         AllowMovement();
+        _meshRenderer.sharedMaterial.color = color;
     }
 
-    public void AllowMovement()
+    private void Awake()
     {
-        _allowed = true;
-    }
-
-    public void StopMovement()
-    {
-        _allowed = false;
+        _colliders = GetComponentsInChildren<WallCollider>();
+        _meshRenderer = GetComponentInChildren<MeshRenderer>();
     }
 
     private void OnEnable()
@@ -50,6 +42,16 @@ public class Wall : MonoBehaviour
     {
         foreach (var item in _colliders)
             item.TouchedPerson -= OnTouchedPerson;
+    }
+
+    public void AllowMovement()
+    {
+        _allowed = true;
+    }
+
+    public void StopMovement()
+    {
+        _allowed = false;
     }
 
     private void Update()
