@@ -7,13 +7,19 @@ public class ProgressSlider : MonoBehaviour
     private Slider _slider;
     private float _startDistance;
     private bool _isAllowed;
+    private WallSpawner _wallSpawner;
+    private Transform _personTransform;
     
-    [SerializeField] private WallSpawner _wallSpawner;
-    [SerializeField] private Transform _personTransform;
-
-    private void Awake()
+    public void Initial(WallSpawner wallSpawner, Person person)
     {
         _slider = GetComponent<Slider>();
+        _personTransform = person.transform;
+        _wallSpawner = wallSpawner;
+    }
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
     }
 
     private void OnEnable()
@@ -30,20 +36,14 @@ public class ProgressSlider : MonoBehaviour
         _wallSpawner.LeftPlayerZone -= OnWallLeftPlayerZone;
     }
     
-    private void AllowCalculateDistance()
-    {
+    private void AllowCalculateDistance() => 
         _isAllowed = true;
-    }
 
-    private void ForbidCalculateDistance()
-    {
+    private void ForbidCalculateDistance() => 
         _isAllowed = false;
-    }
 
-    private void OnWallLeftPlayerZone(Wall obj)
-    {
+    private void OnWallLeftPlayerZone(Wall obj) => 
         ForbidCalculateDistance();
-    }
 
     private void OnWallSpawned(Wall wall)
     {
@@ -53,10 +53,8 @@ public class ProgressSlider : MonoBehaviour
         AllowCalculateDistance();
     }
 
-    private void OnWallDestroyed(Wall wall)
-    {
+    private void OnWallDestroyed(Wall wall) => 
         _currentWallTransform = null;
-    }
 
     private void Update()
     {
@@ -64,7 +62,6 @@ public class ProgressSlider : MonoBehaviour
         {
             CalculateDistance();
         }
-            
     }
 
     private bool CanChangeDistance() => 
@@ -77,10 +74,8 @@ public class ProgressSlider : MonoBehaviour
         SetSliderValue(value);
     }
 
-    private void SetSliderValue(float value)
-    {
+    private void SetSliderValue(float value) => 
         _slider.value = value;
-    }
 
     private float GetCurrentDistance() => 
         Vector3.Distance(_currentWallTransform.position, _personTransform.position);

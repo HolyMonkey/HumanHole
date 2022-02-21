@@ -3,23 +3,39 @@ using UnityEngine.Events;
 
 public class HandPointerHandler : MonoBehaviour
 {
+    private LevelHandler _levelHandler;
+    private MousePositionConverter _positionConverter;
+    private float _lastX;
+    private float _lastRight = 0;
+    private int _anger = 1;
+    private int _downAnger;
+    
     [SerializeField] private float _distance = 10;
     [SerializeField] private Animator _animator;
     [SerializeField] private Camera _camera;
     [SerializeField] private HandAnimatorEventListener _animationEvents;
     [SerializeField] private GameObject _hand;
-    [SerializeField] private LevelHandler _levelHandler;
-
-    private MousePositionConverter _positionConverter;
-
-    private float _lastX;
-    private float _lastRight = 0;
-    private int _anger = 1;
-    private int _downAnger;
 
     public event UnityAction<Vector2> MouseDown;
     public event UnityAction<Vector2> MouseUp;
+
     private bool IsPressing { get; set; } = false;
+
+    public void Initial(LevelHandler levelHandler, Camera camera)
+    {
+        _levelHandler = levelHandler;
+        _camera = camera;
+
+        if (_camera.orthographic)
+            _positionConverter = new OrthographicCameraMousePositionConverter(_camera);
+        else
+            _positionConverter = new PerspectiveCameraMousePositionConverter(_camera);
+    }
+
+    public void Enable()
+    {
+        gameObject.SetActive(true);
+    }
     
     private void OnEnable()
     {
@@ -35,16 +51,6 @@ public class HandPointerHandler : MonoBehaviour
         _levelHandler.LevelStarted -= LevelStarted;
         _levelHandler.LevelWon -= LevelFinished;
         _levelHandler.LevelLost -= LevelFinished;
-    }
-
-    public void Initial()
-    {
-        _camera = Camera.main;
-
-        if (_camera.orthographic)
-            _positionConverter = new OrthographicCameraMousePositionConverter(_camera);
-        else
-            _positionConverter = new PerspectiveCameraMousePositionConverter(_camera);
     }
 
     private void Update()
@@ -108,7 +114,7 @@ public class HandPointerHandler : MonoBehaviour
 
     public void ResetAngry() => _anger = 1;
 
-    public void AddAngry() => _anger = _anger == 3 ? 1 : _anger + 1;
+    private void AddAngry() => _anger = _anger == 3 ? 1 : _anger + 1;
 
     private void LevelStarted() => 
         _hand.SetActive(true);

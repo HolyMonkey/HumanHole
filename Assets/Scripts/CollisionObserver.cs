@@ -3,14 +3,17 @@ using UnityEngine;
 
 public class CollisionObserver : MonoBehaviour
 {
-    private Transform _currentWallTransform;
     private bool _touchedPerson;
-    
-    [SerializeField] private WallSpawner _wallSpawner;
-    [SerializeField] private Transform _personTransorm;
-    
+    private WallSpawner _wallSpawner;
+
     public event Action WallCollidedPlayer;
-    
+
+    public void Initial(WallSpawner wallSpawner) => 
+        _wallSpawner = wallSpawner;
+
+    public void Enable() => 
+        gameObject.SetActive(true);
+
     private void OnEnable()
     {
         _wallSpawner.Spawned += WallSpawned;
@@ -26,14 +29,11 @@ public class CollisionObserver : MonoBehaviour
     private void WallSpawned(Wall wall)
     {
         _touchedPerson = false;
-        _currentWallTransform = wall.transform;
         wall.TouchedPlayer += OnWallHitPlayer;
     }
 
-    private void WallDestroyed(Wall wall)
-    {
+    private void WallDestroyed(Wall wall) => 
         wall.TouchedPlayer -= OnWallHitPlayer;
-    }
 
     private void OnWallHitPlayer()
     {

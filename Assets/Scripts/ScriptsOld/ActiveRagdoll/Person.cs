@@ -1,36 +1,37 @@
+using System;
 using UnityEngine;
 
 public class Person : MonoBehaviour
 {
+    private CollisionObserver _collisionObserver;
+    private BodyPart[] _parts;
+    private float _balance = 0;
+    private bool _isStabilizating = true;
+
     [SerializeField] private Foot[] _feet;
     [SerializeField] private Hand[] _hands;
     [SerializeField] private float _feetWidth = 0.3f;
     [SerializeField] private ConfigurableJoint _spine;
     [SerializeField] private bool _hidden = true;
-    [SerializeField] private CollisionObserver _collisionObserver;
     
-    private BodyPart[] _parts;
-    private float _balance = 0;
-    private bool _isStabilizating = true;
-
     public float Weight { get; private set; }
     public float Balance => _balance;
     public Head Head { get; private set; }
-
-    private void Awake()
+    
+    public void Initial(CollisionObserver collisionObserver)
     {
         _parts = GetComponentsInChildren<BodyPart>();
+        _collisionObserver = collisionObserver;
     }
 
-    private void OnEnable()
-    {
+    public void Enable() => 
+        enabled = true;
+
+    private void OnEnable() => 
         _collisionObserver.WallCollidedPlayer += OnWallCollidedPlayer;
-    }
 
-    private void OnDisable()
-    {
+    private void OnDisable() => 
         _collisionObserver.WallCollidedPlayer -= OnWallCollidedPlayer;
-    }
 
     private void Start()
     {
@@ -52,15 +53,8 @@ public class Person : MonoBehaviour
         }
     }
 
-    private void GameStarted()
-    {
-        
-    }
-
-    private void OnWallCollidedPlayer()
-    {
+    private void OnWallCollidedPlayer() => 
         SetStabilization(false);
-    }
 
     private void Update()
     {
@@ -70,10 +64,8 @@ public class Person : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
+    private void FixedUpdate() => 
         CalcCenterOfMass();
-    }
 
     private void CalcCenterOfMass()
     {
@@ -116,7 +108,7 @@ public class Person : MonoBehaviour
         _balance = balance;
     }
 
-    public void SetStabilization(bool active)
+    private void SetStabilization(bool active)
     {
         _isStabilizating = active;
 

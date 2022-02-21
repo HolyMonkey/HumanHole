@@ -5,11 +5,15 @@ using UnityEngine.EventSystems;
 public class WonLevelPanel : MonoBehaviour, ILevelPanel
 {
     private bool _clicked;
-
-    [SerializeField] private TapHandHandler _tapHandHandler;
+    private TapHandHandler _tapHandHandler;
     
     public event Action Clicked;
 
+    public void Initial(TapHandHandler tapHandHandler)
+    {
+        _tapHandHandler = tapHandHandler;
+    }
+    
     public void Enable()
     {
         gameObject.SetActive(true);

@@ -5,10 +5,12 @@ using UnityEngine.EventSystems;
 public class LostLevelPanel : MonoBehaviour, ILevelPanel
 {
     private bool _clicked;
-
-    [SerializeField] private TapHandHandler _tapHandHandler;
+    private TapHandHandler _tapHandHandler;
     
     public event Action Clicked;
+
+    public void Initialize(TapHandHandler tapHandHandler) => 
+        _tapHandHandler = tapHandHandler;
 
     public void Enable()
     {

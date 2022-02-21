@@ -10,7 +10,6 @@ public class LevelBootstrapper : MonoBehaviour
     [SerializeField] private GestureHandler _gestureHandler;
     [SerializeField] private ContoursHandler _contoursHandler;
     [SerializeField] private LevelUI _levelUI;
-    [SerializeField] private LevelPanelsStateMachine _levelPanelsStateMachine;
     [SerializeField] private AdHandler _adHandler;
     [SerializeField] private AuthorizationHandler _authorizationHandler;
     [SerializeField] private LeaderBoardHandler _leaderBoardHandler;
@@ -21,6 +20,9 @@ public class LevelBootstrapper : MonoBehaviour
     [SerializeField] private LevelPauseHandler _levelPauseHandler;
     [SerializeField] private ProfileDataHandler _profileDataHandler;
     [SerializeField] private AnalyticsHandler _analyticsHandler;
+    [SerializeField] private TapHandHandler _tapHandHandler;
+    [SerializeField] private Person _person;
+    [SerializeField] private LookAtPerson _lookAtPerson;
 
     public void Awake()
     {
@@ -40,24 +42,31 @@ public class LevelBootstrapper : MonoBehaviour
         IProfileDataService profileDataService = allServices.Single<IProfileDataService>();
         IAnalyticsService analyticsService = allServices.Single<IAnalyticsService>();
         ILeaderBoardService leaderBoardService = allServices.Single<ILeaderBoardService>();
+        PlayerProfileDataPanel profileDataPanel = _levelUI.PlayerProfileDataPanel;
+        SettingsPanel settingsPanel = _levelUI.SettingsPanel;
+        LeaderBoardPanel leaderBoardPanel = _levelUI.LeaderBoardPanel;
+        LevelPanelsStateMachine levelPanelsStateMachine = _levelUI.LevelPanelsStateMachine;
         
-        _levelPanelsStateMachine.Initial();
-        _levelHandler.Initial(gameStateMachine, progress, saveLoadService, _wallSpawner, _collisionObserver, _levelPanelsStateMachine, _waterCollider);
-        _levelUI.Initial(_levelHandler, progress);
+        _levelHandler.Initial(gameStateMachine, progress, saveLoadService, _wallSpawner, _collisionObserver, levelPanelsStateMachine, _waterCollider);
+        _levelUI.Initial(_levelHandler, progress, _tapHandHandler, _person, _wallSpawner);
         _contoursHandler.Initial(_wallSpawner, _levelHandler);
         _adHandler.Initial(_levelHandler, _levelUI, adsService, rewardService);
         _gestureHandler.Initial(_levelHandler, _levelPauseHandler);
         _authorizationHandler.Initial(authorizationService);
         _levelPointsHandler.Initial(_wallSpawner, _levelUI, _levelHandler, progress, saveLoadService, _adHandler);
         _leaderBoardHandler.Initial(_levelHandler, _levelPointsHandler, leaderBoardService);
-        _levelPauseHandler.Initial(_adHandler);
+        _levelPauseHandler.Initial(_adHandler, settingsPanel, profileDataPanel, leaderBoardPanel);
         _wallSpawner.Initial(_levelPauseHandler, _levelHandler);
-        _profileDataHandler.Initial(profileDataService);
+        _profileDataHandler.Initial(profileDataService, profileDataPanel);
         _analyticsHandler.Initial(_levelHandler, _adHandler, analyticsService, progress);
+        _collisionObserver.Initial(_wallSpawner);
+        _lookAtPerson.Initial(_levelHandler, _person);
+        _person.Initial(_collisionObserver);
     }
 
     private void OnEnable()
     {
+        _person.Enable();
         _analyticsHandler.Enable();
         _adHandler.Enable();
         _contoursHandler.Enable();
@@ -69,5 +78,7 @@ public class LevelBootstrapper : MonoBehaviour
         _leaderBoardHandler.Enable();
         _gestureHandler.Enable();
         _profileDataHandler.Enable();
+        _lookAtPerson.Enable();
+        _collisionObserver.Enable();
     }
 }

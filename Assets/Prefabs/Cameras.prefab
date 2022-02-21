@@ -69,7 +69,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5777481714343979882
 Transform:
   m_ObjectHideFlags: 0
@@ -147,8 +147,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6168936972ed4fce932c2900666f252, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelHandler: {fileID: 0}
-  _person: {fileID: 0}
 --- !u!114 &5777481714343979880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,7 +332,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 2048
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 8400000, guid: 437f0188a80e1884fba0b71a83af5018, type: 2}
+  m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -356,7 +354,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59d74f5cf4840b1458c716034e88aa9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _texture2D: {fileID: 0}
-  _renderTexture: {fileID: 8400000, guid: 437f0188a80e1884fba0b71a83af5018, type: 2}
   _camera: {fileID: 5777481715414560467}
   _material: {fileID: 2100000, guid: 0c7625ded047bfc489a261bcb212a7ff, type: 2}

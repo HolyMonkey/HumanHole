@@ -4,31 +4,26 @@ using UnityEngine;
 public class LevelPauseHandler : MonoBehaviour
 {
     private AdHandler _adHandler;
-    
-    [SerializeField] private SettingsPanel _settingsPanel;
-    [SerializeField] private PlayerProfileDataPanel _playerProfileDataPanel;
-    [SerializeField] private LeaderBoardPanel _leaderBoardPanel;
+    private bool _isPaused;
+    private SettingsPanel _settingsPanel;
+    private PlayerProfileDataPanel _playerProfileDataPanel;
+    private LeaderBoardPanel _leaderBoardPanel;
 
-    public bool IsPaused { get; private set; }
-    
     public event Action Pause;
     public event Action UnPause;
-    
-    public void Initial(AdHandler adHandler)
+
+    public void Initial(AdHandler adHandler, SettingsPanel settingsPanel, PlayerProfileDataPanel playerProfileDataPanel,
+        LeaderBoardPanel leaderBoardPanel)
     {
         _adHandler = adHandler;
+        _settingsPanel = settingsPanel;
+        _playerProfileDataPanel = playerProfileDataPanel;
+        _leaderBoardPanel = leaderBoardPanel;
     }
 
-    public void Enable()
-    {
+    public void Enable() =>
         gameObject.SetActive(true);
-    }
 
-    public void Disable()
-    {
-        gameObject.SetActive(false);
-    }
-    
     private void OnEnable()
     {
         _settingsPanel.Opened += OnSettingsPanelOpened;
@@ -53,55 +48,39 @@ public class LevelPauseHandler : MonoBehaviour
         _leaderBoardPanel.Closed -= OnLeaderboardPanelClosed;
     }
 
-    private void OnLeaderboardPanelOpened()
-    {
+    private void OnLeaderboardPanelOpened() =>
         OnPause();
-    }
 
-    private void OnLeaderboardPanelClosed()
-    {
+    private void OnLeaderboardPanelClosed() =>
         OnUnpause();
-    }
 
-    private void OnPlayerProfileDataPanelClosed()
-    {
+    private void OnPlayerProfileDataPanelClosed() =>
         OnUnpause();
-    }
 
-    private void OnPlayerProfileDataPanelOpened()
-    {
+    private void OnPlayerProfileDataPanelOpened() =>
         OnPause();
-    }
 
-    private void OnSettingsPanelClosed()
-    {
+    private void OnSettingsPanelClosed() =>
         OnUnpause();
-    }
 
     private void OnUnpause()
     {
-        IsPaused = false;
+        _isPaused = false;
         UnPause?.Invoke();
     }
 
-    private void OnSettingsPanelOpened()
-    {
+    private void OnSettingsPanelOpened() =>
         OnPause();
-    }
 
     private void OnPause()
     {
-        IsPaused = true;
+        _isPaused = true;
         Pause?.Invoke();
     }
 
-    private void OnRewardedAdOpened()
-    {
+    private void OnRewardedAdOpened() =>
         OnPause();
-    }
 
-    private void OnRewardedAdClosed()
-    {
+    private void OnRewardedAdClosed() =>
         OnUnpause();
-    }
 }

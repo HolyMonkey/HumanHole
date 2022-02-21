@@ -1,19 +1,25 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BalanceSlider : MonoBehaviour
 {
     private bool _isAllowed;
-
-    [SerializeField] private Person _person;
-    [SerializeField] private Slider _slider;
+    private Person _person;
+    private Slider _slider;
+    
     [SerializeField] private Image _handle;
     [SerializeField] private Color _dangerColor;
     [SerializeField] private Color _warningColor;
     [SerializeField] private Color _okColor;
+
+    public void Initial(Person person)
+    {
+        _slider = GetComponent<Slider>();
+        _person = person;
+    }
+
+    public void Enable() => 
+        gameObject.SetActive(true);
 
     private void Update()
     {

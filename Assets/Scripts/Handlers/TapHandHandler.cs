@@ -9,8 +9,7 @@ public class TapHandHandler : MonoBehaviour
     
     [SerializeField] private Animator _handAnimator;
     [SerializeField] private GameObject _hand;
-    [SerializeField] private Transform _person;
-    
+
     public void Enable()
     {
         _hand.SetActive(true);
@@ -23,13 +22,9 @@ public class TapHandHandler : MonoBehaviour
         StopHandAnimation();
     }
 
-    private void PlayHandAnimation()
-    {
+    private void PlayHandAnimation() => 
         _handAnimator.SetBool(_tapAnimationHash, true);
-    }
-    
-    private void StopHandAnimation()
-    {
+
+    private void StopHandAnimation() => 
         _handAnimator.SetBool(_tapAnimationHash, false);
-    }
 }
