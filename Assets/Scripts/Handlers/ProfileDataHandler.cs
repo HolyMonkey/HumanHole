@@ -1,6 +1,6 @@
+using Agava.YandexGames;
 using CodeBase.Infrastructure.Services.Profile;
 using UnityEngine;
-using YandexGames;
 
 public class ProfileDataHandler : MonoBehaviour
 {

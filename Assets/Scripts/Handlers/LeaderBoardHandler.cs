@@ -1,6 +1,6 @@
+using Agava.YandexGames;
 using CodeBase.Infrastructure.Services.LeaderBoard;
 using UnityEngine;
-using YandexGames;
 
 public class LeaderBoardHandler : MonoBehaviour
 {
@@ -36,6 +36,7 @@ public class LeaderBoardHandler : MonoBehaviour
         _leaderBoardService.GetPlayerEntrySuccess += OnGetPlayerEntrySuccess;
         _leaderBoardService.GetLeaderBoardPlayer();
     }
+    
 
     private void OnGetPlayerEntrySuccess(LeaderboardEntryResponse result)
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
+using Agava.YandexGames;
 using CodeBase.Infrastructure.Services.LeaderBoard;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YandexGames;
 
 public class LeaderBoardPanel : MonoBehaviour
 {

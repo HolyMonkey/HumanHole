@@ -1,5 +1,4 @@
 using System;
-using YandexGames;
 
 public interface IAuthorizationService: IService
 {

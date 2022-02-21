@@ -1,6 +1,6 @@
 ﻿using System;
+using Agava.YandexGames;
 using UnityEngine;
-using YandexGames;
 
 namespace CodeBase.Infrastructure.Services.Ads
 {
@@ -21,10 +21,8 @@ namespace CodeBase.Infrastructure.Services.Ads
 #endif
         }
 
-        protected override void OnOpened()
-        {
+        protected override void OnOpened() => 
             Opened?.Invoke();
-        }
 
         protected override void OnDidError(string message)
         {
@@ -32,24 +30,16 @@ namespace CodeBase.Infrastructure.Services.Ads
             DidError?.Invoke();
         }
 
-        protected override void OnClosed(bool isClosed)
-        {
+        protected override void OnClosed(bool isClosed) => 
             IsClosed = isClosed;
-        }
 
-        protected override void OnOffline()
-        {
+        protected override void OnOffline() => 
             Offline?.Invoke();
-        }
 
-        protected override void OnClosed()
-        {
+        protected override void OnClosed() => 
             Closed?.Invoke();
-        }
 
-        protected override void OnShowed()
-        {
+        protected override void OnShowed() => 
             Showed?.Invoke();
-        }
     }
 }

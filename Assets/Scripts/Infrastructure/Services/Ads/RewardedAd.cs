@@ -1,7 +1,6 @@
 using System;
+using Agava.YandexGames;
 using CodeBase.Infrastructure.Services.Ads;
-using UnityEngine;
-using YandexGames;
 
 public class RewardedAd: IAd
 {
@@ -21,28 +20,18 @@ public class RewardedAd: IAd
 #endif
     }
 
-    protected override void OnClosed()
-    {
+    protected override void OnClosed() => 
         Closed?.Invoke();
-    }
 
-    protected override void OnOpened()
-    {
+    protected override void OnOpened() => 
         Opened?.Invoke();
-    }
 
-    protected override void OnDidError(string message)
-    {
+    protected override void OnDidError(string message) => 
         DidError?.Invoke();
-    }
 
-    protected override void OnOffline()
-    {
+    protected override void OnOffline() => 
         Offline?.Invoke();
-    }
 
-    protected override void OnShowed()
-    {
+    protected override void OnShowed() => 
         Showed?.Invoke();
-    }
 }

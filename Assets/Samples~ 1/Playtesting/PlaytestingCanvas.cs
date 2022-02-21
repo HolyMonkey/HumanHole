@@ -1,10 +1,10 @@
 #pragma warning disable
 
 using System.Collections;
+using Agava.YandexGames;
+using Agava.YandexGames.Utility;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using YandexGames.Utility;
 
 namespace YandexGames.Samples
 {

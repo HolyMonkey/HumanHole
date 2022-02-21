@@ -1,5 +1,5 @@
 ﻿using System;
-using YandexGames;
+using Agava.YandexGames;
 
 namespace CodeBase.Infrastructure.Services.LeaderBoard
 {

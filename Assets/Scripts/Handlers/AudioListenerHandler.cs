@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
+using Agava.YandexGames.Utility;
 using UnityEngine;
-using YandexGames.Utility;
 
 public class AudioListenerHandler : MonoBehaviour
 {
-    private void Update()
-    {
+    private void Update() => 
         AudioListener.pause = WebApplication.InBackground;
-    }
 }

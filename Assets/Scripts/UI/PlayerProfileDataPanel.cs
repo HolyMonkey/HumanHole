@@ -1,9 +1,9 @@
 using System;
+using Agava.YandexGames;
 using CodeBase.Infrastructure.Services.Profile;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using YandexGames;
 
 public class PlayerProfileDataPanel : MonoBehaviour
 {
