@@ -935,17 +935,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8408232974831382110, guid: 21b139b6fad5b4228acf75f6f879eab5, type: 3}
   m_PrefabInstance: {fileID: 340477731}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &340477733 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1983917562, guid: 21b139b6fad5b4228acf75f6f879eab5, type: 3}
-  m_PrefabInstance: {fileID: 340477731}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0af1fe285b0fe4bb9aa8ad73078ae7d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &391970232
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,6 +1620,80 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1428030973}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &581306638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 581306640}
+  - component: {fileID: 581306639}
+  m_Layer: 0
+  m_Name: Water (1)ReflectionSceneCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!20 &581306639
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581306638}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
+  m_projectionMatrixMode: 0
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967279
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!4 &581306640
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 581306638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 944.27905, y: -414.04214, z: -1551.285}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &590460956
 GameObject:
@@ -3943,7 +4006,6 @@ MonoBehaviour:
   _gestureHandler: {fileID: 1390550662}
   _contoursHandler: {fileID: 1681199421}
   _levelUI: {fileID: 2035981696792106380}
-  _levelPanelsStateMachine: {fileID: 2035981696792106387}
   _adHandler: {fileID: 609781090}
   _authorizationHandler: {fileID: 768172232}
   _leaderBoardHandler: {fileID: 1474385882}
@@ -3957,8 +4019,6 @@ MonoBehaviour:
   _tapHandHandler: {fileID: 3107868695156697616}
   _person: {fileID: 1221789872}
   _lookAtPerson: {fileID: 5777481715249490892}
-  _handPointerHandler: {fileID: 340477733}
-  _mainCamera: {fileID: 1242235040}
 --- !u!4 &1140056316
 Transform:
   m_ObjectHideFlags: 0
@@ -7436,17 +7496,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32eee3cea10322c4cbd1dfc84785c654, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2035981696792106387 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7686706233633053410, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
-  m_PrefabInstance: {fileID: 8569760783155007345}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 407ad4780da4c5f49be36ff959aca88d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2210759711298756407
 GameObject:
   m_ObjectHideFlags: 0
@@ -8110,6 +8159,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5777481714343979861, guid: 396cad852fc5f074181e7c31b088f954, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5777481715097765760, guid: 396cad852fc5f074181e7c31b088f954, type: 3}
       propertyPath: m_Name
       value: Cameras
@@ -8157,6 +8210,10 @@ PrefabInstance:
     - target: {fileID: 5777481715097765767, guid: 396cad852fc5f074181e7c31b088f954, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5777481715414560476, guid: 396cad852fc5f074181e7c31b088f954, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 396cad852fc5f074181e7c31b088f954, type: 3}
@@ -9157,26 +9214,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2018353264}
     m_Modifications:
-    - target: {fileID: 7686706232186927674, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
-      propertyPath: _tapHandHandler
-      value: 
-      objectReference: {fileID: 3107868695156697616}
-    - target: {fileID: 7686706233594760410, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7686706233594760410, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7686706233594760410, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7686706233594760410, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8569760783225151675, guid: b318ebbb45f5f6d4aaab40f59633f517, type: 3}
       propertyPath: m_Name
       value: Canvas

@@ -4,7 +4,6 @@ using UnityEngine;
 public class Wall : MonoBehaviour
 {
     private float _speed = 2;
-
     private WallCollider[] _colliders;
     private Person _person;
     private int _index;
@@ -13,8 +12,9 @@ public class Wall : MonoBehaviour
     private MeshRenderer _meshRenderer;
 
     [SerializeField] private Sprite _contour;
+    [SerializeField] private GameObject _middleCollider;
+    
     public Sprite Contour => _contour;
-
     public event Action TouchedPlayer;
     public event Action LeftPlayerZone;
     public event Action Destroyed;
@@ -64,6 +64,7 @@ public class Wall : MonoBehaviour
     {
         if (!_touchedPerson)
         {
+            _middleCollider.SetActive(true);
             _touchedPerson = true;
             TouchedPlayer?.Invoke();
         }

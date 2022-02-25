@@ -48,7 +48,7 @@ public class LevelBootstrapper : MonoBehaviour
         LevelPanelsStateMachine levelPanelsStateMachine = _levelUI.LevelPanelsStateMachine;
         
         _levelHandler.Initial(gameStateMachine, progress, saveLoadService, _wallSpawner, _collisionObserver, levelPanelsStateMachine, _waterCollider);
-        _levelUI.Initial(_levelHandler, progress, _tapHandHandler, _person, _wallSpawner);
+        _levelUI.Initial(_levelHandler, progress, _tapHandHandler, _person, _wallSpawner, saveLoadService, gameStateMachine);
         _contoursHandler.Initial(_wallSpawner, _levelHandler);
         _adHandler.Initial(_levelHandler, _levelUI, adsService, rewardService);
         _gestureHandler.Initial(_levelHandler, _levelPauseHandler);

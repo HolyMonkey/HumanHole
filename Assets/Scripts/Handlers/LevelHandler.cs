@@ -97,7 +97,7 @@ public class LevelHandler : MonoBehaviour
     private void OnWonLevelPanelClicked()
     {
         _levelPanelsStateMachine.CurrentPanel.Clicked -= OnWonLevelPanelClicked;
-        _gameStateMachine.Enter<LoadLevelState, string, bool>(_gameProgress.LevelName(), false);
+        _gameStateMachine.Enter<LoadLevelState, string, bool>(_gameProgress.LevelName(), true);
     }
 
 
@@ -120,7 +120,7 @@ public class LevelHandler : MonoBehaviour
 
     private void OnLevelWon()
     {
-        _gameProgress.UpdateLevel();
+        _gameProgress.TryUpdateLevel();
         _saveLoadService.SaveProgress();
         LevelWon?.Invoke();
     }

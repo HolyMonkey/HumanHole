@@ -1,4 +1,5 @@
 using System;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public class Progress
@@ -13,9 +14,17 @@ public class Progress
         LevelNumber = 1;
     }
 
-    public void UpdateLevel()
+    public void TryUpdateLevel()
     {
-        LevelNumber++;
+        if (CanUpdateLevel())
+        {
+            LevelNumber++;
+        }
+    }
+
+    public void SetLevelNumber(int levelNumber)
+    {
+        LevelNumber = levelNumber;
     }
 
     public void UpdatePoints(int points)
@@ -26,5 +35,17 @@ public class Progress
     public string LevelName()
     {
         return $"Level {LevelNumber}";
+    }
+
+    private bool CanUpdateLevel()
+    {
+        var levelsCount = SceneManager.sceneCount - 1;
+        var nextLevelNumber = LevelNumber + 1;
+        if (levelsCount > nextLevelNumber)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

@@ -13,6 +13,7 @@ public class WallSpawner : MonoBehaviour
     [SerializeField] private Color _color;
 
     private Wall _currentWall;
+    private bool _spawnAllowed;
 
     public event Action<Wall> LeftPlayerZone;
     public event Action<Wall> Spawned;
@@ -46,9 +47,20 @@ public class WallSpawner : MonoBehaviour
 
     public void StartSpawn()
     {
+        AllowSpawn();
         Spawn();
     }
 
+    private void AllowSpawn()
+    {
+        _spawnAllowed = true;
+    }
+
+    private void ForbidSpawn()
+    {
+        _spawnAllowed = false;
+    }
+    
     private void Spawn()
     {
         var wall = _walls[_index];
@@ -69,7 +81,7 @@ public class WallSpawner : MonoBehaviour
     
     private void OnLevelLost()
     {
-        _currentWall?.StopMovement();
+        ForbidSpawn();
     }
 
     private void Destroy()
@@ -82,7 +94,7 @@ public class WallSpawner : MonoBehaviour
     }
 
     private bool CanSpawn() => 
-        _index < _walls.Count;
+        _spawnAllowed && _index < _walls.Count;
 
     private void LevelPause()
     {

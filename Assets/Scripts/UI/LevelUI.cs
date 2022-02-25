@@ -24,6 +24,7 @@ public class LevelUI : MonoBehaviour
     [SerializeField] private WonLevelPanel _wonLevelPanel;
     [SerializeField] private StartLevelPanel _startLevelPanel;
     [SerializeField] private LostLevelPanel _lostLevelPanel;
+    [SerializeField] private LevelsDropdown _levelsDropdown;
 
     public PlayerProfileDataPanel PlayerProfileDataPanel => _playerProfileDataPanel;
     public SettingsPanel SettingsPanel => _settingsPanel;
@@ -32,11 +33,12 @@ public class LevelUI : MonoBehaviour
     
     public event Action ShowRewardAdButtonClick;
 
-    public void Initial(LevelHandler levelHandler, Progress progress, TapHandHandler tapHandHandler, Person person, WallSpawner wallSpawner)
+    public void Initial(LevelHandler levelHandler, Progress progress, TapHandHandler tapHandHandler, Person person, WallSpawner wallSpawner, ISaveLoadService saveLoadService, GameStateMachine gameStateMachine)
     {
         _levelHandler = levelHandler;
         InitialPanels(tapHandHandler);
         InitialSliders(wallSpawner, person);
+        _levelsDropdown.Initial(progress,saveLoadService, gameStateMachine);
 
         SetLevelName(progress.LevelNumber);
         SetPoints(progress.Points);

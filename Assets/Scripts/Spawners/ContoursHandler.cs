@@ -9,7 +9,7 @@ public class ContoursHandler : MonoBehaviour
 
     private WallSpawner _wallSpawner;
     private LevelHandler _levelHandler;
-    
+
     public void Initial(WallSpawner wallSpawner, LevelHandler levelHandler)
     {
         _wallSpawner = wallSpawner;
@@ -35,10 +35,10 @@ public class ContoursHandler : MonoBehaviour
         _wallSpawner.Destroyed -= OnWallDestroyed;
         _levelHandler.LevelLost -= OnLevelLost;
     }
-    
+
     private void OnLevelLost()
     {
-        Hide();
+        TryToHide();
     }
 
     private void OnWallSpawned(Wall wall)
@@ -48,7 +48,7 @@ public class ContoursHandler : MonoBehaviour
 
     private void OnWallDestroyed(Wall wall)
     {
-        Hide();
+        TryToHide();
     }
 
     private void Show(Wall wall)
@@ -56,8 +56,9 @@ public class ContoursHandler : MonoBehaviour
         _spriteRenderer.sprite = wall.Contour;
     }
 
-    private void Hide()
+    private void TryToHide()
     {
-        _spriteRenderer.sprite = null;
+        if (_spriteRenderer.sprite != null)
+            _spriteRenderer.sprite = null;
     }
 }
