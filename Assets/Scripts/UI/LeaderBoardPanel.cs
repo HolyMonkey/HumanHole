@@ -17,6 +17,7 @@ public class LeaderBoardPanel : MonoBehaviour
     [SerializeField] private LeaderBoardUserTemplate _leaderBoardUserTemplate;
     [SerializeField] private Transform _content;
     [SerializeField] private Button _closeButton;
+    [SerializeField] private Button _continueButton;
 
     public event Action Opened;
     public event Action Closed;
@@ -27,8 +28,27 @@ public class LeaderBoardPanel : MonoBehaviour
         _downloadService = Game.Instance.AllServices.Single<IDownloadService>();
     }
 
+    public void Enable()
+    {
+        gameObject.SetActive(true);
+       
+        Opened?.Invoke();
+    }
+
+    public void Disable()
+    {
+        if (gameObject.activeSelf)
+        {
+            gameObject.SetActive(false);
+            Closed?.Invoke();
+        }
+    }
+
     private void OnEnable()
     {
+        _closeButton.onClick.AddListener(Disable);
+        _continueButton.onClick.AddListener(Disable);
+        
         _leaderBoardService.GetPlayerEntryError += OnGetPlayerEntryError;
         _leaderBoardService.GetPlayerEntrySuccess += OnGetPlayerEntrySuccess;
         _leaderBoardService.GetLeaderBoardPlayer();
@@ -41,8 +61,10 @@ public class LeaderBoardPanel : MonoBehaviour
     {
         _leaderBoardService.GetPlayerEntryError -= OnGetPlayerEntryError;
         _leaderBoardService.GetPlayerEntrySuccess -= OnGetPlayerEntrySuccess;
+        _closeButton.onClick.RemoveListener(Disable);
+        _continueButton.onClick.RemoveListener(Disable);
     }
-    
+
     private void OnGetLeaderboardEntriesError(string errorMessage)
     {
         Debug.LogError(errorMessage);
@@ -103,23 +125,6 @@ public class LeaderBoardPanel : MonoBehaviour
     private void OnGetPlayerEntryError(string errorMessage)
     {
         Debug.Log(errorMessage);
-    }
-
-    public void Enable()
-    {
-        gameObject.SetActive(true);
-        _closeButton.onClick.AddListener(Disable);
-        Opened?.Invoke();
-    }
-
-    public void Disable()
-    {
-        if (gameObject.activeSelf)
-        {
-            _closeButton.onClick.RemoveListener(Disable);
-            gameObject.SetActive(false);
-            Closed?.Invoke();
-        }
     }
 
     private Sprite CreateSprite(Texture2D texture, float width, float height)
