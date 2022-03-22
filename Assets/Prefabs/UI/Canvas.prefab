@@ -2555,6 +2555,7 @@ MonoBehaviour:
   _leaderBoardUserTemplate: {fileID: 8655002060011393977, guid: 304cbe73e01e0a14784053bbf41aed70, type: 3}
   _content: {fileID: 4493463328192334695}
   _closeButton: {fileID: 2859085279850176303}
+  _continueButton: {fileID: 9070333502008795041}
 --- !u!1 &3699406771791965595
 GameObject:
   m_ObjectHideFlags: 0
