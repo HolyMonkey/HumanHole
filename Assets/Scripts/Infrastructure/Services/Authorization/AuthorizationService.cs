@@ -23,10 +23,6 @@ public class AuthorizationService : IAuthorizationService
 #if !UNITY_WEBGL || UNITY_EDITOR
         yield break;
 #endif
-
-        // Always wait for it if invoking something immediately in the first scene.
-        yield return YandexGamesSdk.WaitForInitialization();
-
         while (true)
         {
             if (PlayerAccount.IsAuthorized)

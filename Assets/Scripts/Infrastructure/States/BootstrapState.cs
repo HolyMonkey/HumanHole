@@ -1,4 +1,6 @@
-﻿using CodeBase.Infrastructure;
+﻿using System.Collections;
+using Agava.YandexGames;
+using CodeBase.Infrastructure;
 using CodeBase.Infrastructure.Services.Ads;
 using CodeBase.Infrastructure.Services.LeaderBoard;
 using CodeBase.Infrastructure.Services.Profile;
@@ -22,6 +24,16 @@ public class BootstrapState : IState
 
     public void Enter()
     {
+        _coroutineRunner.StartCoroutine(InitializeYandexSdk());
+    }
+
+    private IEnumerator InitializeYandexSdk()
+    {
+#if !UNITY_WEBGL || UNITY_EDITOR
+        _stateMachine.Enter<LoadProgressState>();
+        yield break;
+#endif
+        yield return YandexGamesSdk.WaitForInitialization();
         _stateMachine.Enter<LoadProgressState>();
     }
 
@@ -43,5 +55,6 @@ public class BootstrapState : IState
             _services.Single<ISaveLoadService>()));
         _services.RegisterSingle<IRenderTextureService>(new RenderTextureService());
         _services.RegisterSingle<IAnalyticsService>(new AnalyticsService());
+        _services.RegisterSingle<IDownloadService>(new DownloadService());
     }
 }
