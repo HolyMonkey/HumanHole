@@ -31,7 +31,6 @@ public class LeaderBoardPanel : MonoBehaviour
     public void Enable()
     {
         gameObject.SetActive(true);
-       
         Opened?.Invoke();
     }
 
@@ -61,6 +60,10 @@ public class LeaderBoardPanel : MonoBehaviour
     {
         _leaderBoardService.GetPlayerEntryError -= OnGetPlayerEntryError;
         _leaderBoardService.GetPlayerEntrySuccess -= OnGetPlayerEntrySuccess;
+        
+        _leaderBoardService.GetLeaderboardEntriesSuccess -= OnGetLeaderboardEntriesSuccess;
+        _leaderBoardService.GetLeaderboardEntriesError -= OnGetLeaderboardEntriesError;
+        
         _closeButton.onClick.RemoveListener(Disable);
         _continueButton.onClick.RemoveListener(Disable);
     }
@@ -93,6 +96,7 @@ public class LeaderBoardPanel : MonoBehaviour
             {
                 Texture2D texture2D = await _downloadService.DownloadPreview(avatarUrl);
                 avatarSprite = CreateSprite(texture2D, _avatarSize.x, _avatarSize.y);
+                Debug.Log("Have avatar");
             }
 
             template.Initial(name, entry.formattedScore, entry.rank, avatarSprite, ownPlayer);
@@ -124,7 +128,7 @@ public class LeaderBoardPanel : MonoBehaviour
 
     private void OnGetPlayerEntryError(string errorMessage)
     {
-        Debug.Log(errorMessage);
+        Debug.LogError(errorMessage);
     }
 
     private Sprite CreateSprite(Texture2D texture, float width, float height)

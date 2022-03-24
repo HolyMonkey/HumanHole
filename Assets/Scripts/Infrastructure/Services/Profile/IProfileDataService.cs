@@ -13,5 +13,6 @@ namespace CodeBase.Infrastructure.Services.Profile
         PlayerAccountProfileDataResponse PlayerAccountProfileDataResponse { get; set; }
         void GetProfileData();
         void RequestPersonalProfileDataPermission();
+        void Initialize();
     }
 }

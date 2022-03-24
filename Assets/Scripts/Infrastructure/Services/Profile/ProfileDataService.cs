@@ -18,6 +18,13 @@ namespace CodeBase.Infrastructure.Services.Profile
         public ProfileDataService(IAuthorizationService authorizationService)
         {
             _authorizationService = authorizationService;
+        }
+
+        public void Initialize()
+        {
+#if !UNITY_WEBGL || UNITY_EDITOR
+           return;
+#endif
             if (_authorizationService.IsAuthorized)
             {
                 RequestPersonalProfileDataPermission();

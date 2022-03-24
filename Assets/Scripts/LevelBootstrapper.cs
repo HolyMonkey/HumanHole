@@ -11,7 +11,6 @@ public class LevelBootstrapper : MonoBehaviour
     [SerializeField] private ContoursHandler _contoursHandler;
     [SerializeField] private LevelUI _levelUI;
     [SerializeField] private AdHandler _adHandler;
-    [SerializeField] private AuthorizationHandler _authorizationHandler;
     [SerializeField] private LeaderBoardHandler _leaderBoardHandler;
     [SerializeField] private LevelPointsHandler _levelPointsHandler;
     [SerializeField] private WallSpawner _wallSpawner;
@@ -52,9 +51,8 @@ public class LevelBootstrapper : MonoBehaviour
         _contoursHandler.Initial(_wallSpawner, _levelHandler);
         _adHandler.Initial(_levelHandler, _levelUI, adsService, rewardService);
         _gestureHandler.Initial(_levelHandler, _levelPauseHandler);
-        _authorizationHandler.Initial(authorizationService);
         _levelPointsHandler.Initial(_wallSpawner, _levelUI, _levelHandler, progress, saveLoadService, _adHandler);
-        _leaderBoardHandler.Initial(_levelHandler, _levelPointsHandler, leaderBoardService);
+        _leaderBoardHandler.Initial(_levelHandler, _levelPointsHandler, leaderBoardService, authorizationService);
         _levelPauseHandler.Initial(_adHandler, settingsPanel, profileDataPanel, leaderBoardPanel);
         _wallSpawner.Initial(_levelPauseHandler, _levelHandler);
         _profileDataHandler.Initial(profileDataService, profileDataPanel);
@@ -72,7 +70,6 @@ public class LevelBootstrapper : MonoBehaviour
         _contoursHandler.Enable();
         _wallSpawner.Enable();
         _levelHandler.Enable();
-        _authorizationHandler.Enable();
         _levelPauseHandler.Enable();
         _levelPointsHandler.Enable();
         _leaderBoardHandler.Enable();

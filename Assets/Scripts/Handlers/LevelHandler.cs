@@ -121,7 +121,13 @@ public class LevelHandler : MonoBehaviour
     private void OnLevelWon()
     {
         _gameProgress.TryUpdateLevel();
+        _saveLoadService.Saved += OnProgressSaved;
         _saveLoadService.SaveProgress();
+    }
+
+    private void OnProgressSaved()
+    {
+        _saveLoadService.Saved -= OnProgressSaved;
         LevelWon?.Invoke();
     }
 

@@ -12,11 +12,8 @@
         _saveLoadService = saveLoadService;
     }
 
-    public void Enter()
-    {
+    public void Enter() => 
         LoadProgressOrCreateNew();
-        _gameStateMachine.Enter<LoadLevelState, string, bool>(_progressService.Progress.LevelName(), false);
-    }
 
     public void Exit()
     {
@@ -24,7 +21,15 @@
 
     private void LoadProgressOrCreateNew()
     {
-        _progressService.Progress = _saveLoadService.LoadProgress() ?? CreateProgress();
+        _saveLoadService.Loaded += OnProgressLoaded;
+        _saveLoadService.LoadProgress();
+    }
+
+    private void OnProgressLoaded(Progress progress)
+    {
+        _saveLoadService.Loaded -= OnProgressLoaded;
+        _progressService.Progress = progress ?? CreateProgress();
+        _gameStateMachine.Enter<LoadLevelState, string, bool>(_progressService.Progress.LevelName(), false);
     }
 
     private static Progress CreateProgress() => 

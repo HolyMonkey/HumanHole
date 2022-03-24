@@ -9,7 +9,8 @@ public class LevelsDropdown : MonoBehaviour
     private Progress _progress;
     private ISaveLoadService _saveLoadService;
     private GameStateMachine _gameStateMachine;
-    
+    private string _nextLevel;
+
     public void Initial(Progress progress, ISaveLoadService saveLoadService, GameStateMachine gameStateMachine)
     {
         _saveLoadService = saveLoadService;
@@ -34,9 +35,16 @@ public class LevelsDropdown : MonoBehaviour
 
     private void OnDropdownValueChanged(int value)
     {
-        string level = _dropdown.options[value].text;
+        _nextLevel = _dropdown.options[value].text;
         _progress.SetLevelNumber(value + 1);
+        _saveLoadService.Saved += OnProgressSaved;
         _saveLoadService.SaveProgress();
-        _gameStateMachine.Enter<LoadLevelState, string, bool>(level, true);
+        
+    }
+
+    private void OnProgressSaved()
+    {
+        _saveLoadService.Saved -= OnProgressSaved;
+        _gameStateMachine.Enter<LoadLevelState, string, bool>(_nextLevel, true);
     }
 }

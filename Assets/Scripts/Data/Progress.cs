@@ -39,7 +39,7 @@ public class Progress
 
     private bool CanUpdateLevel()
     {
-        var levelsCount = SceneManager.sceneCount - 1;
+        var levelsCount = SceneManager.sceneCountInBuildSettings - 1;
         var nextLevelNumber = LevelNumber + 1;
         if (levelsCount > nextLevelNumber)
         {

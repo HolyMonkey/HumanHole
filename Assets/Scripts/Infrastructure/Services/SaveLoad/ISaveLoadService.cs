@@ -1,5 +1,9 @@
-﻿public interface ISaveLoadService : IService
+﻿using System;
+
+public interface ISaveLoadService : IService
 {
     void SaveProgress();
-    Progress LoadProgress();
+    void LoadProgress();
+    event Action Saved;
+    event Action<Progress> Loaded;
 }

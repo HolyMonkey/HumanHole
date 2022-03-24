@@ -12,13 +12,8 @@ public class AuthorizationService : IAuthorizationService
     public bool IsAuthorized { get;  set; }
     public Action Authorized { get; set; }
     public  Action NotAuthorized { get; set; }
-
-    public AuthorizationService(ICoroutineRunner coroutineRunner)
-    {
-        coroutineRunner.StartCoroutine(Initialize());
-    }
     
-    private IEnumerator Initialize()
+    public IEnumerator Authorize()
     {
 #if !UNITY_WEBGL || UNITY_EDITOR
         yield break;

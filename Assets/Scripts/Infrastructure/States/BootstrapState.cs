@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Agava.YandexGames;
-using CodeBase.Infrastructure;
 using CodeBase.Infrastructure.Services.Ads;
 using CodeBase.Infrastructure.Services.LeaderBoard;
 using CodeBase.Infrastructure.Services.Profile;
@@ -18,23 +17,24 @@ public class BootstrapState : IState
         _coroutineRunner = coroutineRunner;
         _stateMachine = stateMachine;
         _services = services;
-
+        
         RegisterServices();
     }
 
-    public void Enter()
-    {
+    public void Enter() => 
         _coroutineRunner.StartCoroutine(InitializeYandexSdk());
-    }
 
     private IEnumerator InitializeYandexSdk()
     {
-#if !UNITY_WEBGL || UNITY_EDITOR
-        _stateMachine.Enter<LoadProgressState>();
-        yield break;
-#endif
+#if UNITY_WEBGL && !UNITY_EDITOR
         yield return YandexGamesSdk.WaitForInitialization();
+#endif
+        IAuthorizationService authorizationService = _services.Single<IAuthorizationService>();
+        _coroutineRunner.StartCoroutine(authorizationService.Authorize());
+        IProfileDataService profileDataService = _services.Single<IProfileDataService>();
+        profileDataService.Initialize();
         _stateMachine.Enter<LoadProgressState>();
+        yield return null;
     }
 
     public void Exit()
@@ -47,7 +47,7 @@ public class BootstrapState : IState
         _services.RegisterSingle<IAdsService>(new AdsService());
         _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
-        _services.RegisterSingle<IAuthorizationService>(new AuthorizationService(_coroutineRunner));
+        _services.RegisterSingle<IAuthorizationService>(new AuthorizationService());
         _services.RegisterSingle<IProfileDataService>(new ProfileDataService(_services.Single<IAuthorizationService>()));
         _services.RegisterSingle<ILeaderBoardService>(new LeaderBoardService());
         _services.RegisterSingle<IRewardService>(new RewardService(

@@ -2048,8 +2048,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u041F\u0420\u041E\u0414\u041E\u041B\u0416\u0418\u0422\u042C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: dc88cf7b27cdd0f4985004cb5d0dd82b, type: 2}
-  m_sharedMaterial: {fileID: -7126433612485223369, guid: dc88cf7b27cdd0f4985004cb5d0dd82b, type: 2}
+  m_fontAsset: {fileID: 0}
+  m_sharedMaterial: {fileID: 0}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2473,7 +2473,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7031848038150493384}
   - component: {fileID: 4726304293598303166}
-  - component: {fileID: 2934304973170794726}
+  - component: {fileID: 6387721380498937836}
   - component: {fileID: 8845886474907885274}
   m_Layer: 5
   m_Name: LeaderBoardPanel
@@ -2510,7 +2510,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3531256663668352891}
   m_CullTransparentMesh: 1
---- !u!114 &2934304973170794726
+--- !u!114 &6387721380498937836
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2519,27 +2519,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 3531256663668352891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 09a8452c94bfe5844b2d8082471242ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 0
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &8845886474907885274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8184,7 +8170,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3138594624449095644}
   - component: {fileID: 833050553479422122}
-  - component: {fileID: 7106712603774161906}
+  - component: {fileID: 911992154603537768}
   - component: {fileID: 4854485684975868635}
   m_Layer: 5
   m_Name: PlayerProfileDataPanel
@@ -8221,7 +8207,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8870165607416271983}
   m_CullTransparentMesh: 1
---- !u!114 &7106712603774161906
+--- !u!114 &911992154603537768
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8230,27 +8216,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8870165607416271983}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Script: {fileID: 11500000, guid: 09a8452c94bfe5844b2d8082471242ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 0
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Sprite: {fileID: 0}
-  m_Type: 0
-  m_PreserveAspect: 0
-  m_FillCenter: 1
-  m_FillMethod: 4
-  m_FillAmount: 1
-  m_FillClockwise: 1
-  m_FillOrigin: 0
-  m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
 --- !u!114 &4854485684975868635
 MonoBehaviour:
   m_ObjectHideFlags: 0

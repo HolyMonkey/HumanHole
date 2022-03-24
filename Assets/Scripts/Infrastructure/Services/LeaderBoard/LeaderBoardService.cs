@@ -17,7 +17,7 @@ namespace CodeBase.Infrastructure.Services.LeaderBoard
         {
             #if UNITY_WEBGL && !UNITY_EDITOR
             Leaderboard.SetScore(LeaderboardName, score);
-#endif
+            #endif
         }
 
         public void GetLeaderBoardEntries()
