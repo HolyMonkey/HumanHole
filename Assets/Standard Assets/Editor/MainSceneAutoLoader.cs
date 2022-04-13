@@ -10,7 +10,7 @@ namespace Editor
     [InitializeOnLoad] //Позволяет скрипту инициализироваться при запуске Unity 
     public static class MainSceneAutoLoader
     {
-        private static string _mainScenePath = Path.Combine(Application.dataPath, "Scenes", "Initial.unity");//Получаем путь к начальной сцене
+        private static string _mainScenePath = Path.Combine(Application.dataPath, "HumanHole","Scenes", "Initial.unity");//Получаем путь к начальной сцене
         
         static MainSceneAutoLoader()
         {
@@ -28,8 +28,8 @@ namespace Editor
             if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 //Проверяем не является ли текущая сцена начальной сценой
-                if (SceneManager.GetActiveScene().buildIndex != 0)
-                    TryToOpenMainScene();
+               // if (SceneManager.GetActiveScene().buildIndex != 0)
+                    //TryToOpenMainScene();
             }
         }
 

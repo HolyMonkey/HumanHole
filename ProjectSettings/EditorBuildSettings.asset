@@ -6,33 +6,33 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Initial.unity
+    path: Assets/HumanHole/Scenes/Initial.unity
     guid: 39a0fb33d9cfe194ca86873fb3368839
   - enabled: 1
-    path: Assets/Scenes/Level 1.unity
+    path: Assets/HumanHole/Scenes/Level 1.unity
     guid: c9d213d3a73d18d42ab18c258d6a6083
   - enabled: 1
-    path: Assets/Scenes/Level 2.unity
+    path: Assets/HumanHole/Scenes/Level 2.unity
     guid: b7dbe90e7ae09fe45a0d8945c3bc1fdb
   - enabled: 1
-    path: Assets/Scenes/Level 3.unity
+    path: Assets/HumanHole/Scenes/Level 3.unity
     guid: e685d6ca534524f44ba7ca4e05e5bdc1
   - enabled: 1
-    path: Assets/Scenes/Level 4.unity
+    path: Assets/HumanHole/Scenes/Level 4.unity
     guid: 8deec3f4b6e811342905a3dce87dcfc7
   - enabled: 1
-    path: Assets/Scenes/Level 5.unity
+    path: Assets/HumanHole/Scenes/Level 5.unity
     guid: 9402e1906c84a664bb6bc970995f5fe6
   - enabled: 1
-    path: Assets/Scenes/Level 6.unity
+    path: Assets/HumanHole/Scenes/Level 6.unity
     guid: 2404b5ed4abe7154e82f8cd2cf8ece07
   - enabled: 1
-    path: Assets/Scenes/Level 7.unity
+    path: Assets/HumanHole/Scenes/Level 7.unity
     guid: 4c41057cfd8a0194aa588d37d92a8be8
   - enabled: 1
-    path: Assets/Scenes/Level 8.unity
+    path: Assets/HumanHole/Scenes/Level 8.unity
     guid: 4d944fdd127d7e34d8751b329f041428
   - enabled: 1
-    path: Assets/Scenes/Level 9.unity
+    path: Assets/HumanHole/Scenes/Level 9.unity
     guid: 273d7b9ac74bc164f956e9c8aad0ae8d
   m_configObjects: {}
