@@ -10,6 +10,7 @@ public class LeaderBoardPanel : MonoBehaviour
 {
     private ILeaderBoardService _leaderBoardService;
     private IDownloadService _downloadService;
+    private IAuthorizationService _authorizationService;
     private LeaderboardEntryResponse _playerEntry;
     private readonly List<LeaderBoardUserTemplate> _leaderBoardUserTemplates = new List<LeaderBoardUserTemplate>();
     private Vector2 _avatarSize = new Vector2(80, 80);
@@ -24,8 +25,35 @@ public class LeaderBoardPanel : MonoBehaviour
     
     public void Initial()
     {
-        _leaderBoardService = Game.Instance.AllServices.Single<ILeaderBoardService>();
-        _downloadService = Game.Instance.AllServices.Single<IDownloadService>();
+        var services = Game.Instance.AllServices;
+        _leaderBoardService = services.Single<ILeaderBoardService>();
+        _downloadService = services.Single<IDownloadService>();
+        _authorizationService = services.Single<IAuthorizationService>();
+    }
+
+    public void Start()
+    {
+        if (_authorizationService.IsAuthorized)
+        {
+            GetLeaderBoard();
+        }
+        else
+        {
+            _authorizationService.Authorized += OnAuthorized;
+        }
+    }
+
+    private void GetLeaderBoard()
+    {
+        _leaderBoardService.GetPlayerEntryError += OnGetPlayerEntryError;
+        _leaderBoardService.GetPlayerEntrySuccess += OnGetPlayerEntrySuccess;
+        _leaderBoardService.GetLeaderBoardPlayer();
+    }
+
+    private void OnAuthorized()
+    {
+        _authorizationService.Authorized -= OnAuthorized;
+        GetLeaderBoard();
     }
 
     public void Enable()
@@ -47,35 +75,23 @@ public class LeaderBoardPanel : MonoBehaviour
     {
         _closeButton.onClick.AddListener(Disable);
         _continueButton.onClick.AddListener(Disable);
-        
-        _leaderBoardService.GetPlayerEntryError += OnGetPlayerEntryError;
-        _leaderBoardService.GetPlayerEntrySuccess += OnGetPlayerEntrySuccess;
-        _leaderBoardService.GetLeaderBoardPlayer();
-
-        _leaderBoardService.GetLeaderboardEntriesSuccess += OnGetLeaderboardEntriesSuccess;
-        _leaderBoardService.GetLeaderboardEntriesError += OnGetLeaderboardEntriesError;
     }
 
     private void OnDisable()
     {
-        _leaderBoardService.GetPlayerEntryError -= OnGetPlayerEntryError;
-        _leaderBoardService.GetPlayerEntrySuccess -= OnGetPlayerEntrySuccess;
-        
-        _leaderBoardService.GetLeaderboardEntriesSuccess -= OnGetLeaderboardEntriesSuccess;
-        _leaderBoardService.GetLeaderboardEntriesError -= OnGetLeaderboardEntriesError;
-        
         _closeButton.onClick.RemoveListener(Disable);
         _continueButton.onClick.RemoveListener(Disable);
     }
 
     private void OnGetLeaderboardEntriesError(string errorMessage)
     {
+        _leaderBoardService.GetLeaderboardEntriesError -= OnGetLeaderboardEntriesError;
         Debug.LogError(errorMessage);
     }
 
     private void OnGetLeaderboardEntriesSuccess(LeaderboardGetEntriesResponse result)
     {
-        ClearLeaderboard();
+        _leaderBoardService.GetLeaderboardEntriesSuccess -= OnGetLeaderboardEntriesSuccess;
         _ = CreateLeaderboard(result);
     }
 
@@ -88,7 +104,7 @@ public class LeaderBoardPanel : MonoBehaviour
                 name = "Anonymous";
 
             LeaderBoardUserTemplate template = Instantiate(_leaderBoardUserTemplate, _content);
-            bool ownPlayer = _playerEntry.player == entry.player;
+            bool ownPlayer = _playerEntry.player.uniqueID == entry.player.uniqueID;
 
             string avatarUrl = entry.player.scopePermissions.avatar;
             Sprite avatarSprite = null;
@@ -119,15 +135,19 @@ public class LeaderBoardPanel : MonoBehaviour
 
     private void OnGetPlayerEntrySuccess(LeaderboardEntryResponse result)
     {
+        _leaderBoardService.GetPlayerEntrySuccess -= OnGetPlayerEntrySuccess;
         if (result != null)
         {
             _playerEntry = result;
+            _leaderBoardService.GetLeaderboardEntriesSuccess += OnGetLeaderboardEntriesSuccess;
+            _leaderBoardService.GetLeaderboardEntriesError += OnGetLeaderboardEntriesError;
             _leaderBoardService.GetLeaderBoardEntries();
         }
     }
 
     private void OnGetPlayerEntryError(string errorMessage)
     {
+        _leaderBoardService.GetPlayerEntryError -= OnGetPlayerEntryError;
         Debug.LogError(errorMessage);
     }
 

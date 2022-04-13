@@ -29,8 +29,7 @@ public class LeaderBoardUserTemplate : MonoBehaviour
             _publicName.color = _ownTextColor;
             _borderImage.color = _ownBorderColor;
         }
-
-
+        
         SetRank(rank, ownPlayer);
         SetAvatar(avatar);
     }

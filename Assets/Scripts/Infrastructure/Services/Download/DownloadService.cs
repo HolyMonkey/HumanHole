@@ -12,7 +12,7 @@ public class DownloadService : IDownloadService
 
             if (www.result != UnityWebRequest.Result.Success)
             {
-                Debug.Log(www.error);
+                Debug.LogError(www.error);
                 return null;
             }
 
