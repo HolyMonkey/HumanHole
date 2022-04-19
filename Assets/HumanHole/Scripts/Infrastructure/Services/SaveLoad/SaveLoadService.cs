@@ -1,23 +1,27 @@
 ﻿using System;
-using Agava.YandexGames;
+using HumanHole.Scripts.Data;
+using HumanHole.Scripts.Data.Extensions;
+using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
 using UnityEngine;
 
-public class SaveLoadService : ISaveLoadService
+namespace HumanHole.Scripts.Infrastructure.Services.SaveLoad
 {
-    private const string ProgressKey = "Progress";
-
-    private readonly IPersistentProgressService _progressService;
-
-    public event Action Saved;
-    public event Action<Progress> Loaded;
-
-    public SaveLoadService(IPersistentProgressService progressService)
+    public class SaveLoadService : ISaveLoadService
     {
-        _progressService = progressService;
-    }
+        private const string ProgressKey = "Progress";
 
-    public void SaveProgress()
-    {
+        private readonly IPersistentProgressService _progressService;
+
+        public event Action Saved;
+        public event Action<Progress> Loaded;
+
+        public SaveLoadService(IPersistentProgressService progressService)
+        {
+            _progressService = progressService;
+        }
+
+        public void SaveProgress()
+        {
 /*#if UNITY_WEBGL && !UNITY_EDITOR
         if (PlayerAccount.IsAuthorized)
         {
@@ -29,13 +33,13 @@ public class SaveLoadService : ISaveLoadService
         }
 #endif*/
         
-        PlayerPrefs.SetString(ProgressKey, _progressService.Progress.ToJson());
-        PlayerPrefs.Save();
-        OnSetPlayerDataSuccess();
-    }
+            PlayerPrefs.SetString(ProgressKey, _progressService.Progress.ToJson());
+            PlayerPrefs.Save();
+            OnSetPlayerDataSuccess();
+        }
 
-    public void LoadProgress()
-    {
+        public void LoadProgress()
+        {
 /*#if UNITY_WEBGL && !UNITY_EDITOR
         if (PlayerAccount.IsAuthorized)
         {
@@ -44,27 +48,28 @@ public class SaveLoadService : ISaveLoadService
         }
 #endif*/
         
-        OnGetPlayerDataSuccess(PlayerPrefs.GetString(ProgressKey));
-    }
+            OnGetPlayerDataSuccess(PlayerPrefs.GetString(ProgressKey));
+        }
 
-    private void OnGetPlayerDataSuccess(string message)
-    {
-        Progress progress = message?.FromJson<Progress>();
-        Loaded?.Invoke(progress);
-    }
+        private void OnGetPlayerDataSuccess(string message)
+        {
+            Progress progress = message?.FromJson<Progress>();
+            Loaded?.Invoke(progress);
+        }
 
-    private void OnGetPlayerDataError(string message)
-    {
-        Debug.LogError(message);
-    }
+        private void OnGetPlayerDataError(string message)
+        {
+            Debug.LogError(message);
+        }
     
-    private void OnSetPlayerDataSuccess()
-    {
-        Saved?.Invoke();
-    }
+        private void OnSetPlayerDataSuccess()
+        {
+            Saved?.Invoke();
+        }
 
-    private void OnSetPlayerDataError(string message)
-    {
-        Debug.LogError(message);
+        private void OnSetPlayerDataError(string message)
+        {
+            Debug.LogError(message);
+        }
     }
 }

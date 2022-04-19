@@ -1,3 +1,6 @@
-﻿public interface IService
+﻿namespace HumanHole.Scripts.Infrastructure.Services
 {
+    public interface IService
+    {
+    }
 }

@@ -1,4 +1,4 @@
-namespace Infrastructure.Services.Analytics
+namespace HumanHole.Scripts.Infrastructure.Services.Analytics
 {
     public interface IAnalyticsService : IService
     {

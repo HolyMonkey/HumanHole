@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class CursorService : ICursorService
+namespace HumanHole.Scripts.Infrastructure.Services.Cursor
 {
-    private Texture2D _cursor;
-
-    public CursorService()
+    public class CursorService : ICursorService
     {
-        _cursor = new Texture2D(0, 0);
-    }
+        private Texture2D _cursor;
 
-    public void Enable()
-    {
-        Cursor.SetCursor(_cursor, Vector2.zero, CursorMode.Auto);
-    }
+        public CursorService()
+        {
+            _cursor = new Texture2D(0, 0);
+        }
 
-    public void Disable()
-    {
-        Cursor.SetCursor(_cursor, Vector2.zero, CursorMode.ForceSoftware);
+        public void Enable()
+        {
+            UnityEngine.Cursor.SetCursor(_cursor, Vector2.zero, CursorMode.Auto);
+        }
+
+        public void Disable()
+        {
+            UnityEngine.Cursor.SetCursor(_cursor, Vector2.zero, CursorMode.ForceSoftware);
+        }
     }
 }

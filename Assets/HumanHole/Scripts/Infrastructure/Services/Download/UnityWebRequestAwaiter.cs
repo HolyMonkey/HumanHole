@@ -3,28 +3,31 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class UnityWebRequestAwaiter : INotifyCompletion
+namespace HumanHole.Scripts.Infrastructure.Services.Download
 {
-    public bool IsCompleted => asyncOp.isDone;
-
-    private readonly UnityWebRequestAsyncOperation asyncOp;
-    private Action continuation;
-
-    public UnityWebRequestAwaiter(UnityWebRequestAsyncOperation asyncOp)
+    public class UnityWebRequestAwaiter : INotifyCompletion
     {
-        this.asyncOp = asyncOp;
-        asyncOp.completed += OnRequestCompleted;
-    }
+        public bool IsCompleted => asyncOp.isDone;
 
-    public void OnCompleted(Action continuation)
-    {
-        this.continuation = continuation;
-    }
+        private readonly UnityWebRequestAsyncOperation asyncOp;
+        private Action continuation;
 
-    public void GetResult() { }
+        public UnityWebRequestAwaiter(UnityWebRequestAsyncOperation asyncOp)
+        {
+            this.asyncOp = asyncOp;
+            asyncOp.completed += OnRequestCompleted;
+        }
 
-    private void OnRequestCompleted(AsyncOperation obj)
-    {
-        continuation();
+        public void OnCompleted(Action continuation)
+        {
+            this.continuation = continuation;
+        }
+
+        public void GetResult() { }
+
+        private void OnRequestCompleted(AsyncOperation obj)
+        {
+            continuation();
+        }
     }
 }

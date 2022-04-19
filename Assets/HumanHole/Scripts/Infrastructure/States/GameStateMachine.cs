@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using CodeBase.Infrastructure;
-using CodeBase.Infrastructure.States;
+using HumanHole.Scripts.Infrastructure.Services;
+using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
+using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
+using HumanHole.Scripts.Logic;
 
-public class GameStateMachine : IGameStateMachine
+namespace HumanHole.Scripts.Infrastructure.States
+{
+    public class GameStateMachine : IGameStateMachine
     {
         private  readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
@@ -51,3 +55,4 @@ public class GameStateMachine : IGameStateMachine
             return result;
         }
     }
+}

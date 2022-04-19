@@ -1,53 +1,56 @@
 using System.IO;
 using UnityEngine.Networking;
 
-public class ToFileDownloadHandler : DownloadHandlerScript
+namespace HumanHole.Scripts.Infrastructure.Services.Download
 {
-    private int expected = -1;
-    private int received = 0;
-    private string filepath;
-    private FileStream fileStream;
-    private bool canceled = false;
-
-    public ToFileDownloadHandler(byte[] buffer, string filepath) : base(buffer)
+    public class ToFileDownloadHandler : DownloadHandlerScript
     {
-        this.filepath = filepath;
-        fileStream = new FileStream(filepath, FileMode.Create, FileAccess.Write);
-    }
+        private int expected = -1;
+        private int received = 0;
+        private string filepath;
+        private FileStream fileStream;
+        private bool canceled = false;
 
-    protected override byte[] GetData()
-    {
-        return null;
-    }
-
-    protected override bool ReceiveData(byte[] data, int dataLength)
-    {
-        if (data == null || data.Length < 1)
+        public ToFileDownloadHandler(byte[] buffer, string filepath) : base(buffer)
         {
-            return false;
+            this.filepath = filepath;
+            fileStream = new FileStream(filepath, FileMode.Create, FileAccess.Write);
         }
 
-        received += dataLength;
-        if (!canceled)
-            fileStream.Write(data, 0, dataLength);
-        return true;
-    }
+        protected override byte[] GetData()
+        {
+            return null;
+        }
 
-    protected override float GetProgress()
-    {
-        if (expected < 0) return 0;
-        return (float) received / expected;
-    }
+        protected override bool ReceiveData(byte[] data, int dataLength)
+        {
+            if (data == null || data.Length < 1)
+            {
+                return false;
+            }
 
-    protected override void CompleteContent()
-    {
-        fileStream.Close();
-    }
+            received += dataLength;
+            if (!canceled)
+                fileStream.Write(data, 0, dataLength);
+            return true;
+        }
 
-    public void Cancel()
-    {
-        canceled = true;
-        fileStream.Close();
-        File.Delete(filepath);
+        protected override float GetProgress()
+        {
+            if (expected < 0) return 0;
+            return (float) received / expected;
+        }
+
+        protected override void CompleteContent()
+        {
+            fileStream.Close();
+        }
+
+        public void Cancel()
+        {
+            canceled = true;
+            fileStream.Close();
+            File.Delete(filepath);
+        }
     }
 }

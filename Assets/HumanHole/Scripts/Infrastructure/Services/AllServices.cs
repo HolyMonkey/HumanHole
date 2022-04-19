@@ -1,19 +1,22 @@
-﻿public class AllServices
+﻿namespace HumanHole.Scripts.Infrastructure.Services
 {
-    public void RegisterSingle<TService>(TService implementation) where TService : IService =>
-        Implementation<TService>.RegisterSingle(implementation);
-
-    public TService Single<TService>() where TService : IService =>
-        Implementation<TService>.Single();
-
-    private static class Implementation<TService> where TService : IService
+    public class AllServices
     {
-        private static TService _serviceInstance;
+        public void RegisterSingle<TService>(TService implementation) where TService : IService =>
+            Implementation<TService>.RegisterSingle(implementation);
 
-        public static void RegisterSingle(TService implementation) =>
-            _serviceInstance = implementation;
+        public TService Single<TService>() where TService : IService =>
+            Implementation<TService>.Single();
 
-        public static TService Single() =>
-            _serviceInstance;
+        private static class Implementation<TService> where TService : IService
+        {
+            private static TService _serviceInstance;
+
+            public static void RegisterSingle(TService implementation) =>
+                _serviceInstance = implementation;
+
+            public static TService Single() =>
+                _serviceInstance;
+        }
     }
 }

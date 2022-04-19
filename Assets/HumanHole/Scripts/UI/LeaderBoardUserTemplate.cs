@@ -2,65 +2,68 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LeaderBoardUserTemplate : MonoBehaviour
+namespace HumanHole.Scripts.UI
 {
-    [SerializeField] private TextMeshProUGUI _publicName;
-    [SerializeField] private TextMeshProUGUI _score;
-    [SerializeField] private TextMeshProUGUI _rank;
-    [SerializeField] private Image _rankImage;
-    [SerializeField] private Image _avatarImage;
-    [SerializeField] private Sprite[] _avatarsSprites;
-    [SerializeField] private Sprite[] _rankSprites;
-    [SerializeField] private Image _borderImage;
-    [SerializeField] private Image _backGroundImage;
-    [SerializeField] private Color _ownBorderColor;
-    [SerializeField] private Color _ownBackgroundColor;
-    [SerializeField] private Color _ownTextColor;
-
-    public void Initial(string name, string score, int rank, Sprite avatar, bool ownPlayer)
+    public class LeaderBoardUserTemplate : MonoBehaviour
     {
-        _publicName.text = name;
-        _score.text = score;
+        [SerializeField] private TextMeshProUGUI _publicName;
+        [SerializeField] private TextMeshProUGUI _score;
+        [SerializeField] private TextMeshProUGUI _rank;
+        [SerializeField] private Image _rankImage;
+        [SerializeField] private Image _avatarImage;
+        [SerializeField] private Sprite[] _avatarsSprites;
+        [SerializeField] private Sprite[] _rankSprites;
+        [SerializeField] private Image _borderImage;
+        [SerializeField] private Image _backGroundImage;
+        [SerializeField] private Color _ownBorderColor;
+        [SerializeField] private Color _ownBackgroundColor;
+        [SerializeField] private Color _ownTextColor;
 
-        if (ownPlayer)
+        public void Initial(string name, string score, int rank, Sprite avatar, bool ownPlayer)
         {
-            _backGroundImage.color = _ownBackgroundColor;
-            _score.color = _ownTextColor;
-            _publicName.color = _ownTextColor;
-            _borderImage.color = _ownBorderColor;
-        }
-        
-        SetRank(rank, ownPlayer);
-        SetAvatar(avatar);
-    }
+            _publicName.text = name;
+            _score.text = score;
 
-    private void SetRank(int rank, bool ownPlayer)
-    {
-        if (rank < 4)
-        {
-            _rankImage.sprite = _rankSprites[rank - 1];
-            _rankImage.gameObject.SetActive(true);
-        }
-        else
-        {
             if (ownPlayer)
-                _rank.color = _ownTextColor;
-            
-            _rank.text = rank.ToString();
-            _rank.gameObject.SetActive(true);
+            {
+                _backGroundImage.color = _ownBackgroundColor;
+                _score.color = _ownTextColor;
+                _publicName.color = _ownTextColor;
+                _borderImage.color = _ownBorderColor;
+            }
+        
+            SetRank(rank, ownPlayer);
+            SetAvatar(avatar);
         }
-    }
 
-    private void SetAvatar(Sprite avatar)
-    {
-        if (avatar == null)
+        private void SetRank(int rank, bool ownPlayer)
         {
-            int value = Random.Range(0, _avatarsSprites.Length);
-            _avatarImage.sprite = _avatarsSprites[value];
+            if (rank < 4)
+            {
+                _rankImage.sprite = _rankSprites[rank - 1];
+                _rankImage.gameObject.SetActive(true);
+            }
+            else
+            {
+                if (ownPlayer)
+                    _rank.color = _ownTextColor;
+            
+                _rank.text = rank.ToString();
+                _rank.gameObject.SetActive(true);
+            }
         }
-        else
+
+        private void SetAvatar(Sprite avatar)
         {
-            _avatarImage.sprite = avatar;
+            if (avatar == null)
+            {
+                int value = Random.Range(0, _avatarsSprites.Length);
+                _avatarImage.sprite = _avatarsSprites[value];
+            }
+            else
+            {
+                _avatarImage.sprite = avatar;
+            }
         }
     }
 }

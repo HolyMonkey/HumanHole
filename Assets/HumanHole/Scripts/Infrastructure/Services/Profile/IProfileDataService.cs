@@ -1,7 +1,7 @@
 ﻿using System;
 using Agava.YandexGames;
 
-namespace CodeBase.Infrastructure.Services.Profile
+namespace HumanHole.Scripts.Infrastructure.Services.Profile
 {
     public interface IProfileDataService: IService
     {

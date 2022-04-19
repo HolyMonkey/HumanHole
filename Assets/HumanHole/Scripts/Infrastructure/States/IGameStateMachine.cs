@@ -1,8 +1,10 @@
-﻿using CodeBase.Infrastructure.Services;
-using CodeBase.Infrastructure.States;
+﻿using HumanHole.Scripts.Infrastructure.Services;
 
-public interface IGameStateMachine : IService
+namespace HumanHole.Scripts.Infrastructure.States
 {
-    void Enter<TState>() where TState : class, IState;
-    void Enter<TState, TPayload1,TPayload2>(TPayload1 payload1, TPayload2 payload2) where TState : class, IPayloadedState<TPayload1,TPayload2>;
+    public interface IGameStateMachine : IService
+    {
+        void Enter<TState>() where TState : class, IState;
+        void Enter<TState, TPayload1,TPayload2>(TPayload1 payload1, TPayload2 payload2) where TState : class, IPayloadedState<TPayload1,TPayload2>;
+    }
 }

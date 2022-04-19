@@ -1,50 +1,54 @@
 using Agava.YandexGames;
-using CodeBase.Infrastructure.Services.Profile;
+using HumanHole.Scripts.Infrastructure.Services.Profile;
+using HumanHole.Scripts.UI;
 using UnityEngine;
 
-public class ProfileDataHandler : MonoBehaviour
+namespace HumanHole.Scripts.Handlers
 {
-    private IProfileDataService _profileDataService;
-    private PlayerProfileDataPanel _playerProfileDataPanel;
-
-    public void Initial(IProfileDataService profileDataService, PlayerProfileDataPanel profileDataPanel)
+    public class ProfileDataHandler : MonoBehaviour
     {
-        _profileDataService = profileDataService;
-        _playerProfileDataPanel = profileDataPanel;
-    }
+        private IProfileDataService _profileDataService;
+        private PlayerProfileDataPanel _playerProfileDataPanel;
 
-    public void Enable() => 
-        gameObject.SetActive(true);
-
-    private void OnEnable()
-    {
-        if (_profileDataService.IsPersonalProfileDataPermissionSuccess)
+        public void Initial(IProfileDataService profileDataService, PlayerProfileDataPanel profileDataPanel)
         {
-            OnGetProfileDataSuccess(_profileDataService.PlayerAccountProfileDataResponse);
+            _profileDataService = profileDataService;
+            _playerProfileDataPanel = profileDataPanel;
         }
-        else
+
+        public void Enable() => 
+            gameObject.SetActive(true);
+
+        private void OnEnable()
         {
-            _profileDataService.GetProfileDataSuccess += OnGetProfileDataSuccess;
-            _profileDataService.GetProfileDataError += OnGetProfileDataError;
-            _playerProfileDataPanel.Opened += OnPlayerProfileDataPanelOpened;
+            if (_profileDataService.IsPersonalProfileDataPermissionSuccess)
+            {
+                OnGetProfileDataSuccess(_profileDataService.PlayerAccountProfileDataResponse);
+            }
+            else
+            {
+                _profileDataService.GetProfileDataSuccess += OnGetProfileDataSuccess;
+                _profileDataService.GetProfileDataError += OnGetProfileDataError;
+                _playerProfileDataPanel.Opened += OnPlayerProfileDataPanelOpened;
+            }
         }
-    }
 
-    private void OnDisable()
-    {
-        _profileDataService.GetProfileDataSuccess -= OnGetProfileDataSuccess;
-        _profileDataService.GetProfileDataError -= OnGetProfileDataError;
-    }
+        private void OnDisable()
+        {
+            _profileDataService.GetProfileDataSuccess -= OnGetProfileDataSuccess;
+            _profileDataService.GetProfileDataError -= OnGetProfileDataError;
+        }
 
-    private void OnPlayerProfileDataPanelOpened()
-    {
-        _playerProfileDataPanel.Opened -= OnPlayerProfileDataPanelOpened;
-        _profileDataService.GetProfileData();
-    }
+        private void OnPlayerProfileDataPanelOpened()
+        {
+            _playerProfileDataPanel.Opened -= OnPlayerProfileDataPanelOpened;
+            _profileDataService.GetProfileData();
+        }
     
-    private void OnGetProfileDataError(string message) => 
-        _playerProfileDataPanel.SetErrorMessage(message);
+        private void OnGetProfileDataError(string message) => 
+            _playerProfileDataPanel.SetErrorMessage(message);
 
-    private void OnGetProfileDataSuccess(PlayerAccountProfileDataResponse result) => 
-        _playerProfileDataPanel.SetProfileData(result);
+        private void OnGetProfileDataSuccess(PlayerAccountProfileDataResponse result) => 
+            _playerProfileDataPanel.SetProfileData(result);
+    }
 }

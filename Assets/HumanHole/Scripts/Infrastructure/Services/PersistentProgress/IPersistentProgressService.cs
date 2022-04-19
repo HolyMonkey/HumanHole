@@ -1,7 +1,10 @@
 ﻿
-    using CodeBase.Infrastructure.Services;
+    using HumanHole.Scripts.Data;
 
-    public interface IPersistentProgressService : IService
-    {
-        Progress Progress { get; set; }
-    }
+    namespace HumanHole.Scripts.Infrastructure.Services.PersistentProgress
+     {
+         public interface IPersistentProgressService : IService
+         {
+             Progress Progress { get; set; }
+         }
+     }

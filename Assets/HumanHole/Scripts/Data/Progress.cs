@@ -1,51 +1,54 @@
 using System;
 using UnityEngine.SceneManagement;
 
-[Serializable]
-public class Progress
+namespace HumanHole.Scripts.Data
 {
-    [NonSerialized] public bool IsGameStarted;
+    [Serializable]
+    public class Progress
+    {
+        [NonSerialized] public bool IsGameStarted;
     
-    public int LevelNumber;
-    public int Points;
+        public int LevelNumber;
+        public int Points;
 
-    public Progress()
-    {
-        LevelNumber = 1;
-    }
-
-    public void TryUpdateLevel()
-    {
-        if (CanUpdateLevel())
+        public Progress()
         {
-            LevelNumber++;
-        }
-    }
-
-    public void SetLevelNumber(int levelNumber)
-    {
-        LevelNumber = levelNumber;
-    }
-
-    public void UpdatePoints(int points)
-    {
-        Points += points;
-    }
-
-    public string LevelName()
-    {
-        return $"Level {LevelNumber}";
-    }
-
-    private bool CanUpdateLevel()
-    {
-        var levelsCount = SceneManager.sceneCountInBuildSettings - 1;
-        var nextLevelNumber = LevelNumber + 1;
-        if (levelsCount > nextLevelNumber)
-        {
-            return true;
+            LevelNumber = 1;
         }
 
-        return false;
+        public void TryUpdateLevel()
+        {
+            if (CanUpdateLevel())
+            {
+                LevelNumber++;
+            }
+        }
+
+        public void SetLevelNumber(int levelNumber)
+        {
+            LevelNumber = levelNumber;
+        }
+
+        public void UpdatePoints(int points)
+        {
+            Points += points;
+        }
+
+        public string LevelName()
+        {
+            return $"Level {LevelNumber}";
+        }
+
+        private bool CanUpdateLevel()
+        {
+            var levelsCount = SceneManager.sceneCountInBuildSettings - 1;
+            var nextLevelNumber = LevelNumber + 1;
+            if (levelsCount > nextLevelNumber)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -1,12 +1,15 @@
 using UnityEngine;
 
-public class RenderTextureService : IRenderTextureService
+namespace HumanHole.Scripts.Infrastructure.Services
 {
-    public RenderTexture RenderTexture { get; }
-
-    public RenderTextureService()
+    public class RenderTextureService : IRenderTextureService
     {
-        RenderTexture = new RenderTexture(Screen.width, Screen.height, -1);
-       // RenderTexture.Create();
+        public RenderTexture RenderTexture { get; }
+
+        public RenderTextureService()
+        {
+            RenderTexture = new RenderTexture(Screen.width, Screen.height, -1);
+            // RenderTexture.Create();
+        }
     }
 }

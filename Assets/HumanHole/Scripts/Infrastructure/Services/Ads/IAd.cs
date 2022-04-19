@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodeBase.Infrastructure.Services.Ads
+namespace HumanHole.Scripts.Infrastructure.Services.Ads
 {
     public abstract class IAd
     {

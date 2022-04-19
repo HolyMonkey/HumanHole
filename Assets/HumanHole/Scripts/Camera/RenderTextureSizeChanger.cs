@@ -1,14 +1,19 @@
+using HumanHole.Scripts.Infrastructure;
+using HumanHole.Scripts.Infrastructure.Services;
 using UnityEngine;
 
-public class RenderTextureSizeChanger : MonoBehaviour
+namespace HumanHole.Scripts.Camera
 {
-    [SerializeField] private Camera _camera;
-    [SerializeField] private Material _material;
-
-    private void Awake()
+    public class RenderTextureSizeChanger : MonoBehaviour
     {
-        RenderTexture  texture = Game.Instance.AllServices.Single<IRenderTextureService>().RenderTexture;
-        _camera.targetTexture = texture;
-        _material.mainTexture = texture;
+        [SerializeField] private UnityEngine.Camera _camera;
+        [SerializeField] private Material _material;
+
+        private void Awake()
+        {
+            RenderTexture  texture = Game.Instance.AllServices.Single<IRenderTextureService>().RenderTexture;
+            _camera.targetTexture = texture;
+            _material.mainTexture = texture;
+        }
     }
 }

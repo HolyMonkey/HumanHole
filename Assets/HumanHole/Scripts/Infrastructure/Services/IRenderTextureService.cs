@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public interface IRenderTextureService : IService
+namespace HumanHole.Scripts.Infrastructure.Services
 {
-    RenderTexture RenderTexture { get; }
+    public interface IRenderTextureService : IService
+    {
+        RenderTexture RenderTexture { get; }
+    }
 }

@@ -1,9 +1,12 @@
 using System;
 using UnityEngine.EventSystems;
 
-public interface ILevelPanel : IPointerClickHandler
+namespace HumanHole.Scripts.UI
 {
-    event Action Clicked;
-    void Enable();
-    void Disable();
+    public interface ILevelPanel : IPointerClickHandler
+    {
+        event Action Clicked;
+        void Enable();
+        void Disable();
+    }
 }

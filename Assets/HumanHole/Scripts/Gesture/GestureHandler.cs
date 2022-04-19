@@ -1,78 +1,82 @@
+using HumanHole.Scripts.Handlers;
 using UnityEngine;
 
-public class GestureHandler : MonoBehaviour
+namespace HumanHole.Scripts.Gesture
 {
-    private LevelHandler _levelHandler;
-    private LevelPauseHandler _levelPauseHandler;
-
-    [SerializeField] private Limb[] _limbs;
-
-    public void Initial(LevelHandler levelHandler, LevelPauseHandler levelPauseHandler)
+    public class GestureHandler : MonoBehaviour
     {
-        _levelPauseHandler = levelPauseHandler;
-        _levelHandler = levelHandler;
-    }
+        private LevelHandler _levelHandler;
+        private LevelPauseHandler _levelPauseHandler;
+        
+        [SerializeField] private Limbs _limbsController;
 
-    public void Enable()
-    {
-        gameObject.SetActive(true);
-        AllowMovement();
-    }
+        public void Initial(LevelHandler levelHandler, LevelPauseHandler levelPauseHandler)
+        {
+            _levelPauseHandler = levelPauseHandler;
+            _levelHandler = levelHandler;
+        }
 
-    private void OnEnable()
-    {
-        _levelHandler.LevelStarted += OnLevelStarted;
-        _levelHandler.LevelWon += OnLevelWon;
-        _levelHandler.LevelLost += OnLevelLost;
-        _levelPauseHandler.Pause += OnLevelPause;
-        _levelPauseHandler.UnPause += OnLevelUnPause;
-    }
+        public void Enable()
+        {
+            gameObject.SetActive(true);
+            AllowMovement();
+        }
 
-    private void OnDisable()
-    {
-        _levelHandler.LevelStarted -= OnLevelStarted;
-        _levelHandler.LevelWon -= OnLevelWon;
-        _levelHandler.LevelLost -= OnLevelLost;
-        _levelPauseHandler.Pause -= OnLevelPause;
-        _levelPauseHandler.UnPause -= OnLevelUnPause;
-    }
+        private void OnEnable()
+        {
+            _levelHandler.LevelStarted += OnLevelStarted;
+            _levelHandler.LevelWon += OnLevelWon;
+            _levelHandler.LevelLost += OnLevelLost;
+            _levelPauseHandler.Pause += OnLevelPause;
+            _levelPauseHandler.UnPause += OnLevelUnPause;
+        }
 
-    private void OnLevelWon() => 
-        DeactivateLimbs();
+        private void OnDisable()
+        {
+            _levelHandler.LevelStarted -= OnLevelStarted;
+            _levelHandler.LevelWon -= OnLevelWon;
+            _levelHandler.LevelLost -= OnLevelLost;
+            _levelPauseHandler.Pause -= OnLevelPause;
+            _levelPauseHandler.UnPause -= OnLevelUnPause;
+        }
 
-    private void OnLevelLost() => 
-        DeactivateLimbs();
+        private void OnLevelWon() => 
+            DeactivateLimbs();
 
-    private void OnLevelStarted() => 
-        ActivateLimbs();
+        private void OnLevelLost() => 
+            DeactivateLimbs();
 
-    private void ActivateLimbs()
-    {
-        foreach (var limb in _limbs)
-            limb.Enable();
-    }
+        private void OnLevelStarted() => 
+            ActivateLimbs();
 
-    private void DeactivateLimbs()
-    {
-        foreach (var limb in _limbs)
-            limb.Disable();
-    }
+        private void ActivateLimbs()
+        {
+            foreach (Limb limb in _limbsController.LimbsCollection)
+                limb.Enable();
+        }
 
-    private void OnLevelPause() => 
-        ForbidMovement();
+        private void DeactivateLimbs()
+        {
+            foreach (Limb limb in _limbsController.LimbsCollection)
+                limb.Disable();
+        }
 
-    private void OnLevelUnPause() => 
-        AllowMovement();
+        private void OnLevelPause() => 
+            ForbidMovement();
 
-    private void AllowMovement()
-    {
-        foreach (var limb in _limbs)
-            limb.AllowMovement();
-    }
+        private void OnLevelUnPause() => 
+            AllowMovement();
 
-    private void ForbidMovement()
-    {
-        foreach (var limb in _limbs)
-            limb.ForbidMovement();
+        private void AllowMovement()
+        {
+            foreach (Limb limb in _limbsController.LimbsCollection)
+                limb.AllowMovement();
+        }
+
+        private void ForbidMovement()
+        {
+            foreach (Limb limb in _limbsController.LimbsCollection)
+                limb.ForbidMovement();
+        }
     }
 }

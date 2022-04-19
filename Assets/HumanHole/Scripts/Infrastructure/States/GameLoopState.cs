@@ -1,4 +1,4 @@
-﻿namespace CodeBase.Infrastructure.States
+﻿namespace HumanHole.Scripts.Infrastructure.States
 {
     public class GameLoopState : IState
     {

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+namespace HumanHole.Scripts.Infrastructure
+{
     public class GameRunner : MonoBehaviour
     {
         [SerializeField] private GameBootstrapper _bootstrapperPrefab;
@@ -13,3 +15,4 @@
             }
         }
     }
+}

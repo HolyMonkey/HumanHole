@@ -1,5 +1,9 @@
-﻿using UnityEngine;
+﻿using HumanHole.Scripts.Infrastructure.States;
+using HumanHole.Scripts.Logic;
+using UnityEngine;
 
+namespace HumanHole.Scripts.Infrastructure
+{
     public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
     {
         [SerializeField] private LoadingCurtain _сurtainPrefab;
@@ -16,3 +20,4 @@
             DontDestroyOnLoad(this);
         }
     }
+}

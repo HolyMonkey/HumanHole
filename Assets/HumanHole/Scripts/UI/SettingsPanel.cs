@@ -2,33 +2,32 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsPanel: MonoBehaviour
+namespace HumanHole.Scripts.UI
 {
-    [SerializeField] private Button _getProfileDataButton;
-    [SerializeField] private Button _requestPersonalProfileDataPermissionButton;
-    [SerializeField] private Button _closeButton;
+    public class SettingsPanel: MonoBehaviour
+    {
+        [SerializeField] private Button _closeButton;
     
-    public event Action Opened;
-    public event Action Closed;
+        public event Action Opened;
+        public event Action Closed;
 
-    public void Initial()
-    {
-        _closeButton.onClick.AddListener(Disable); 
-    }
-    
-    public void Enable()
-    {
-        gameObject.SetActive(true);
-        Opened?.Invoke();
-    }
-    
+        public void Initial() => 
+            _closeButton.onClick.AddListener(Disable);
 
-    private void Disable()
-    {
-        if (gameObject.activeSelf)
+        public void Enable()
         {
-            gameObject.SetActive(false);
-            Closed?.Invoke();
+            gameObject.SetActive(true);
+            Opened?.Invoke();
+        }
+    
+
+        private void Disable()
+        {
+            if (gameObject.activeSelf)
+            {
+                gameObject.SetActive(false);
+                Closed?.Invoke();
+            }
         }
     }
 }

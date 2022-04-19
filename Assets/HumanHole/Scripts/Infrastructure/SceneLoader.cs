@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace CodeBase.Infrastructure
+namespace HumanHole.Scripts.Infrastructure
 {
     public class SceneLoader
     {

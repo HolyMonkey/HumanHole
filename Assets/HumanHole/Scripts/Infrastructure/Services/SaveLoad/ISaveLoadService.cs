@@ -1,9 +1,13 @@
 ﻿using System;
+using HumanHole.Scripts.Data;
 
-public interface ISaveLoadService : IService
+namespace HumanHole.Scripts.Infrastructure.Services.SaveLoad
 {
-    void SaveProgress();
-    void LoadProgress();
-    event Action Saved;
-    event Action<Progress> Loaded;
+    public interface ISaveLoadService : IService
+    {
+        void SaveProgress();
+        void LoadProgress();
+        event Action Saved;
+        event Action<Progress> Loaded;
+    }
 }

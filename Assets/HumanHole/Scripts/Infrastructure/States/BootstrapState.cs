@@ -1,60 +1,68 @@
 ﻿using System.Collections;
-using Agava.YandexGames;
-using CodeBase.Infrastructure.Services.Ads;
-using CodeBase.Infrastructure.Services.LeaderBoard;
-using CodeBase.Infrastructure.Services.Profile;
-using Infrastructure.Services.Analytics;
+using HumanHole.Scripts.Infrastructure.Services;
+using HumanHole.Scripts.Infrastructure.Services.Ads;
+using HumanHole.Scripts.Infrastructure.Services.Analytics;
+using HumanHole.Scripts.Infrastructure.Services.Authorization;
+using HumanHole.Scripts.Infrastructure.Services.Download;
+using HumanHole.Scripts.Infrastructure.Services.LeaderBoard;
+using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
+using HumanHole.Scripts.Infrastructure.Services.Profile;
+using HumanHole.Scripts.Infrastructure.Services.Reward;
+using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
 
-public class BootstrapState : IState
+namespace HumanHole.Scripts.Infrastructure.States
 {
-    private readonly GameStateMachine _stateMachine;
-    private readonly AllServices _services;
-    private readonly ICoroutineRunner _coroutineRunner;
-
-    public BootstrapState(GameStateMachine stateMachine, ICoroutineRunner coroutineRunner,
-        AllServices services)
+    public class BootstrapState : IState
     {
-        _coroutineRunner = coroutineRunner;
-        _stateMachine = stateMachine;
-        _services = services;
+        private readonly GameStateMachine _stateMachine;
+        private readonly AllServices _services;
+        private readonly ICoroutineRunner _coroutineRunner;
+
+        public BootstrapState(GameStateMachine stateMachine, ICoroutineRunner coroutineRunner,
+            AllServices services)
+        {
+            _coroutineRunner = coroutineRunner;
+            _stateMachine = stateMachine;
+            _services = services;
         
-        RegisterServices();
-    }
+            RegisterServices();
+        }
 
-    public void Enter() => 
-        _coroutineRunner.StartCoroutine(InitializeYandexSdk());
+        public void Enter() => 
+            _coroutineRunner.StartCoroutine(InitializeYandexSdk());
 
-    private IEnumerator InitializeYandexSdk()
-    {
+        private IEnumerator InitializeYandexSdk()
+        {
 #if UNITY_WEBGL && !UNITY_EDITOR
         yield return YandexGamesSdk.WaitForInitialization();
 #endif
-        IAuthorizationService authorizationService = _services.Single<IAuthorizationService>();
-        _coroutineRunner.StartCoroutine(authorizationService.Authorize());
-        IProfileDataService profileDataService = _services.Single<IProfileDataService>();
-        profileDataService.Initialize();
-        _stateMachine.Enter<LoadProgressState>();
-        yield return null;
-    }
+            IAuthorizationService authorizationService = _services.Single<IAuthorizationService>();
+            _coroutineRunner.StartCoroutine(authorizationService.Authorize());
+            IProfileDataService profileDataService = _services.Single<IProfileDataService>();
+            profileDataService.Initialize();
+            _stateMachine.Enter<LoadProgressState>();
+            yield return null;
+        }
 
-    public void Exit()
-    {
-    }
+        public void Exit()
+        {
+        }
 
-    private void RegisterServices()
-    {
-        _services.RegisterSingle<IGameStateMachine>(_stateMachine);
-        _services.RegisterSingle<IAdsService>(new AdsService());
-        _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
-        _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
-        _services.RegisterSingle<IAuthorizationService>(new AuthorizationService());
-        _services.RegisterSingle<IProfileDataService>(new ProfileDataService(_services.Single<IAuthorizationService>()));
-        _services.RegisterSingle<ILeaderBoardService>(new LeaderBoardService());
-        _services.RegisterSingle<IRewardService>(new RewardService(
-            _services.Single<IPersistentProgressService>(),
-            _services.Single<ISaveLoadService>()));
-        _services.RegisterSingle<IRenderTextureService>(new RenderTextureService());
-        _services.RegisterSingle<IAnalyticsService>(new AnalyticsService());
-        _services.RegisterSingle<IDownloadService>(new DownloadService());
+        private void RegisterServices()
+        {
+            _services.RegisterSingle<IGameStateMachine>(_stateMachine);
+            _services.RegisterSingle<IAdsService>(new AdsService());
+            _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>()));
+            _services.RegisterSingle<IAuthorizationService>(new AuthorizationService());
+            _services.RegisterSingle<IProfileDataService>(new ProfileDataService(_services.Single<IAuthorizationService>()));
+            _services.RegisterSingle<ILeaderBoardService>(new LeaderBoardService());
+            _services.RegisterSingle<IRewardService>(new RewardService(
+                _services.Single<IPersistentProgressService>(),
+                _services.Single<ISaveLoadService>()));
+            _services.RegisterSingle<IRenderTextureService>(new RenderTextureService());
+            _services.RegisterSingle<IAnalyticsService>(new AnalyticsService());
+            _services.RegisterSingle<IDownloadService>(new DownloadService());
+        }
     }
 }

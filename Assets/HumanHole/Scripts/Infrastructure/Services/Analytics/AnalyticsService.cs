@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Infrastructure.Services.Analytics
+namespace HumanHole.Scripts.Infrastructure.Services.Analytics
 {
     public class AnalyticsService: IAnalyticsService
     {

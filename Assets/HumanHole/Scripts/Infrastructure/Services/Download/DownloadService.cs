@@ -2,21 +2,24 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class DownloadService : IDownloadService
+namespace HumanHole.Scripts.Infrastructure.Services.Download
 {
-    public async Task<Texture2D> DownloadPreview(string path)
+    public class DownloadService : IDownloadService
     {
-        using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(path))
+        public async Task<Texture2D> DownloadPreview(string path)
         {
-            await www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success)
+            using (UnityWebRequest www = UnityWebRequestTexture.GetTexture(path))
             {
-                Debug.LogError(www.error);
-                return null;
-            }
+                await www.SendWebRequest();
 
-            return DownloadHandlerTexture.GetContent(www);
+                if (www.result != UnityWebRequest.Result.Success)
+                {
+                    Debug.LogError(www.error);
+                    return null;
+                }
+
+                return DownloadHandlerTexture.GetContent(www);
+            }
         }
     }
 }

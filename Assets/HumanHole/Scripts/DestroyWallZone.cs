@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public class DestroyWallZone : MonoBehaviour
+namespace HumanHole.Scripts
 {
+    public class DestroyWallZone : MonoBehaviour
+    {
+    }
 }
 

@@ -1,7 +1,8 @@
-using Infrastructure.Services.Analytics;
+using HumanHole.Scripts.Data;
+using HumanHole.Scripts.Infrastructure.Services.Analytics;
 using UnityEngine;
 
-namespace Handlers
+namespace HumanHole.Scripts.Handlers
 {
     public class AnalyticsHandler : MonoBehaviour
     {

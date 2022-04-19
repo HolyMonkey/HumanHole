@@ -1,7 +1,10 @@
 using UnityEngine.UI;
 
-public class RaycastTarget : Graphic
+namespace HumanHole.Scripts.UI
 {
-    public override void SetMaterialDirty() { return; }
-    public override void SetVerticesDirty() { return; }
+    public class RaycastTarget : Graphic
+    {
+        public override void SetMaterialDirty() { return; }
+        public override void SetVerticesDirty() { return; }
+    }
 }

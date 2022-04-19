@@ -1,5 +1,8 @@
-public interface IRewardService : IService
+namespace HumanHole.Scripts.Infrastructure.Services.Reward
 {
-    int RewardedPoints { get; }
-    void AddReward();
+    public interface IRewardService : IService
+    {
+        int RewardedPoints { get; }
+        void AddReward();
+    }
 }

@@ -1,43 +1,47 @@
 using System;
+using HumanHole.Scripts.Spawners;
 using UnityEngine;
 
-public class CollisionObserver : MonoBehaviour
+namespace HumanHole.Scripts
 {
-    private bool _touchedPerson;
-    private WallSpawner _wallSpawner;
-
-    public event Action WallCollidedPlayer;
-
-    public void Initial(WallSpawner wallSpawner) => 
-        _wallSpawner = wallSpawner;
-
-    public void Enable() => 
-        gameObject.SetActive(true);
-
-    private void OnEnable()
+    public class CollisionObserver : MonoBehaviour
     {
-        _wallSpawner.Spawned += WallSpawned;
-        _wallSpawner.Destroyed += WallDestroyed;
-    }
+        private bool _touchedPerson;
+        private WallSpawner _wallSpawner;
 
-    private void OnDisable()
-    {
-        _wallSpawner.Spawned -= WallSpawned;
-        _wallSpawner.Destroyed -= WallDestroyed;
-    }
+        public event Action WallCollidedPlayer;
 
-    private void WallSpawned(Wall wall)
-    {
-        _touchedPerson = false;
-        wall.TouchedPlayer += OnWallHitPlayer;
-    }
+        public void Initial(WallSpawner wallSpawner) => 
+            _wallSpawner = wallSpawner;
 
-    private void WallDestroyed(Wall wall) => 
-        wall.TouchedPlayer -= OnWallHitPlayer;
+        public void Enable() => 
+            gameObject.SetActive(true);
 
-    private void OnWallHitPlayer()
-    {
-        _touchedPerson = true;
-        WallCollidedPlayer?.Invoke();
+        private void OnEnable()
+        {
+            _wallSpawner.Spawned += WallSpawned;
+            _wallSpawner.Destroyed += WallDestroyed;
+        }
+
+        private void OnDisable()
+        {
+            _wallSpawner.Spawned -= WallSpawned;
+            _wallSpawner.Destroyed -= WallDestroyed;
+        }
+
+        private void WallSpawned(Wall wall)
+        {
+            _touchedPerson = false;
+            wall.TouchedPlayer += OnWallHitPlayer;
+        }
+
+        private void WallDestroyed(Wall wall) => 
+            wall.TouchedPlayer -= OnWallHitPlayer;
+
+        private void OnWallHitPlayer()
+        {
+            _touchedPerson = true;
+            WallCollidedPlayer?.Invoke();
+        }
     }
 }

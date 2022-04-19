@@ -1,8 +1,7 @@
 ﻿using System;
-using Agava.YandexGames;
 using UnityEngine;
 
-namespace CodeBase.Infrastructure.Services.Ads
+namespace HumanHole.Scripts.Infrastructure.Services.Ads
 {
     public class InterstitialAd: IAd
     {

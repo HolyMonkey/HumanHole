@@ -1,35 +1,38 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(CanvasGroup))]
-public class LoadingCurtain : MonoBehaviour
+namespace HumanHole.Scripts.Logic
 {
-    private CanvasGroup _curtain;
-    private const float FadeTime = 0.03f;
-
-    private void Awake()
+    [RequireComponent(typeof(CanvasGroup))]
+    public class LoadingCurtain : MonoBehaviour
     {
-        _curtain = GetComponent<CanvasGroup>();
-        DontDestroyOnLoad(this);
-    }
+        private CanvasGroup _curtain;
+        private const float FadeTime = 0.03f;
 
-    public void Show()
-    {
-        gameObject.SetActive(true);
-        _curtain.alpha = 1;
-    }
-
-    public void Hide() =>
-        StartCoroutine((FadeIn()));
-
-    private IEnumerator FadeIn()
-    {
-        while (_curtain.alpha > 0)
+        private void Awake()
         {
-            _curtain.alpha -= FadeTime;
-            yield return new WaitForSeconds(FadeTime);
+            _curtain = GetComponent<CanvasGroup>();
+            DontDestroyOnLoad(this);
         }
 
-        gameObject.SetActive(false);
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            _curtain.alpha = 1;
+        }
+
+        public void Hide() =>
+            StartCoroutine((FadeIn()));
+
+        private IEnumerator FadeIn()
+        {
+            while (_curtain.alpha > 0)
+            {
+                _curtain.alpha -= FadeTime;
+                yield return new WaitForSeconds(FadeTime);
+            }
+
+            gameObject.SetActive(false);
+        }
     }
 }

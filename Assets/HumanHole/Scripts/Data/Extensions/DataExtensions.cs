@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 
-
-public static class DataExtensions
+namespace HumanHole.Scripts.Data.Extensions
 {
-    public static string ToJson(this object obj) =>
-        JsonUtility.ToJson(obj);
+    public static class DataExtensions
+    {
+        public static string ToJson(this object obj) =>
+            JsonUtility.ToJson(obj);
 
-    public static T FromJson<T>(this string json) =>
-        JsonUtility.FromJson<T>(json);
+        public static T FromJson<T>(this string json) =>
+            JsonUtility.FromJson<T>(json);
+    }
 }

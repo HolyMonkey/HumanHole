@@ -1,7 +1,8 @@
-﻿using CodeBase.Infrastructure.Services.Ads;
-
-public interface IAdsService : IService
+﻿namespace HumanHole.Scripts.Infrastructure.Services.Ads
 {
-    InterstitialAd InterstitialAd { get; }
-    RewardedAd RewardedAd { get; }
+    public interface IAdsService : IService
+    {
+        InterstitialAd InterstitialAd { get; }
+        RewardedAd RewardedAd { get; }
+    }
 }

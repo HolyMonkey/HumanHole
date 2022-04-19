@@ -1,7 +1,7 @@
 ﻿using System;
 using Agava.YandexGames;
 
-namespace CodeBase.Infrastructure.Services.LeaderBoard
+namespace HumanHole.Scripts.Infrastructure.Services.LeaderBoard
 {
     public class LeaderBoardService: ILeaderBoardService
     {

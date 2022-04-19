@@ -1,4 +1,9 @@
-﻿public class PersistentProgressService : IPersistentProgressService
+﻿using HumanHole.Scripts.Data;
+
+namespace HumanHole.Scripts.Infrastructure.Services.PersistentProgress
 {
-    public Progress Progress { get; set; }
+    public class PersistentProgressService : IPersistentProgressService
+    {
+        public Progress Progress { get; set; }
+    }
 }

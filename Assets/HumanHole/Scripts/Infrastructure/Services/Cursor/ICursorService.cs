@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface ICursorService : IService
+namespace HumanHole.Scripts.Infrastructure.Services.Cursor
 {
-    void Enable();
-    void Disable();
+    public interface ICursorService : IService
+    {
+        void Enable();
+        void Disable();
+    }
 }

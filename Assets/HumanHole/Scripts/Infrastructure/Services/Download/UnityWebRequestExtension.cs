@@ -1,9 +1,12 @@
 using UnityEngine.Networking;
 
-public static class UnityWebRequestExtension
+namespace HumanHole.Scripts.Infrastructure.Services.Download
 {
-    public static UnityWebRequestAwaiter GetAwaiter(this UnityWebRequestAsyncOperation asyncOp)
+    public static class UnityWebRequestExtension
     {
-        return new UnityWebRequestAwaiter(asyncOp);
+        public static UnityWebRequestAwaiter GetAwaiter(this UnityWebRequestAsyncOperation asyncOp)
+        {
+            return new UnityWebRequestAwaiter(asyncOp);
+        }
     }
 }
