@@ -28,8 +28,8 @@ namespace Editor
             if (!EditorApplication.isPlaying && EditorApplication.isPlayingOrWillChangePlaymode)
             {
                 //Проверяем не является ли текущая сцена начальной сценой
-               // if (SceneManager.GetActiveScene().buildIndex != 0)
-                    //TryToOpenMainScene();
+                if (SceneManager.GetActiveScene().buildIndex != 0)
+                    TryToOpenMainScene();
             }
         }
 
