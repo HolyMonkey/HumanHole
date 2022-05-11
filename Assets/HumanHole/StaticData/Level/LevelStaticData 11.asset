@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f693b921eaf1043b671e7ae5fcc13d, type: 3}
+  m_Name: LevelStaticData 11
+  m_EditorClassIdentifier: 
+  _levelWonGold: 10
+  _levelLoseGold: 2
+  _levelWonPoints: 25
+  _levelLosePoints: 5
+  levelWallsStaticData:
+    _wallSpeed: 1
+    _walls:
+    - {fileID: 7606215860437166307, guid: 1d23b3cc6775ebf469a4f5a095b5e5ef, type: 3}
+    - {fileID: 7606215860437166307, guid: 918a2850aa93642b4ad95952c6e21ad3, type: 3}
+    - {fileID: 7606215860437166307, guid: 8cf5fbe1b7216ef48bb61aa1a89fa83d, type: 3}
+    _color: {r: 0.41568628, g: 0.40392157, b: 0.40392157, a: 0}
+  _platformColor: {r: 0.41568628, g: 0.40392157, b: 0.40392157, a: 0}
+  _waterMaterial: {fileID: 2100000, guid: 31d44f8288cdb464993a5c8b6e250228, type: 2}

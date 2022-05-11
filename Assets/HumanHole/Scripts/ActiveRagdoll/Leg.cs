@@ -16,9 +16,7 @@ namespace HumanHole.Scripts.ActiveRagdoll
             _startRotation = transform.rotation;
         }
 
-        private void FixedUpdate()
-        {
+        private void FixedUpdate() => 
             _joint.targetRotation = Quaternion.Inverse(Quaternion.LookRotation(_startRotation * Quaternion.Euler(0, 180, 0) * (_target.position - transform.position)));
-        }
     }
 }

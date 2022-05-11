@@ -5,10 +5,14 @@ namespace HumanHole.Scripts.Path
 {
     public class SmoothPathVisualization : MonoBehaviour
     {
+        private const int MinPointLengt = 2;
+        
         [SerializeField] private Transform[] _points;
         [SerializeField] private float _smoothPower = 1;
 
         private SmoothPath _path;
+        private float _step = 0.05f;
+        private float _radius = 0.1f;
 
         private void OnDrawGizmos()
         {
@@ -17,13 +21,13 @@ namespace HumanHole.Scripts.Path
                 return;
 
             Gizmos.color = Color.red;
-            for (float t = 0; t < 1; t += 0.05f)
-                Gizmos.DrawSphere(_path.GetPosition(t), 0.1f);
+            for (float t = 0; t < 1; t += _step)
+                Gizmos.DrawSphere(_path.GetPosition(t), _radius);
         }
 
         private SmoothPath CreatePath()
         {
-            if (_points.Length < 2)
+            if (_points.Length < MinPointLengt)
                 return null;
 
             Transform firstPoint = _points[0];

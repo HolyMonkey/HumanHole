@@ -1,4 +1,5 @@
 ﻿using System;
+using Agava.YandexGames;
 using UnityEngine;
 
 namespace HumanHole.Scripts.Infrastructure.Services.Ads
@@ -23,13 +24,10 @@ namespace HumanHole.Scripts.Infrastructure.Services.Ads
         protected override void OnOpened() => 
             Opened?.Invoke();
 
-        protected override void OnDidError(string message)
-        {
-            Debug.LogError(message);
+        protected override void OnDidError(string message) => 
             DidError?.Invoke();
-        }
 
-        protected override void OnClosed(bool isClosed) => 
+        private void OnClosed(bool isClosed) => 
             IsClosed = isClosed;
 
         protected override void OnOffline() => 

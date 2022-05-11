@@ -7,6 +7,7 @@ namespace HumanHole.Scripts.Infrastructure.States
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
+        
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader, LoadingCurtain curtain)
         {
             _stateMachine = stateMachine;

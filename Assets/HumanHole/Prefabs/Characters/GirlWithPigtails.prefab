@@ -334,7 +334,7 @@ GameObject:
   - component: {fileID: 4037239865957431408}
   - component: {fileID: 4037239865957431411}
   m_Layer: 7
-  m_Name: LeftHandTarget
+  m_Name: LeftHandEffector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1272,13 +1272,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _id: 0
-  _price: 0
   _spineRotation: {fileID: 5938226380229766468}
   _leftHandAnchorPosition: {fileID: 4037239865957431411}
   _rightHandAnchorPosition: {fileID: 4037239866916166888}
   _rightFootAnchorPosition: {fileID: 4037239867398581026}
   _leftFootAnchorPosition: {fileID: 4037239865734517278}
   _bodyAnchorPosition: {fileID: 4037239866410560805}
+  _icon: {fileID: 3542127132570728493, guid: 4340f0d6fc5eeec4f8219ace52fa82cf, type: 3}
 --- !u!1 &6643537485330032698
 GameObject:
   m_ObjectHideFlags: 0

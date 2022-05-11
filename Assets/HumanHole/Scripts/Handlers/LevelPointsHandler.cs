@@ -1,84 +1,91 @@
 using HumanHole.Scripts.Data;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
-using HumanHole.Scripts.Spawners;
+using HumanHole.Scripts.Level;
 using HumanHole.Scripts.UI;
-using UnityEngine;
+using HumanHole.Scripts.UI.Panels;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class LevelPointsHandler : MonoBehaviour
+    public class LevelPointsHandler
     {
-        private WallSpawner _wallSpawner;
-        private LevelUI _levelUI;
+        public int LevelPoints { get; set; }
+        
         private LevelHandler _levelHandler;
         private Progress _progress;
+        private WonLevelPanel _wonLevelPanel;
+        private LostLevelPanel _lostLevelPanel;
+        private LevelStaticData _levelStaticData;
         private ISaveLoadService _saveLoadService;
-        private AdHandler _adHandler;
-        private int _rewardedPoints;
-        private int _progressPoints;
-    
-        public int LevelPoints { get; private set; }
 
-        public void Initial(WallSpawner wallSpawner, LevelUI levelUI, LevelHandler levelHandler, Progress progress, ISaveLoadService saveLoadService, AdHandler adHandler)
+        private int _progressPoints;
+        private bool _wonLevel;
+        
+        public void Initial(LevelHandler levelHandler, Progress progress,
+            ISaveLoadService saveLoadService, LevelPanelsStateMachine levelPanelsStateMachine, LevelStaticData levelStaticData)
         {
-            _adHandler = adHandler;
+            _levelStaticData = levelStaticData;
             _saveLoadService = saveLoadService;
             _progress = progress;
             _levelHandler = levelHandler;
-            _levelUI = levelUI;
-            _wallSpawner = wallSpawner;
+            _wonLevelPanel = levelPanelsStateMachine.GetPanel<WonLevelPanel>();
+            _lostLevelPanel = levelPanelsStateMachine.GetPanel<LostLevelPanel>();
         }
 
-        public void Enable()
+        public void OnEnabled()
         {
-            gameObject.SetActive(true);
-            _progressPoints = _progress.Points;
-            SetPoints();
-        }
-    
-        private void OnEnable()
-        {
-            _wallSpawner.Spawned += OnWallSpawned;
             _levelHandler.LevelWon += OnLevelWon;
-            _adHandler.RewardAdShowed += OnRewardedAdShowed;
+            _levelHandler.LevelLost += OnLevelLost;
+            _progress.PointsProgress.Changed += OnPointsChanged;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
-            _wallSpawner.Spawned -= OnWallSpawned;
             _levelHandler.LevelWon -= OnLevelWon;
-            _adHandler.RewardAdShowed -= OnRewardedAdShowed;
+            _levelHandler.LevelLost -= OnLevelLost;
+            _progress.PointsProgress.Changed -= OnPointsChanged;
         }
 
-        private void OnRewardedAdShowed(int rewardedPoints)
+        private void OnPointsChanged()
         {
-            _rewardedPoints += rewardedPoints;
-            SetPoints();
+            _progressPoints = _progress.PointsProgress.Count;
+            if(_wonLevel)
+                SetLevelWonPoints(LevelPoints, _progressPoints);
+            else
+                SetLevelLosePoints(LevelPoints, _progressPoints);
         }
 
-        private void SetPoints() => 
-            _levelUI.SetPoints(LevelPoints + _rewardedPoints + _progressPoints);
-
-        private void OnLevelWon() => 
-            UpdatePoints(LevelPoints);
-
-        private void UpdatePoints(int points)
+        private void OnLevelWon()
         {
-            _progress.UpdatePoints(points);
+            _wonLevel = true;
+            SetLevelPoints(_levelStaticData.LevelWonPoints);
+            SavePoints(_levelStaticData.LevelWonPoints);
+        }
+
+        private void OnLevelLost()
+        {
+            SetLevelPoints(_levelStaticData.LevelLosePoints);
+            SavePoints(_levelStaticData.LevelLosePoints);
+        }
+
+        private void SetLevelWonPoints(int levelPoints, int allPoints)
+        {
+            _wonLevelPanel.SetLevelPoints(levelPoints);
+            _wonLevelPanel.SetAllPoints(allPoints);
+        }
+
+        private void SetLevelLosePoints(int levelPoints, int allPoints)
+        {
+            _lostLevelPanel.SetLevelPoints(levelPoints);
+            _lostLevelPanel.SetAllPoints(allPoints);
+        }
+
+        private void SetLevelPoints(int points) =>
+            LevelPoints = points;
+        
+        private void SavePoints(int points)
+        {
+            _progress.PointsProgress.Add(points);
             _saveLoadService.SaveProgress();
-        }
-
-        private void OnWallSpawned(Wall wall) => 
-            _wallSpawner.LeftPlayerZone += OnWallLeftPlayerZone;
-
-        private void OnWallLeftPlayerZone(Wall wall)
-        {
-            _wallSpawner.LeftPlayerZone -= OnWallLeftPlayerZone;
-            if (!_levelHandler.IsLevelLost)
-            {
-                LevelPoints++;
-                SetPoints();
-            }
         }
     }
 }

@@ -1,5 +1,4 @@
 using System;
-using UnityEngine.SceneManagement;
 
 namespace HumanHole.Scripts.Data
 {
@@ -7,48 +6,20 @@ namespace HumanHole.Scripts.Data
     public class Progress
     {
         [NonSerialized] public bool IsGameStarted;
-    
-        public int LevelNumber;
-        public int Points;
+
+        public LevelsProgress LevelsProgress;
+        public CharactersProgress CharactersProgress;
+        public GoldProgress GoldProgress;
+        public PointsProgress PointsProgress;
+        public ShopProgress ShopProgress;
 
         public Progress()
         {
-            LevelNumber = 1;
-        }
-
-        public void TryUpdateLevel()
-        {
-            if (CanUpdateLevel())
-            {
-                LevelNumber++;
-            }
-        }
-
-        public void SetLevelNumber(int levelNumber)
-        {
-            LevelNumber = levelNumber;
-        }
-
-        public void UpdatePoints(int points)
-        {
-            Points += points;
-        }
-
-        public string LevelName()
-        {
-            return $"Level {LevelNumber}";
-        }
-
-        private bool CanUpdateLevel()
-        {
-            var levelsCount = SceneManager.sceneCountInBuildSettings - 1;
-            var nextLevelNumber = LevelNumber + 1;
-            if (levelsCount > nextLevelNumber)
-            {
-                return true;
-            }
-
-            return false;
+            LevelsProgress = new LevelsProgress();
+            CharactersProgress = new CharactersProgress();
+            GoldProgress = new GoldProgress();
+            ShopProgress = new ShopProgress();
+            PointsProgress = new PointsProgress();
         }
     }
 }

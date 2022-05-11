@@ -1,28 +1,24 @@
 using HumanHole.Scripts.Handlers;
-using UnityEngine;
 
 namespace HumanHole.Scripts.Gesture
 {
-    public class GestureHandler : MonoBehaviour
+    public class GestureHandler
     {
         private LevelHandler _levelHandler;
         private LevelPauseHandler _levelPauseHandler;
-        
-        [SerializeField] private Limbs _limbsController;
+        private Limbs _limbs;
 
-        public void Initial(LevelHandler levelHandler, LevelPauseHandler levelPauseHandler)
+        public void Initial(LevelHandler levelHandler, LevelPauseHandler levelPauseHandler, Limbs limbs, UnityEngine.Camera mainCamera)
         {
             _levelPauseHandler = levelPauseHandler;
             _levelHandler = levelHandler;
+            _limbs = limbs;
+            
+            foreach (Limb limb in _limbs.LimbsCollection)
+                limb.Initial(mainCamera);
         }
 
-        public void Enable()
-        {
-            gameObject.SetActive(true);
-            AllowMovement();
-        }
-
-        private void OnEnable()
+        public void OnEnabled()
         {
             _levelHandler.LevelStarted += OnLevelStarted;
             _levelHandler.LevelWon += OnLevelWon;
@@ -31,7 +27,7 @@ namespace HumanHole.Scripts.Gesture
             _levelPauseHandler.UnPause += OnLevelUnPause;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
             _levelHandler.LevelStarted -= OnLevelStarted;
             _levelHandler.LevelWon -= OnLevelWon;
@@ -39,6 +35,9 @@ namespace HumanHole.Scripts.Gesture
             _levelPauseHandler.Pause -= OnLevelPause;
             _levelPauseHandler.UnPause -= OnLevelUnPause;
         }
+
+        public void OnStarted() => 
+            AllowMovement();
 
         private void OnLevelWon() => 
             DeactivateLimbs();
@@ -51,13 +50,13 @@ namespace HumanHole.Scripts.Gesture
 
         private void ActivateLimbs()
         {
-            foreach (Limb limb in _limbsController.LimbsCollection)
+            foreach (Limb limb in _limbs.LimbsCollection)
                 limb.Enable();
         }
 
         private void DeactivateLimbs()
         {
-            foreach (Limb limb in _limbsController.LimbsCollection)
+            foreach (Limb limb in _limbs.LimbsCollection)
                 limb.Disable();
         }
 
@@ -69,13 +68,13 @@ namespace HumanHole.Scripts.Gesture
 
         private void AllowMovement()
         {
-            foreach (Limb limb in _limbsController.LimbsCollection)
+            foreach (Limb limb in _limbs.LimbsCollection)
                 limb.AllowMovement();
         }
 
         private void ForbidMovement()
         {
-            foreach (Limb limb in _limbsController.LimbsCollection)
+            foreach (Limb limb in _limbs.LimbsCollection)
                 limb.ForbidMovement();
         }
     }

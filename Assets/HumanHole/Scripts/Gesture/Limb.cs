@@ -19,9 +19,9 @@ namespace HumanHole.Scripts.Gesture
         private Vector3 _mouseOffset;
         private float _mouseZCoordinate;
         private bool _allowed;
-
-        private void Awake() => 
-            _camera = UnityEngine.Camera.main;
+        
+        public void Initial(UnityEngine.Camera mainCamera) => 
+            _camera = mainCamera;
 
         public void Enable()
         {
@@ -108,7 +108,7 @@ namespace HumanHole.Scripts.Gesture
             if (!_allowed)
                 return;
         
-            var position = GetMouseWorldPos() + _mouseOffset;
+            Vector3 position = GetMouseWorldPos() + _mouseOffset;
             transform.position = position;
             Move();
         }

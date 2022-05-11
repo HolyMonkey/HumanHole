@@ -1,12 +1,12 @@
 using HumanHole.Scripts.Data;
 using HumanHole.Scripts.Infrastructure.Services.Analytics;
-using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class AnalyticsHandler : MonoBehaviour
+    public class AnalyticsHandler
     {
         private const string Key = "Number";
+        
         private IAnalyticsService _analyticsService;
         private LevelHandler _levelHandler;
         private AdHandler _adHandler;
@@ -20,10 +20,7 @@ namespace HumanHole.Scripts.Handlers
             _analyticsService = analyticsService;
         }
 
-        public void Enable() => 
-            gameObject.SetActive(true);
-
-        private void OnEnable()
+        public void OnEnabled()
         {
             _levelHandler.LevelStarted += OnLevelStarted;
             _levelHandler.LevelWon += OnLevelWon;
@@ -38,7 +35,7 @@ namespace HumanHole.Scripts.Handlers
             _adHandler.InterstitialAdOffline += OnInterstitialAdOffline;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
             _levelHandler.LevelStarted -= OnLevelStarted;
             _levelHandler.LevelWon -= OnLevelWon;
@@ -68,7 +65,7 @@ namespace HumanHole.Scripts.Handlers
         private void OnRewardAdOffline() => 
             SetEvent(AnalyticsEvents.RewardedAdOffline);
 
-        private void OnRewardAdShowed(int obj) => 
+        private void OnRewardAdShowed() => 
             SetEvent(AnalyticsEvents.RewardedAdAdShow);
 
         private void OnRewardAdClosed() => 
@@ -78,13 +75,13 @@ namespace HumanHole.Scripts.Handlers
             SetEvent(AnalyticsEvents.RewardedAdAdOpen);
 
         private void OnLevelWon() => 
-            SetEvent(AnalyticsEvents.LevelComplete, Key, _progress.LevelNumber);
+            SetEvent(AnalyticsEvents.LevelComplete, Key, _progress.LevelsProgress.LevelNumber);
 
         private void OnLevelStarted() => 
-            SetEvent(AnalyticsEvents.LevelStart, Key, _progress.LevelNumber);
+            SetEvent(AnalyticsEvents.LevelStart, Key, _progress.LevelsProgress.LevelNumber);
 
         private void OnLevelLost() => 
-            SetEvent(AnalyticsEvents.LevelFail, Key, _progress.LevelNumber);
+            SetEvent(AnalyticsEvents.LevelFail, Key, _progress.LevelsProgress.LevelNumber);
 
         private void SetEvent(AnalyticsEvents @event, string key, object value) => 
             _analyticsService.SetEvent(@event, key, value);

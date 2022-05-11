@@ -19,20 +19,68 @@ EditorBuildSettings:
     guid: e685d6ca534524f44ba7ca4e05e5bdc1
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level 4.unity
-    guid: 8deec3f4b6e811342905a3dce87dcfc7
+    guid: 65792db7546971743803917c328ce9aa
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level 5.unity
-    guid: 9402e1906c84a664bb6bc970995f5fe6
+    guid: fc8e8f3b590689249818e93664d0f649
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level 6.unity
     guid: 2404b5ed4abe7154e82f8cd2cf8ece07
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level 7.unity
-    guid: 4c41057cfd8a0194aa588d37d92a8be8
+    guid: 86fa393e09b409d44b7426fd3b64b8fb
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level 8.unity
-    guid: 4d944fdd127d7e34d8751b329f041428
+    guid: 7673b347df68ca142af06ffb8cce7aa2
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level 9.unity
-    guid: 273d7b9ac74bc164f956e9c8aad0ae8d
+    guid: b4b347de9df926f4ebde9ffe32de7446
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 10.unity
+    guid: 240886d98150b9c40805826a330b3e10
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 11.unity
+    guid: d6cb28a7c1c29dc45a84705926b5aa6f
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 12.unity
+    guid: 34a0eb319d2f01c4fa6e2a275b675db1
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 13.unity
+    guid: 8d0ee6c0f3948044c9313988b2b2697f
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 14.unity
+    guid: 6f6a9515266aeb541ad79d1222bd94c9
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 15.unity
+    guid: 1997f398b718872419b8a2364c833985
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 16.unity
+    guid: 2d18aff8378fba546b581507e9dbe6ea
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 17.unity
+    guid: 76a95df9832b02f4a96815d9d856513b
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 18.unity
+    guid: e9fa7548051bfb947abd9d07b0da350e
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 19.unity
+    guid: 5f5ca921caeb93645aa2a12d36ce3c96
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 20.unity
+    guid: ef25235374c617e48b8cccc400077ab1
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 21.unity
+    guid: 10d4a08b3480a184e8a6a9e9263ca2d3
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 22.unity
+    guid: 773bc0c482e800d4683825a2643a295e
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 23.unity
+    guid: c842a75137fa7694fb4eceebcf530af2
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 24.unity
+    guid: 26acf8df57b3e3d409f924ca33c483e6
+  - enabled: 1
+    path: Assets/HumanHole/Scenes/Level 25.unity
+    guid: 657ea344992ceb3449f4ddda0384dcc1
   m_configObjects: {}

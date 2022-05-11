@@ -2,12 +2,13 @@
 using HumanHole.Scripts.Infrastructure.Services;
 using HumanHole.Scripts.Infrastructure.Services.Ads;
 using HumanHole.Scripts.Infrastructure.Services.Analytics;
+using HumanHole.Scripts.Infrastructure.Services.AssetsManagement;
 using HumanHole.Scripts.Infrastructure.Services.Authorization;
 using HumanHole.Scripts.Infrastructure.Services.Download;
+using HumanHole.Scripts.Infrastructure.Services.Factory;
 using HumanHole.Scripts.Infrastructure.Services.LeaderBoard;
 using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
 using HumanHole.Scripts.Infrastructure.Services.Profile;
-using HumanHole.Scripts.Infrastructure.Services.Reward;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
 
 namespace HumanHole.Scripts.Infrastructure.States
@@ -57,12 +58,11 @@ namespace HumanHole.Scripts.Infrastructure.States
             _services.RegisterSingle<IAuthorizationService>(new AuthorizationService());
             _services.RegisterSingle<IProfileDataService>(new ProfileDataService(_services.Single<IAuthorizationService>()));
             _services.RegisterSingle<ILeaderBoardService>(new LeaderBoardService());
-            _services.RegisterSingle<IRewardService>(new RewardService(
-                _services.Single<IPersistentProgressService>(),
-                _services.Single<ISaveLoadService>()));
             _services.RegisterSingle<IRenderTextureService>(new RenderTextureService());
             _services.RegisterSingle<IAnalyticsService>(new AnalyticsService());
             _services.RegisterSingle<IDownloadService>(new DownloadService());
+            _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _services.RegisterSingle<IFactoryService>(new FactoryService(_services.Single<IAssetProvider>()));
         }
     }
 }

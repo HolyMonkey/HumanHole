@@ -1,44 +1,39 @@
 using System;
 using HumanHole.Scripts.Infrastructure.Services.Ads;
-using HumanHole.Scripts.Infrastructure.Services.Reward;
 using HumanHole.Scripts.UI;
-using UnityEngine;
+using HumanHole.Scripts.UI.Panels;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class AdHandler : MonoBehaviour
+    public class AdHandler
     {
-        private IAdsService _adsService;
-        private IRewardService _rewardService;
-        private LevelHandler _levelHandler;
-        private LevelUI _levelUI;
-
         public event Action RewardAdOpened;
         public event Action RewardAdClosed;
-        public event Action<int> RewardAdShowed;
+        public event Action RewardAdShowed;
         public event Action RewardAdOffline;
-
         public event Action InterstitialAdOpened;
         public event Action InterstitialAdShowed;
         public event Action InterstitialAdClosed;
         public event Action InterstitialAdOffline;
-    
-        public void Initial(LevelHandler levelHandler, LevelUI levelUI, IAdsService adsService, IRewardService rewardService)
+
+        private IAdsService _adsService;
+        private LevelHandler _levelHandler;
+        private WonLevelPanel _wonLevelPanel;
+        private LostLevelPanel _lostLevelPanel;
+
+        public void Initial(LevelHandler levelHandler, LevelPanelsStateMachine levelPanelsStateMachine,
+            IAdsService adsService)
         {
             _levelHandler = levelHandler;
-            _levelUI = levelUI;
+            _wonLevelPanel = levelPanelsStateMachine.GetPanel<WonLevelPanel>();
+            _lostLevelPanel = levelPanelsStateMachine.GetPanel<LostLevelPanel>();
             _adsService = adsService;
-            _rewardService = rewardService;
         }
 
-        public void Enable()
+        public void OnEnabled()
         {
-            gameObject.SetActive(true);
-        }
-
-        private void OnEnable()
-        {
-            _levelUI.ShowRewardAdButtonClick += OnShowRewardAdButtonClick;
+            _wonLevelPanel.RewardedAdButtonClick += OnRewardAdButtonButtonClick;
+            _lostLevelPanel.RewardedAdButtonClick += OnRewardAdButtonButtonClick;
             _levelHandler.GameStarted += OnGameStarted;
             _levelHandler.LevelLost += OnLevelLost;
             _levelHandler.LevelWon += OnLevelWon;
@@ -52,9 +47,10 @@ namespace HumanHole.Scripts.Handlers
             _adsService.InterstitialAd.Offline += OnInterstitialAdOffline;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
-            _levelUI.ShowRewardAdButtonClick -= OnShowRewardAdButtonClick;
+            _wonLevelPanel.RewardedAdButtonClick -= OnRewardAdButtonButtonClick;
+            _lostLevelPanel.RewardedAdButtonClick -= OnRewardAdButtonButtonClick;
             _levelHandler.GameStarted -= OnGameStarted;
             _levelHandler.LevelLost -= OnLevelLost;
             _levelHandler.LevelWon -= OnLevelWon;
@@ -68,43 +64,40 @@ namespace HumanHole.Scripts.Handlers
             _adsService.InterstitialAd.Offline -= OnInterstitialAdOffline;
         }
 
-        private void OnLevelWon() => 
+        private void OnLevelWon() =>
             _adsService.InterstitialAd.Show();
 
-        private void OnLevelLost() => 
+        private void OnLevelLost() =>
             _adsService.InterstitialAd.Show();
 
-        private void OnGameStarted() => 
+        private void OnGameStarted() =>
             _adsService.InterstitialAd.Show();
 
-        private void OnShowRewardAdButtonClick() => 
+        private void OnRewardAdButtonButtonClick() =>
             _adsService.RewardedAd.Show();
 
-        private void OnRewardedAdShowed()
-        {
-            _rewardService.AddReward();
-            RewardAdShowed?.Invoke(_rewardService.RewardedPoints);
-        }
+        private void OnRewardedAdShowed() => 
+            RewardAdShowed?.Invoke();
 
-        private void OnRewardedAdOpened() => 
+        private void OnRewardedAdOpened() =>
             RewardAdOpened?.Invoke();
 
-        private void OnRewardedAdClosed() => 
+        private void OnRewardedAdClosed() =>
             RewardAdClosed?.Invoke();
 
-        private void OnInterstitialAdOpened() => 
+        private void OnInterstitialAdOpened() =>
             InterstitialAdOpened?.Invoke();
 
-        private void OnInterstitialAdShowed() => 
+        private void OnInterstitialAdShowed() =>
             InterstitialAdShowed?.Invoke();
 
-        private void OnInterstitialAdClosed() => 
+        private void OnInterstitialAdClosed() =>
             InterstitialAdClosed?.Invoke();
 
-        private void OnInterstitialAdOffline() => 
+        private void OnInterstitialAdOffline() =>
             InterstitialAdOffline?.Invoke();
 
-        private void OnRewardedAdOffline() => 
+        private void OnRewardedAdOffline() =>
             RewardAdOffline?.Invoke();
     }
 }

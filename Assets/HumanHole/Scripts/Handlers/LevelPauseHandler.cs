@@ -1,52 +1,40 @@
 using System;
 using HumanHole.Scripts.UI;
+using HumanHole.Scripts.UI.Panels;
 using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class LevelPauseHandler : MonoBehaviour
+    public class LevelPauseHandler
     {
-        private AdHandler _adHandler;
-        private bool _isPaused;
-        private SettingsPanel _settingsPanel;
-        private PlayerProfileDataPanel _playerProfileDataPanel;
-        private LeaderBoardPanel _leaderBoardPanel;
-
+        public bool IsPaused { get; private set; }
         public event Action Pause;
         public event Action UnPause;
 
-        public void Initial(AdHandler adHandler, SettingsPanel settingsPanel, PlayerProfileDataPanel playerProfileDataPanel,
-            LeaderBoardPanel leaderBoardPanel)
+        private AdHandler _adHandler;
+        private LevelPanelsStateMachine _levelPanelsStateMachine;
+        private LeaderBoardPanel _leaderBoardPanel;
+
+        public void Initial(AdHandler adHandler, LevelPanelsStateMachine levelPanelsStateMachine)
         {
             _adHandler = adHandler;
-            _settingsPanel = settingsPanel;
-            _playerProfileDataPanel = playerProfileDataPanel;
-            _leaderBoardPanel = leaderBoardPanel;
+            _levelPanelsStateMachine = levelPanelsStateMachine;
+            _leaderBoardPanel = _levelPanelsStateMachine.GetPanel<LeaderBoardPanel>();
         }
 
-        public void Enable() =>
-            gameObject.SetActive(true);
-
-        private void OnEnable()
+        public void OnEnabled()
         {
-            _settingsPanel.Opened += OnSettingsPanelOpened;
-            _settingsPanel.Closed += OnSettingsPanelClosed;
             _adHandler.RewardAdOpened += OnRewardedAdOpened;
             _adHandler.RewardAdClosed += OnRewardedAdClosed;
-            _playerProfileDataPanel.Opened += OnPlayerProfileDataPanelOpened;
-            _playerProfileDataPanel.Closed += OnPlayerProfileDataPanelClosed;
+
             _leaderBoardPanel.Opened += OnLeaderboardPanelOpened;
             _leaderBoardPanel.Closed += OnLeaderboardPanelClosed;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
-            _settingsPanel.Opened -= OnSettingsPanelOpened;
-            _settingsPanel.Closed -= OnSettingsPanelClosed;
             _adHandler.RewardAdOpened -= OnRewardedAdOpened;
             _adHandler.RewardAdClosed -= OnRewardedAdClosed;
-            _playerProfileDataPanel.Opened -= OnPlayerProfileDataPanelOpened;
-            _playerProfileDataPanel.Closed -= OnPlayerProfileDataPanelClosed;
             _leaderBoardPanel.Opened -= OnLeaderboardPanelOpened;
             _leaderBoardPanel.Closed -= OnLeaderboardPanelClosed;
         }
@@ -57,18 +45,12 @@ namespace HumanHole.Scripts.Handlers
         private void OnLeaderboardPanelClosed() =>
             OnUnpause();
 
-        private void OnPlayerProfileDataPanelClosed() =>
-            OnUnpause();
-
-        private void OnPlayerProfileDataPanelOpened() =>
-            OnPause();
-
         private void OnSettingsPanelClosed() =>
             OnUnpause();
 
         private void OnUnpause()
         {
-            _isPaused = false;
+            IsPaused = false;
             UnPause?.Invoke();
         }
 
@@ -77,7 +59,7 @@ namespace HumanHole.Scripts.Handlers
 
         private void OnPause()
         {
-            _isPaused = true;
+            IsPaused = true;
             Pause?.Invoke();
         }
 

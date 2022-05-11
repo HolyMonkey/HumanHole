@@ -3,9 +3,9 @@ using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class AudioListenerHandler : MonoBehaviour
+    public class AudioListenerHandler
     {
-        private void Update() => 
+        public void OnUpdated() => 
             AudioListener.pause = WebApplication.InBackground;
     }
 }

@@ -1,5 +1,5 @@
 using HumanHole.Scripts.ActiveRagdoll;
-using HumanHole.Scripts.Spawners;
+using HumanHole.Scripts.Wall;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,33 +21,32 @@ namespace HumanHole.Scripts.UI
             _wallSpawner = wallSpawner;
         }
 
-        public void Enable() => 
-            gameObject.SetActive(true);
-
-        private void OnEnable()
+        public void Enable()
         {
+            gameObject.SetActive(true);
             _wallSpawner.Spawned += OnWallSpawned;
             _wallSpawner.LeftPlayerZone += OnWallLeftPlayerZone;
             _wallSpawner.Destroyed += OnWallDestroyed;
         }
 
-        private void OnDisable()
+        public void Disable()
         {
             _wallSpawner.Spawned -= OnWallSpawned;
             _wallSpawner.Destroyed -= OnWallDestroyed;
             _wallSpawner.LeftPlayerZone -= OnWallLeftPlayerZone;
+            gameObject.SetActive(false);
         }
-    
+
         private void AllowCalculateDistance() => 
             _isAllowed = true;
 
         private void ForbidCalculateDistance() => 
             _isAllowed = false;
 
-        private void OnWallLeftPlayerZone(Wall obj) => 
+        private void OnWallLeftPlayerZone(Wall.Wall obj) => 
             ForbidCalculateDistance();
 
-        private void OnWallSpawned(Wall wall)
+        private void OnWallSpawned(Wall.Wall wall)
         {
             SetSliderValue(0);
             _currentWallTransform = wall.transform;
@@ -55,7 +54,7 @@ namespace HumanHole.Scripts.UI
             AllowCalculateDistance();
         }
 
-        private void OnWallDestroyed(Wall wall) => 
+        private void OnWallDestroyed(Wall.Wall wall) => 
             _currentWallTransform = null;
 
         private void Update()

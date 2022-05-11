@@ -10,7 +10,7 @@ namespace HumanHole.Scripts.ActiveRagdoll
         private const int ActivePositionDamper = 5;
         private const int NotActivePositionXSpring = 10;
         private const int NotActivePositionDamperX = 2;
-        
+
         [SerializeField] private Foot _leftFootAnchor;
         [SerializeField] private Foot _rightFootAnchor;
         [SerializeField] private Hand _leftArm;
@@ -19,41 +19,38 @@ namespace HumanHole.Scripts.ActiveRagdoll
         [SerializeField] private Transform _rightHandAnchorTransform;
         [SerializeField] private Transform _bodyAnchorTransform;
         [SerializeField] private float _feetWidth = 0.3f;
-        [SerializeField] private ConfigurableJoint _spine;
+        [SerializeField] private Spine _spine;
         [SerializeField] private bool _hidden = true;
-        
-        private CollisionObserver _collisionObserver;
-        private BodyPart[] _parts;
-        private float _balance = 0;
-        private bool _isStabilization = true;
+        [SerializeField] private BodyPart[] _parts;
 
         public float Weight { get; private set; }
         public float Balance => _balance;
         public Head Head { get; private set; }
-        
         public Transform LeftFootAnchor => _leftFootAnchor.transform;
         public Transform RightFootAnchor => _rightFootAnchor.transform;
         public Transform LeftArmTransform => _leftHandAnchorTransform;
         public Transform RightArmTransform => _rightHandAnchorTransform;
         public Transform BodyAnchorTransform => _bodyAnchorTransform;
         public Transform SpineTransform => _spine.transform;
-    
-        public void Initial(CollisionObserver collisionObserver)
-        {
-            _parts = GetComponentsInChildren<BodyPart>();
+        public Rigidbody SpineRigidbody => _spine.Rigidbody;
+
+        private CollisionObserver _collisionObserver;
+        private float _balance = 0;
+        private bool _isStabilization = true;
+
+        public void Initial(CollisionObserver collisionObserver) => 
             _collisionObserver = collisionObserver;
-        }
 
-        public void Enable() => 
+        public void OnEnabled()
+        {
             enabled = true;
-
-        private void OnEnable() => 
             _collisionObserver.WallCollidedPlayer += OnWallCollidedPlayer;
-
-        private void OnDisable() => 
+        }
+        
+        public void OnDisabled() => 
             _collisionObserver.WallCollidedPlayer -= OnWallCollidedPlayer;
 
-        private void Start()
+        public void OnStarted()
         {
             float weight = 0;
             foreach (var item in _parts)
@@ -67,8 +64,8 @@ namespace HumanHole.Scripts.ActiveRagdoll
 
             if (_hidden)
             {
-                var meshes = GetComponentsInChildren<MeshRenderer>();
-                foreach (var item in meshes)
+                MeshRenderer[] meshes = GetComponentsInChildren<MeshRenderer>();
+                foreach (MeshRenderer item in meshes)
                     item.enabled = false;
             }
         }
@@ -83,9 +80,9 @@ namespace HumanHole.Scripts.ActiveRagdoll
         }
 
         private void FixedUpdate() => 
-            CalcCenterOfMass();
+            CalculateCenterOfMass();
 
-        private void CalcCenterOfMass()
+        private void CalculateCenterOfMass()
         {
             Vector3 position = Vector3.zero;
             float totalMass = 0;
@@ -136,13 +133,13 @@ namespace HumanHole.Scripts.ActiveRagdoll
             if (active)
             {
                 JointDrive drive = CreateJointDrive(ActivePositionSpring,ActivePositionDamper, DriveMaximumForce);;
-                _spine.angularXDrive = drive;
-                _spine.angularYZDrive = drive;
+                _spine.ConfigurableJoint.angularXDrive = drive;
+                _spine.ConfigurableJoint.angularYZDrive = drive;
             }
             else
             {
-                _spine.angularXDrive = CreateJointDrive(NotActivePositionXSpring,NotActivePositionDamperX, DriveMaximumForce);;
-                _spine.angularYZDrive = CreateJointDrive(0,0, DriveMaximumForce);
+                _spine.ConfigurableJoint.angularXDrive = CreateJointDrive(NotActivePositionXSpring,NotActivePositionDamperX, DriveMaximumForce);;
+                _spine.ConfigurableJoint.angularYZDrive = CreateJointDrive(0,0, DriveMaximumForce);
             }
         }
 

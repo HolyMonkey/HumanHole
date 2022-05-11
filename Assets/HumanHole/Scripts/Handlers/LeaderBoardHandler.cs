@@ -6,14 +6,15 @@ using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class LeaderBoardHandler : MonoBehaviour
+    public class LeaderBoardHandler
     {
         private ILeaderBoardService _leaderBoardService;
         private LevelHandler _levelHandler;
         private LevelPointsHandler _levelPointsHandler;
         private IAuthorizationService _authorizationService;
 
-        public void Initial(LevelHandler levelHandler, LevelPointsHandler levelPointsHandler, ILeaderBoardService leaderBoardService, IAuthorizationService authorizationService)
+        public void Initial(LevelHandler levelHandler, LevelPointsHandler levelPointsHandler,
+            ILeaderBoardService leaderBoardService, IAuthorizationService authorizationService)
         {
             _authorizationService = authorizationService;
             _levelHandler = levelHandler;
@@ -21,13 +22,10 @@ namespace HumanHole.Scripts.Handlers
             _leaderBoardService = leaderBoardService;
         }
 
-        public void Enable() => 
-            gameObject.SetActive(true);
-
-        private void OnEnable() => 
+        public void OnEnabled() => 
             _levelHandler.LevelWon += OnLevelWon;
 
-        private void OnDisable() => 
+        public void OnDisabled() =>
             _levelHandler.LevelWon -= OnLevelWon;
 
         private void OnLevelWon()

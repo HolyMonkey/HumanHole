@@ -1,4 +1,5 @@
 using HumanHole.Scripts.ActiveRagdoll;
+using HumanHole.Scripts.Data;
 using UnityEngine;
 
 namespace HumanHole.Scripts.Player
@@ -8,16 +9,17 @@ namespace HumanHole.Scripts.Player
         [SerializeField] private Characters _characters;
 
         private Person _person;
+        private CharactersProgress _charactersProgress;
 
-        public void Initial(int id)
+        public void Initial(CharactersProgress charactersProgress, Person person)
         {
-            _person = GetComponentInChildren<Person>();
-            Spawn(id);
+            _charactersProgress = charactersProgress;
+            _person = person;
         }
 
-        private void Spawn(int id)
+        public void Spawn()
         {
-            Сharacter characterTemplate = _characters.GetCharacterById(id);
+            Сharacter characterTemplate = _characters.GetCharacterById(_charactersProgress.SelectedCharacterId);
             Сharacter character = Instantiate(characterTemplate, transform);
             character.SetPerson(_person);
         }

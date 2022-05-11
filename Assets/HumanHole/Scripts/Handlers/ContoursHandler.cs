@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using HumanHole.Scripts.Spawners;
+using HumanHole.Scripts.Wall;
 using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
@@ -7,9 +7,10 @@ namespace HumanHole.Scripts.Handlers
     [RequireComponent(typeof(SpriteRenderer))]
     public class ContoursHandler : MonoBehaviour
     {
+        [SerializeField] private Vector3 _originPosition;
+        
         private List<Sprite> _countours;
         private SpriteRenderer _spriteRenderer;
-
         private WallSpawner _wallSpawner;
         private LevelHandler _levelHandler;
 
@@ -20,33 +21,36 @@ namespace HumanHole.Scripts.Handlers
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
-        public void Enable() => 
-            gameObject.SetActive(true);
-
-        private void OnEnable()
+        public void OnEnabled()
         {
+            gameObject.SetActive(true);
             _wallSpawner.Spawned += OnWallSpawned;
             _wallSpawner.Destroyed += OnWallDestroyed;
             _levelHandler.LevelLost += OnLevelLost;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
             _wallSpawner.Spawned -= OnWallSpawned;
             _wallSpawner.Destroyed -= OnWallDestroyed;
             _levelHandler.LevelLost -= OnLevelLost;
         }
 
+        public void OnStarted()
+        {
+            transform.position = _originPosition;
+        }
+        
         private void OnLevelLost() => 
             TryToHide();
 
-        private void OnWallSpawned(Wall wall) => 
+        private void OnWallSpawned(Wall.Wall wall) => 
             Show(wall);
 
-        private void OnWallDestroyed(Wall wall) => 
+        private void OnWallDestroyed(Wall.Wall wall) => 
             TryToHide();
 
-        private void Show(Wall wall) => 
+        private void Show(Wall.Wall wall) => 
             _spriteRenderer.sprite = wall.Contour;
 
         private void TryToHide()

@@ -6,30 +6,15 @@ namespace HumanHole.Scripts.ActiveRagdoll
     [RequireComponent(typeof(Collider))]
     public class BodyPart : MonoBehaviour
     {
-        private Rigidbody _rigidbody;
+        public Rigidbody Rigidbody { get; private set; }
         private Collider _collider;
 
-        public float Mass => _rigidbody.mass;
+        public float Mass => Rigidbody.mass;
         public Vector3 Center => _collider.bounds.center;
-        public Person Body
-        {
-            get
-            {
-                Transform currentTransform = transform;
-                while (currentTransform.parent != null)
-                {
-                    currentTransform = currentTransform.parent;
-                    if (currentTransform.gameObject.TryGetComponent(out Person person))
-                        return person;
-                }
 
-                return null;
-            }
-        }
-
-        private void Awake()
+        protected virtual void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody>();
+            Rigidbody = GetComponent<Rigidbody>();
             _collider = GetComponent<Collider>();
         }
     }

@@ -1,12 +1,15 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class HandAnimatorEventListener : MonoBehaviour
+namespace HumanHole.Scripts.HandPointer
 {
-    public event UnityAction HandPressed;
-
-    public void OnHandPressed()
+    public class HandAnimatorEventListener : MonoBehaviour
     {
-        HandPressed?.Invoke();
+        public event UnityAction HandPressed;
+
+        public void OnHandPressed()
+        {
+            HandPressed?.Invoke();
+        }
     }
 }

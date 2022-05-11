@@ -6,16 +6,22 @@ namespace HumanHole.Scripts.Player
     public class Сharacter : MonoBehaviour
     {
         [SerializeField] private int _id;
-        [SerializeField] private int _price;
         [SerializeField] private BodyPartRotation _spineRotation;
         [SerializeField] private BodyPartPosition _leftHandAnchorPosition;
         [SerializeField] private BodyPartPosition _rightHandAnchorPosition;
         [SerializeField] private BodyPartPosition _rightFootAnchorPosition;
         [SerializeField] private BodyPartPosition _leftFootAnchorPosition;
         [SerializeField] private BodyPartPosition _bodyAnchorPosition;
-
+        [SerializeField] private Sprite _icon;
         public int Id => _id;
+        public Sprite Icon => _icon;
         
+        public void Enable() => 
+            gameObject.SetActive(true);
+
+        public void Disable() => 
+            gameObject.SetActive(false);
+
         public void SetPerson(Person person)
         {
             SetTransforms(person.SpineTransform,person.LeftArmTransform, person.RightArmTransform, 

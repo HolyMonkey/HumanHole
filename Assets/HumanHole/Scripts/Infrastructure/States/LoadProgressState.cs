@@ -35,7 +35,7 @@ namespace HumanHole.Scripts.Infrastructure.States
         {
             _saveLoadService.Loaded -= OnProgressLoaded;
             _progressService.Progress = progress ?? CreateProgress();
-            _gameStateMachine.Enter<LoadLevelState, string, bool>(_progressService.Progress.LevelName(), false);
+            _gameStateMachine.Enter<LoadLevelState, string, bool>(_progressService.Progress.LevelsProgress.LevelName(), false);
         }
 
         private static Progress CreateProgress() => 

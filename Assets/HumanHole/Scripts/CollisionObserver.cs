@@ -1,12 +1,11 @@
 using System;
-using HumanHole.Scripts.Spawners;
+using HumanHole.Scripts.Wall;
 using UnityEngine;
 
 namespace HumanHole.Scripts
 {
-    public class CollisionObserver : MonoBehaviour
+    public class CollisionObserver
     {
-        private bool _touchedPerson;
         private WallSpawner _wallSpawner;
 
         public event Action WallCollidedPlayer;
@@ -14,34 +13,25 @@ namespace HumanHole.Scripts
         public void Initial(WallSpawner wallSpawner) => 
             _wallSpawner = wallSpawner;
 
-        public void Enable() => 
-            gameObject.SetActive(true);
-
-        private void OnEnable()
+        public void OnEnabled()
         {
             _wallSpawner.Spawned += WallSpawned;
             _wallSpawner.Destroyed += WallDestroyed;
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
             _wallSpawner.Spawned -= WallSpawned;
             _wallSpawner.Destroyed -= WallDestroyed;
         }
 
-        private void WallSpawned(Wall wall)
-        {
-            _touchedPerson = false;
+        private void WallSpawned(Wall.Wall wall) => 
             wall.TouchedPlayer += OnWallHitPlayer;
-        }
 
-        private void WallDestroyed(Wall wall) => 
+        private void WallDestroyed(Wall.Wall wall) => 
             wall.TouchedPlayer -= OnWallHitPlayer;
 
-        private void OnWallHitPlayer()
-        {
-            _touchedPerson = true;
+        private void OnWallHitPlayer() => 
             WallCollidedPlayer?.Invoke();
-        }
     }
 }

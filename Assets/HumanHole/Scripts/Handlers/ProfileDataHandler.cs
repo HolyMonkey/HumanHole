@@ -5,21 +5,14 @@ using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
 {
-    public class ProfileDataHandler : MonoBehaviour
+    public class ProfileDataHandler
     {
         private IProfileDataService _profileDataService;
-        private PlayerProfileDataPanel _playerProfileDataPanel;
 
-        public void Initial(IProfileDataService profileDataService, PlayerProfileDataPanel profileDataPanel)
-        {
+        public void Initial(IProfileDataService profileDataService) => 
             _profileDataService = profileDataService;
-            _playerProfileDataPanel = profileDataPanel;
-        }
 
-        public void Enable() => 
-            gameObject.SetActive(true);
-
-        private void OnEnable()
+        public void OnEnabled()
         {
             if (_profileDataService.IsPersonalProfileDataPermissionSuccess)
             {
@@ -29,26 +22,21 @@ namespace HumanHole.Scripts.Handlers
             {
                 _profileDataService.GetProfileDataSuccess += OnGetProfileDataSuccess;
                 _profileDataService.GetProfileDataError += OnGetProfileDataError;
-                _playerProfileDataPanel.Opened += OnPlayerProfileDataPanelOpened;
             }
         }
 
-        private void OnDisable()
+        public void OnDisabled()
         {
             _profileDataService.GetProfileDataSuccess -= OnGetProfileDataSuccess;
             _profileDataService.GetProfileDataError -= OnGetProfileDataError;
         }
 
-        private void OnPlayerProfileDataPanelOpened()
+        private void OnGetProfileDataError(string message)
         {
-            _playerProfileDataPanel.Opened -= OnPlayerProfileDataPanelOpened;
-            _profileDataService.GetProfileData();
         }
-    
-        private void OnGetProfileDataError(string message) => 
-            _playerProfileDataPanel.SetErrorMessage(message);
 
-        private void OnGetProfileDataSuccess(PlayerAccountProfileDataResponse result) => 
-            _playerProfileDataPanel.SetProfileData(result);
+        private void OnGetProfileDataSuccess(PlayerAccountProfileDataResponse result)
+        {
+        }
     }
 }

@@ -12,16 +12,17 @@ namespace HumanHole.Scripts.Camera
         private float _targetAspect;
         private float _initialFieldOfView;
         private float _horizontalFov = 120f;
-    
+        private int _aspectRatio = 1;
+
+        private void Awake() => 
+            _camera = GetComponent<UnityEngine.Camera>();
+
         private void Start()
         {
-            _camera = GetComponent<UnityEngine.Camera>();
             _initialSize = _camera.orthographicSize;
-
             _targetAspect = _defaultResolution.x / _defaultResolution.y;
-
             _initialFieldOfView = _camera.fieldOfView;
-            _horizontalFov = CalculateVerticalFieldOfView(_initialFieldOfView, 1 / _targetAspect);
+            _horizontalFov = CalculateVerticalFieldOfView(_initialFieldOfView, _aspectRatio / _targetAspect);
         }
 
         private void Update()

@@ -26,6 +26,9 @@ namespace HumanHole.Scripts.UI
         public void Enable() => 
             gameObject.SetActive(true);
 
+        public void Disable() => 
+            gameObject.SetActive(false);
+
         private void Update()
         {
             float currentBalanceValue = Mathf.Abs(_person.Balance);
