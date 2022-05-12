@@ -18,7 +18,6 @@ namespace HumanHole.Scripts.Handlers
         private LevelStaticData _levelStaticData;
 
         private int _rewardedGold;
-        private int _progressGold;
         private int _levelGold;
         private bool _wonLevel;
 
@@ -47,21 +46,20 @@ namespace HumanHole.Scripts.Handlers
         public void OnStarted() =>
             OnGoldChanged();
 
-        private void OnGoldChanged()
-        {
-            _progressGold = _progress.GoldProgress.Count;
-            SetLevelAllGold(_progressGold);
-            if(_wonLevel)
-                SetLevelWonGold(_levelGold + _rewardedGold);
-            else
-                SetLevelLoseGold(_levelGold + _rewardedGold);
-        }
-
         public void OnDisabled()
         {
             _levelHandler.LevelWon -= OnLevelWon;
             _adHandler.RewardAdShowed -= OnRewardedAdShowed;
             _progress.GoldProgress.Changed -= OnGoldChanged;
+        }
+
+        private void OnGoldChanged()
+        {
+            SetLevelAllGold(_progress.GoldProgress.Count);
+            if(_wonLevel)
+                SetLevelWonGold(_levelGold + _rewardedGold);
+            else
+                SetLevelLoseGold(_levelGold + _rewardedGold);
         }
 
         private void OnRewardedAdShowed()

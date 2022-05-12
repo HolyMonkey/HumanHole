@@ -1,5 +1,8 @@
 using System;
+using System.Collections;
+using System.Threading.Tasks;
 using HumanHole.Scripts.Data;
+using HumanHole.Scripts.Infrastructure;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
 using HumanHole.Scripts.Infrastructure.States;
 using HumanHole.Scripts.Player;
@@ -7,11 +10,14 @@ using HumanHole.Scripts.UI;
 using HumanHole.Scripts.UI.Panels;
 using HumanHole.Scripts.Wall;
 using HumanHole.Scripts.WaterLogic;
+using UnityEngine;
 
 namespace HumanHole.Scripts.Handlers
 {
     public class LevelHandler
     {
+        private const float EnableLostLevelPanelAfter = 2f;
+        
         public bool IsLevelStarted { get; private set; }
         public bool IsLevelLost { get; private set; }
 
@@ -32,13 +38,13 @@ namespace HumanHole.Scripts.Handlers
         private WonLevelPanel _wonLevelPanel;
         private LostLevelPanel _lostLevelPanel;
         private LevelUI _levelUI;
-
+        private ICoroutineRunner _coroutineRunner;
         private bool _wonLevel;
 
         public void Initial(GameStateMachine gameStateMachine, Progress progress, ISaveLoadService saveLoadService,
             WallSpawner wallSpawner, CollisionObserver collisionObserver,
             LevelPanelsStateMachine levelPanelsStateMachine, WaterCollider waterCollider,
-            CharacterSpawner characterSpawner, LevelUI levelUI)
+            CharacterSpawner characterSpawner, LevelUI levelUI, ICoroutineRunner coroutineRunner)
         {
             _levelUI = levelUI;
             _characterSpawner = characterSpawner;
@@ -52,6 +58,7 @@ namespace HumanHole.Scripts.Handlers
             _wonLevelPanel = _levelPanelsStateMachine.GetPanel<WonLevelPanel>();
             _lostLevelPanel = _levelPanelsStateMachine.GetPanel<LostLevelPanel>();
             _startLevelPanel = _levelPanelsStateMachine.GetPanel<StartLevelPanel>();
+            _coroutineRunner = coroutineRunner;
         }
 
         public void OnEnabled()
@@ -69,7 +76,6 @@ namespace HumanHole.Scripts.Handlers
         public void OnDisabled()
         {
             _wonLevelPanel.Closed -= OnWonLevelPanelClosed;
-            ;
             _lostLevelPanel.Closed -= OnLostLevelPanelClosed;
             _wonLevelPanel.RestartButtonClick -= OnWonLevelPanelRestartButtonClicked;
             _lostLevelPanel.RestartButtonClick -= OnLostLevelPanelRestartButtonClicked;
@@ -132,8 +138,14 @@ namespace HumanHole.Scripts.Handlers
             }
             else
             {
-                _levelPanelsStateMachine.SetPanel<LostLevelPanel>();
+                _coroutineRunner.StartCoroutine(EnableLostLevelPanelEnumerator());
             }
+        }
+
+        private IEnumerator EnableLostLevelPanelEnumerator()
+        {
+            yield return new WaitForSeconds(EnableLostLevelPanelAfter);
+            _levelPanelsStateMachine.SetPanel<LostLevelPanel>();
         }
 
         private void OnWallCollidedPlayer()
@@ -146,7 +158,7 @@ namespace HumanHole.Scripts.Handlers
         }
 
         private void LoadLevel() =>
-            _gameStateMachine.Enter<LoadLevelState, string, bool>(_levelsProgress.LevelName(), true);
+            _gameStateMachine.Enter<LoadLevelState, string, bool>(_levelsProgress.LevelName, true);
 
         private void SaveProgress() =>
             _saveLoadService.SaveProgress();

@@ -7,6 +7,7 @@ using HumanHole.Scripts.Infrastructure.Services.Factory;
 using HumanHole.Scripts.Infrastructure.Services.LeaderBoard;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
 using HumanHole.Scripts.Infrastructure.States;
+using HumanHole.Scripts.LevelLogic;
 using HumanHole.Scripts.Shop;
 using HumanHole.Scripts.UI.Panels;
 using HumanHole.Scripts.Wall;
@@ -27,20 +28,21 @@ namespace HumanHole.Scripts.UI
         [SerializeField] private LeaderBoardPanel _leaderBoardPanel;
         [SerializeField] private StartLevelPanel _startLevelPanel;
         [SerializeField] private ShopPanel _shopPanel;
-        [SerializeField] private LevelsDropdown _levelsDropdown;
+        [SerializeField] private AdminPanel _adminPanel;
         [SerializeField] private ClickZone _clickZone;
         [SerializeField] private LevelPanelsStateMachine _levelPanelsStateMachine;
+        [SerializeField] private GameObject _handRenderer;
 
         public LevelPanelsStateMachine LevelPanelsStateMachine => _levelPanelsStateMachine;
 
         public void Initial(Progress progress, TapHandHandler tapHandHandler, Person person, WallSpawner wallSpawner, ISaveLoadService saveLoadService, GameStateMachine gameStateMachine,
-            ILeaderBoardService leaderBoardService, IDownloadService downloadService, IAuthorizationService authorizationService, IFactoryService factoryService)
+            ILeaderBoardService leaderBoardService, IDownloadService downloadService, IAuthorizationService authorizationService, IFactoryService factoryService, LevelsStaticData levelsStaticData)
         {
             _levelPanelsStateMachine = GetComponent<LevelPanelsStateMachine>();
             
             InitialPanels(tapHandHandler, progress, saveLoadService, leaderBoardService, downloadService, authorizationService, factoryService);
             InitialSliders(wallSpawner, person);
-            _levelsDropdown.Initial(progress,saveLoadService, gameStateMachine);
+            _adminPanel.Initial(progress,saveLoadService, gameStateMachine, levelsStaticData, this);
             
             SetGold(progress.GoldProgress.Count);
         }
@@ -67,8 +69,18 @@ namespace HumanHole.Scripts.UI
             _leaderBoardButton.onClick.AddListener(OnLeaderBoardButtonClick);
             _startLevelPanel.Clicked += OnStartLevelPanelClicked;
             _shopPanel.Closed += OnShopPanelClicked;
+            _handRenderer.SetActive(true);
+            _adminPanel.OnEnabled();
         }
-        
+
+        public void OnDisabled()
+        {
+            _shopButton.onClick.RemoveListener(OnShopButtonClick);
+            _leaderBoardButton.onClick.RemoveListener(OnLeaderBoardButtonClick);
+            _shopPanel.Closed -= OnShopPanelClicked;
+            _adminPanel.OnDisabled();
+        }
+
         public void OnStarted()
         {
             _leaderBoardPanel.OnStarted();
@@ -82,12 +94,6 @@ namespace HumanHole.Scripts.UI
         {
             _startLevelPanel.Clicked -= OnStartLevelPanelClicked;
             EnableSliders();
-        }
-
-        public void OnDisabled()
-        {
-            _shopButton.onClick.RemoveListener(OnShopButtonClick);
-            _leaderBoardButton.onClick.RemoveListener(OnLeaderBoardButtonClick);
         }
 
         private void OnShopButtonClick() => 

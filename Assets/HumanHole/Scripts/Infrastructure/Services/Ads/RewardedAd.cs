@@ -13,7 +13,7 @@ namespace HumanHole.Scripts.Infrastructure.Services.Ads
         
         public override void Show()
         {
-#if UNITY_WEBGL && UNITY_EDITOR
+#if UNITY_WEBGL && !UNITY_EDITOR
             VideoAd.Show(OnOpened, OnShowed, OnClosed, OnDidError);
 #else
             OnShowed();

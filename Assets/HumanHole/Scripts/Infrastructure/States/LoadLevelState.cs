@@ -24,10 +24,7 @@ namespace HumanHole.Scripts.Infrastructure.States
         public void Exit() =>
             _curtain.Hide();
 
-        private void OnLoaded()
-        {
+        private void OnLoaded() => 
             _stateMachine.Enter<GameLoopState>();
-        }
-
     }
 }

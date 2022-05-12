@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using HumanHole.Scripts.Infrastructure.Services;
+using HumanHole.Scripts.Infrastructure.Services.Factory;
 using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
+using HumanHole.Scripts.LevelLogic;
 using HumanHole.Scripts.Logic;
 
 namespace HumanHole.Scripts.Infrastructure.States
@@ -12,18 +14,16 @@ namespace HumanHole.Scripts.Infrastructure.States
         private  readonly Dictionary<Type, IExitableState> _states;
         private IExitableState _activeState;
 
-        public GameStateMachine(ICoroutineRunner coroutineRunner, LoadingCurtain curtain, AllServices services)
+        public GameStateMachine(ICoroutineRunner coroutineRunner, LoadingCurtain curtain, AllServices allServices, LevelBootstrapper levelBootstrapper, LevelsStaticData levelsStaticData)
         {
             SceneLoader sceneLoader = new SceneLoader(coroutineRunner);
             
             _states = new Dictionary<Type, IExitableState>
             {
-                [typeof(BootstrapState)] = new BootstrapState(this, coroutineRunner, services),
+                [typeof(BootstrapState)] = new BootstrapState(this, coroutineRunner, allServices),
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, curtain),
-                [typeof(LoadProgressState)] = new LoadProgressState(this, 
-                    services.Single<IPersistentProgressService>(), 
-                    services.Single<ISaveLoadService>()),
-                [typeof(GameLoopState)] = new GameLoopState(this)
+                [typeof(LoadProgressState)] = new LoadProgressState(this, allServices, levelsStaticData),
+                [typeof(GameLoopState)] = new GameLoopState(this, allServices, levelBootstrapper, levelsStaticData)
             };
         }
         

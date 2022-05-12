@@ -9,5 +9,6 @@ namespace HumanHole.Scripts.Infrastructure.Services.SaveLoad
         void LoadProgress();
         event Action Saved;
         event Action<Progress> Loaded;
+        void ClearProgress();
     }
 }

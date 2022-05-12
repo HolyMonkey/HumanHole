@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59f693b921eaf1043b671e7ae5fcc13d, type: 3}
   m_Name: LevelStaticData 15
   m_EditorClassIdentifier: 
+  _number: 15
   _levelWonGold: 10
   _levelLoseGold: 2
   _levelWonPoints: 25
@@ -25,3 +26,4 @@ MonoBehaviour:
     _color: {r: 0.41568628, g: 0.40392157, b: 0.40392157, a: 0}
   _platformColor: {r: 0.41568628, g: 0.40392157, b: 0.40392157, a: 0}
   _waterMaterial: {fileID: 2100000, guid: 31d44f8288cdb464993a5c8b6e250228, type: 2}
+  _skyBoxMaterial: {fileID: 2100000, guid: cc421da483ed06c49933077a621bff25, type: 2}

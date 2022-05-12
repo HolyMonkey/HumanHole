@@ -7,6 +7,10 @@ namespace HumanHole.Scripts.Data
     [Serializable]
     public class LevelsProgress
     {
+        public string LevelName => "Level";
+
+        private int _maxLevelNumber;
+        
         public int LevelNumber;
         public int Attempts;
 
@@ -31,18 +35,14 @@ namespace HumanHole.Scripts.Data
         public void SetLevelNumber(int levelNumber) => 
             LevelNumber = levelNumber;
 
-        public string LevelName() => 
-            $"Level {LevelNumber}";
-    
         public void AddAttempt() => 
             Attempts++;
 
-        private bool CanIncreaseLevelNumber()
-        {
-            int levelsCount = SceneManager.sceneCountInBuildSettings - 1;
-            int nextLevelNumber = LevelNumber + 1;
-            return levelsCount > nextLevelNumber;
-        }
+        public void SetMaxLevelNumber(int levelNumber) => 
+            _maxLevelNumber = levelNumber;
+
+        private bool CanIncreaseLevelNumber() => 
+            LevelNumber < _maxLevelNumber;
 
         private bool CanDecreaseLevelNumber() => 
             LevelNumber > 0;

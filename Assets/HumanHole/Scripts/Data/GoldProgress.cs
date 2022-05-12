@@ -5,9 +5,17 @@ namespace HumanHole.Scripts.Data
     [Serializable]
     public class GoldProgress
     {
-        public int Count = 5000;
-
+        public int Count;
         public event Action Changed;
+        
+        public void Set(int value)
+        {
+            if (value < 0)
+                throw new ArgumentException("Gold value can not be less than 0");
+
+            Count = value;
+            Changed?.Invoke();
+        }
         
         public void Add(int value)
         {

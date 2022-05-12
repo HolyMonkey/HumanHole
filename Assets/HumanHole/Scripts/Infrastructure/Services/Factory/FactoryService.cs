@@ -28,6 +28,9 @@ namespace HumanHole.Scripts.Infrastructure.Services.Factory
         public T Create<T>(T @object, Vector3 position, Quaternion rotation) where T: Component => 
             Object.Instantiate(@object, position, rotation);
 
+        public T Create<T>(T @object) where T : Component => 
+            Object.Instantiate(@object);
+
         public T Create<T>(T @object, Transform parent) where T : Component =>
             Object.Instantiate(@object, parent);
     }

@@ -328,7 +328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a81a294f94d1dbd4c91da4e432f93127, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 5777481714343979883}
+  _mainCamera: {fileID: 5777481714343979883}
+  _handCamera: {fileID: 5777481715414560467}
+  _handMaterial: {fileID: 2100000, guid: 0c7625ded047bfc489a261bcb212a7ff, type: 2}
 --- !u!1 &5777481715414560476
 GameObject:
   m_ObjectHideFlags: 0
