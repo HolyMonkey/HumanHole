@@ -5,6 +5,7 @@ using HumanHole.Scripts.Infrastructure.Services.Authorization;
 using HumanHole.Scripts.Infrastructure.Services.Download;
 using HumanHole.Scripts.Infrastructure.Services.Factory;
 using HumanHole.Scripts.Infrastructure.Services.LeaderBoard;
+using HumanHole.Scripts.Infrastructure.Services.Localization;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
 using HumanHole.Scripts.Infrastructure.States;
 using HumanHole.Scripts.LevelLogic;
@@ -36,11 +37,11 @@ namespace HumanHole.Scripts.UI
         public LevelPanelsStateMachine LevelPanelsStateMachine => _levelPanelsStateMachine;
 
         public void Initial(Progress progress, TapHandHandler tapHandHandler, Person person, WallSpawner wallSpawner, ISaveLoadService saveLoadService, GameStateMachine gameStateMachine,
-            ILeaderBoardService leaderBoardService, IDownloadService downloadService, IAuthorizationService authorizationService, IFactoryService factoryService, LevelsStaticData levelsStaticData)
+            ILeaderBoardService leaderBoardService, IDownloadService downloadService, IAuthorizationService authorizationService, IFactoryService factoryService, LevelsStaticData levelsStaticData, ILocalizationService localizationService)
         {
             _levelPanelsStateMachine = GetComponent<LevelPanelsStateMachine>();
             
-            InitialPanels(tapHandHandler, progress, saveLoadService, leaderBoardService, downloadService, authorizationService, factoryService);
+            InitialPanels(tapHandHandler, progress, saveLoadService, leaderBoardService, downloadService, authorizationService, factoryService, localizationService);
             InitialSliders(wallSpawner, person);
             _adminPanel.Initial(progress,saveLoadService, gameStateMachine, levelsStaticData, this);
             
@@ -55,11 +56,11 @@ namespace HumanHole.Scripts.UI
 
         private void InitialPanels(TapHandHandler tapHandHandler, Progress progress, ISaveLoadService saveLoadService, ILeaderBoardService leaderBoardService,
             IDownloadService downloadService, IAuthorizationService authorizationService,
-            IFactoryService factoryService)
+            IFactoryService factoryService, ILocalizationService localizationService)
         {
             _levelPanelsStateMachine.Initial();
             _leaderBoardPanel.Initial(_clickZone, leaderBoardService, downloadService, authorizationService);
-            _startLevelPanel.Initial(tapHandHandler, progress);
+            _startLevelPanel.Initial(tapHandHandler, progress, localizationService);
             _shopPanel.Initial(progress, saveLoadService, _clickZone, factoryService);
         }
 

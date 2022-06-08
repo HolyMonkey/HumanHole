@@ -11,4 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/HumanHole/Scenes/Level.unity
     guid: c9d213d3a73d18d42ab18c258d6a6083
-  m_configObjects: {}
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: 2d3a8241eba279b4e99eaa280495a563, type: 2}
+    com.unity.localization.settings: {fileID: 11400000, guid: ea2ec96ecbe2c49429ff033fa2c308fc, type: 2}

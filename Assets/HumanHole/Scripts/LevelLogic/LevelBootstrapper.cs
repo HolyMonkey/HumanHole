@@ -12,6 +12,7 @@ using HumanHole.Scripts.Infrastructure.Services.Authorization;
 using HumanHole.Scripts.Infrastructure.Services.Download;
 using HumanHole.Scripts.Infrastructure.Services.Factory;
 using HumanHole.Scripts.Infrastructure.Services.LeaderBoard;
+using HumanHole.Scripts.Infrastructure.Services.Localization;
 using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
 using HumanHole.Scripts.Infrastructure.Services.Profile;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
@@ -51,7 +52,7 @@ namespace HumanHole.Scripts.LevelLogic
 
         public async void Initial(GameStateMachine gameStateMachine, AllServices allServices, LevelsStaticData levelsStaticData)
         {
-            Progress progress = allServices.Single<IPersistentProgressService>().Progress;
+            Progress progress = allServices.Single<IPersistentProgressService>().Progress ?? new Progress();
             ISaveLoadService saveLoadService = allServices.Single<ISaveLoadService>();
             IAdsService adsService = allServices.Single<IAdsService>();
             IAuthorizationService authorizationService = allServices.Single<IAuthorizationService>();
@@ -61,10 +62,11 @@ namespace HumanHole.Scripts.LevelLogic
             IDownloadService downloadService = allServices.Single<IDownloadService>();
             IFactoryService factoryService = allServices.Single<IFactoryService>();
             IRenderTextureService renderTextureService = allServices.Single<IRenderTextureService>();
+            ILocalizationService localizationService = allServices.Single<ILocalizationService>();
             _levelStaticData = levelsStaticData.GetLevelStaticDataByNumber(progress.LevelsProgress.LevelNumber);
             await CreateEntities(factoryService);
             InitialEntities(gameStateMachine, progress, saveLoadService, leaderBoardService, downloadService, authorizationService, adsService, 
-                profileDataService, analyticsService, factoryService, renderTextureService, levelsStaticData);
+                profileDataService, analyticsService, factoryService, renderTextureService, levelsStaticData, localizationService);
             enabled = true;
         }
 
@@ -107,11 +109,11 @@ namespace HumanHole.Scripts.LevelLogic
             ISaveLoadService saveLoadService, ILeaderBoardService leaderBoardService,
             IDownloadService downloadService, IAuthorizationService authorizationService, IAdsService adsService,
             IProfileDataService profileDataService, IAnalyticsService analyticsService, IFactoryService factoryService,
-            IRenderTextureService renderTextureService, LevelsStaticData levelsStaticData)
+            IRenderTextureService renderTextureService, LevelsStaticData levelsStaticData, ILocalizationService localizationService)
         {
             _wallSpawner.Initial(_levelPauseHandler, _levelHandler, _levelStaticData.LevelWallsStaticData, factoryService);
             _levelUI.Initial(progress, _tapTapHandler, _charactersSpawner.Person, _wallSpawner, saveLoadService,
-                gameStateMachine, leaderBoardService, downloadService, authorizationService, factoryService, levelsStaticData);
+                gameStateMachine, leaderBoardService, downloadService, authorizationService, factoryService, levelsStaticData, localizationService);
             _levelHandler.Initial(gameStateMachine, progress, saveLoadService, _wallSpawner, _collisionObserver,
                 _levelUI.LevelPanelsStateMachine, _level.WaterCollider, _charactersSpawner.CharacterSpawner, _levelUI, this);
             _adHandler.Initial(_levelHandler, _levelUI.LevelPanelsStateMachine, adsService);

@@ -1,12 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Threading.Tasks;
+using Agava.YandexGames;
 using HumanHole.Scripts.Infrastructure.Services;
 using HumanHole.Scripts.Infrastructure.Services.Ads;
 using HumanHole.Scripts.Infrastructure.Services.Analytics;
 using HumanHole.Scripts.Infrastructure.Services.AssetsManagement;
 using HumanHole.Scripts.Infrastructure.Services.Authorization;
+using HumanHole.Scripts.Infrastructure.Services.DeviceDetection;
 using HumanHole.Scripts.Infrastructure.Services.Download;
 using HumanHole.Scripts.Infrastructure.Services.Factory;
 using HumanHole.Scripts.Infrastructure.Services.LeaderBoard;
+using HumanHole.Scripts.Infrastructure.Services.Localization;
 using HumanHole.Scripts.Infrastructure.Services.PersistentProgress;
 using HumanHole.Scripts.Infrastructure.Services.Profile;
 using HumanHole.Scripts.Infrastructure.Services.SaveLoad;
@@ -30,7 +35,15 @@ namespace HumanHole.Scripts.Infrastructure.States
         }
 
         public void Enter() => 
+            OnEntered();
+
+        private async void OnEntered()
+        {
             _coroutineRunner.StartCoroutine(InitializeYandexSdk());
+            ILocalizationService localizationService = _services.Single<ILocalizationService>();
+            await localizationService.Initialize();
+            _stateMachine.Enter<LoadProgressState>();
+        }
 
         private IEnumerator InitializeYandexSdk()
         {
@@ -41,8 +54,10 @@ namespace HumanHole.Scripts.Infrastructure.States
             _coroutineRunner.StartCoroutine(authorizationService.Authorize());
             IProfileDataService profileDataService = _services.Single<IProfileDataService>();
             profileDataService.Initialize();
-            _stateMachine.Enter<LoadProgressState>();
+            
+#if UNITY_EDITOR
             yield return null;
+#endif
         }
 
         public void Exit()
@@ -51,6 +66,7 @@ namespace HumanHole.Scripts.Infrastructure.States
 
         private void RegisterServices()
         {
+            _services.RegisterSingle<ILocalizationService>(new LocalizationService());
             _services.RegisterSingle<IGameStateMachine>(_stateMachine);
             _services.RegisterSingle<IAdsService>(new AdsService());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
@@ -63,6 +79,7 @@ namespace HumanHole.Scripts.Infrastructure.States
             _services.RegisterSingle<IDownloadService>(new DownloadService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<IFactoryService>(new FactoryService(_services.Single<IAssetProvider>()));
+            _services.RegisterSingle<IDeviceDetectionService>(new DeviceDetectionService());
         }
     }
 }
