@@ -12,8 +12,11 @@ namespace HumanHole.Scripts.Infrastructure.Services.Localization
 {
     public class LocalizationService : ILocalizationService
     {
-        private const string _localizationTableName = "UIText";
+        private const string LocalizationTableName = "UIText";
         private const string EnglishLocaleIdentifier = "en";
+
+        private string _yandexInterfaceLanguage => YandexGamesSdk.Environment.i18n.lang;
+        private string _browserLanguage => YandexGamesSdk.Environment.browser.lang;
 
         private StringTable _stringTable;
 
@@ -21,7 +24,7 @@ namespace HumanHole.Scripts.Infrastructure.Services.Localization
         {
             await LocalizationSettings.InitializationOperation.Task;
 
-            AsyncOperationHandle<StringTable> loadingOperation = LocalizationSettings.StringDatabase.GetTableAsync(_localizationTableName);
+            AsyncOperationHandle<StringTable> loadingOperation = LocalizationSettings.StringDatabase.GetTableAsync(LocalizationTableName);
             await loadingOperation.Task;
 
             if (loadingOperation.Status == AsyncOperationStatus.Succeeded)
@@ -35,7 +38,7 @@ namespace HumanHole.Scripts.Infrastructure.Services.Localization
             }
             
             #if !UNITY_EDITOR
-            SetLocale(YandexGamesSdk.Environment.browser.lang);
+            SetLocale(_yandexInterfaceLanguage);
             #endif
         }
 
